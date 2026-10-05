@@ -1,0 +1,67 @@
+/* UK British Sign Language data — NOT ASL.
+   Fingerspelling descriptions follow the standard BSL two-handed alphabet.
+   Always cross-check with Sign BSL / Commanding Hands / NDCS videos.
+   External video URLs are demos we do NOT host. */
+
+window.BSL_DATA = {
+  disclaimer: "UK BSL only. Two-handed fingerspelling differs from ASL. Prefer Deaf-led video demos. We do not host external dictionary video files.",
+  localDemo: "assets/media/demo-loop.mp4",
+  dictLinks: {
+    signbsl: "https://www.signbsl.com/sign/",
+    signbank: "https://bslsignbank.ucl.ac.uk/",
+    britishSign: "https://www.british-sign.co.uk/",
+    commandingHandsAlphabet: "https://www.youtube.com/@CommandingHands",
+    alphabetChart: "https://www.british-sign.co.uk/fingerspelling-alphabet-charts/",
+    ndcs: "https://www.ndcs.org.uk/advice-and-support/language-and-communication/sign-language/british-sign-language-bsl-videos-and-resources",
+    schoolOfSigns: "https://theschoolofsigns.org.uk/",
+    bslSearch: "https://bslsearch.co.uk/dictionary.php",
+    lumo: "https://lumotv.co.uk/",
+    commandingHandsCourse: "https://commandinghands.co.uk/online-bsl-course/"
+  },
+
+  demoSources: [
+    { id: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", note: "Largest free BSL video dictionary — many Deaf contributors.", url: "https://www.signbsl.com/" },
+    { id: "signbank", label: "BSL SignBank (UCL)", variety: "Deaf adult / research", note: "Academic UK dictionary with regional variants.", url: "https://bslsignbank.ucl.ac.uk/" },
+    { id: "british-sign", label: "british-sign.co.uk", variety: "multi-signer dictionary", note: "Everyday signs + free alphabet tools.", url: "https://www.british-sign.co.uk/" },
+    { id: "commanding-hands", label: "Commanding Hands YT", variety: "family/child-friendly", note: "Short beginner lessons; Deaf-led tuition channel.", url: "https://www.youtube.com/@CommandingHands" },
+    { id: "ndcs", label: "NDCS Family Sign Language", variety: "family/child-friendly", note: "Free family BSL lessons by Deaf tutors (nation playlists).", url: "https://www.youtube.com/@NationalDeafChildrensSociety" },
+    { id: "school-of-signs", label: "School of Signs", variety: "family/child-friendly", note: "Primary-age video curriculum for home educators.", url: "https://theschoolofsigns.org.uk/" },
+    { id: "bsl-search", label: "BSL Search", variety: "Deaf adult", note: "A–Z dictionary with clear Deaf signer demos.", url: "https://bslsearch.co.uk/dictionary.php" },
+    { id: "lumo", label: "Lumo TV (BSL Zone)", variety: "Deaf adult / immersion", note: "Deaf entertainment & children’s BSL content — immersion, not a dictionary.", url: "https://lumotv.co.uk/" }
+  ],
+
+  alphabet: [
+    { letter: "A", hands: "two", tip: "Point dominant index finger tip to the tip of the non-dominant thumb.", movement: "Hold steady contact.", face: "Neutral; look at conversation partner.", difficulty: 1 },
+    { letter: "B", hands: "two", tip: "Place the flat palm of the dominant hand against the palm of the non-dominant hand (fingers up).", movement: "Hold.", face: "Neutral.", difficulty: 1 },
+    { letter: "C", hands: "mainly dominant", tip: "Curve the dominant hand into a clear C shape (thumb and fingers).", movement: "Hold the C clearly.", face: "Neutral.", difficulty: 1 },
+    { letter: "D", hands: "two", tip: "Non-dominant hand: fingers spread. Point dominant index at the tip of the non-dominant middle finger.", movement: "Precise point.", face: "Neutral.", difficulty: 2 },
+    { letter: "E", hands: "two", tip: "Point dominant index tip to the tip of the non-dominant index finger.", movement: "Hold.", face: "Neutral.", difficulty: 1 },
+    { letter: "F", hands: "two", tip: "Hold non-dominant index upright. Dominant thumb and index form a small circle / touch the tip of that index.", movement: "Hold.", face: "Neutral.", difficulty: 2 },
+    { letter: "G", hands: "two", tip: "Point dominant index to the side tip / knuckle area of the non-dominant index finger.", movement: "Short point.", face: "Neutral.", difficulty: 2 },
+    { letter: "H", hands: "two", tip: "Lay dominant index + middle fingers across non-dominant index + middle fingers.", movement: "Hold flat contact.", face: "Neutral.", difficulty: 2 },
+    { letter: "I", hands: "two", tip: "Point dominant index to the tip of the non-dominant little finger.", movement: "Hold.", face: "Neutral.", difficulty: 1 },
+    { letter: "J", hands: "two", tip: "Hook or trace a J using the dominant little finger around / from the non-dominant little finger.", movement: "Small hook or trace.", face: "Neutral.", difficulty: 3 },
+    { letter: "K", hands: "two", tip: "Non-dominant: index and middle spread as a V. Point dominant index into the gap between them.", movement: "Hold.", face: "Neutral.", difficulty: 2 },
+    { letter: "L", hands: "two", tip: "Form an L with dominant thumb + index on / against the non-dominant palm.", movement: "Hold clear L.", face: "Neutral.", difficulty: 1 },
+    { letter: "M", hands: "two", tip: "Point dominant index to the tip of the non-dominant ring finger (third fingertip counting from thumb side index=1… ring).", movement: "Hold.", face: "Neutral.", difficulty: 2 },
+    { letter: "N", hands: "two", tip: "Point dominant index to the tip of the non-dominant middle finger.", movement: "Hold.", face: "Neutral.", difficulty: 2 },
+    { letter: "O", hands: "mainly dominant", tip: "Form a clear O / circle with dominant thumb and fingers (touch tips).", movement: "Hold round shape.", face: "Neutral.", difficulty: 1 },
+    { letter: "P", hands: "two", tip: "Point dominant index down onto the non-dominant palm near the middle-finger base / palm centre as taught in your video demo.", movement: "Short tap or hold.", face: "Neutral.", difficulty: 2 },
+    { letter: "Q", hands: "two", tip: "Point dominant index toward the non-dominant little-finger side / knuckle as in standard BSL Q.", movement: "Hold.", face: "Neutral.", difficulty: 3 },
+    { letter: "R", hands: "two", tip: "Cross dominant index over middle (or cross on non-dominant palm) to show R.", movement: "Hold crossed shape.", face: "Neutral.", difficulty: 2 },
+    { letter: "S", hands: "two", tip: "Hook dominant little finger around non-dominant little finger.", movement: "Link and hold.", face: "Neutral.", difficulty: 2 },
+    { letter: "T", hands: "two", tip: "Place dominant index against the non-dominant thumb between the non-dominant index and middle (classic BSL T).", movement: "Hold.", face: "Neutral.", difficulty: 3 },
+    { letter: "U", hands: "two", tip: "Touch tips of dominant index + middle to tips of non-dominant index + middle.", movement: "Hold.", face: "Neutral.", difficulty: 2 },
+    { letter: "V", hands: "two", tip: "Dominant V (index + middle) tips touch the non-dominant palm.", movement: "Hold.", face: "Neutral.", difficulty: 1 },
+    { letter: "W", hands: "two", tip: "Touch three dominant fingertips to three non-dominant fingertips (W).", movement: "Hold.", face: "Neutral.", difficulty: 2 },
+    { letter: "X", hands: "two", tip: "Cross the index fingers (or wrists) to form X.", movement: "Hold cross.", face: "Neutral.", difficulty: 2 },
+    { letter: "Y", hands: "two", tip: "Link dominant thumb + index tips with non-dominant thumb + index tips (Y join).", movement: "Hold.", face: "Neutral.", difficulty: 3 },
+    { letter: "Z", hands: "two", tip: "Draw a Z on the non-dominant palm with the dominant index finger.", movement: "Trace Z clearly.", face: "Neutral.", difficulty: 2 }
+  ],
+
+  beginnerSigns: [
+    {
+      id: "hello", gloss: "HELLO", english: "Hello",
+      tip: "Open flat hand near the side of the forehead / temple area; move the hand forward slightly in a small greeting arc (confirm with video — regional variation exists).",
+      movement: "Small forward movement from head area.", face: "Smile / friendly expression — facial expression is part of BSL.",
+      difficulty: 1, videoSearch: "https://www.signbsl.com/sign/hello", category
