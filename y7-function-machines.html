@@ -1,0 +1,2636 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Year 7 Maths — Function Machines</title>
+<style>
+  :root {
+    --bg: #f4f7fb;
+    --surface: #ffffff;
+    --ink: #1a2332;
+    --muted: #5a6a7e;
+    --accent: #2b6cb0;
+    --accent-dark: #1a4f8b;
+    --accent-soft: #e8f1fb;
+    --success: #2f855a;
+    --success-bg: #e6f4ec;
+    --error: #c53030;
+    --error-bg: #fde8e8;
+    --warn: #b7791f;
+    --warn-bg: #fef6e6;
+    --machine: #4a5568;
+    --machine-fill: #edf2f7;
+    --arrow: #2b6cb0;
+    --slot: #bee3f8;
+    --slot-active: #90cdf4;
+    --border: #d0dae6;
+    --shadow: 0 2px 8px rgba(26, 35, 50, 0.08);
+    --radius: 12px;
+    --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+  .app { max-width: 860px; margin: 0 auto; padding: 1rem 1.25rem 3rem; }
+  header.lesson-header {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.25rem;
+    border-left: 5px solid var(--accent);
+  }
+  header h1 { font-size: 1.55rem; color: var(--accent-dark); margin-bottom: 0.25rem; }
+  header .meta { color: var(--muted); font-size: 0.92rem; }
+  .progress-wrap {
+    margin-top: 1rem;
+    background: var(--accent-soft);
+    border-radius: 999px;
+    height: 10px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), #38a169);
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 0.4rem;
+  }
+  .score-chip {
+    display: inline-flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.6rem;
+  }
+  .chip {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+  }
+  .section {
+    display: none;
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1rem;
+    animation: fadeIn 0.35s ease;
+  }
+  .section.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section h2 {
+    font-size: 1.3rem;
+    color: var(--accent-dark);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent-soft);
+  }
+  .section h3 { font-size: 1.05rem; margin: 1rem 0 0.5rem; color: var(--ink); }
+  p { margin-bottom: 0.75rem; }
+  .lead { font-size: 1.05rem; }
+  ul.vocab {
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+    margin: 1rem 0;
+  }
+  ul.vocab li {
+    background: var(--accent-soft);
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent);
+  }
+  ul.vocab strong { color: var(--accent-dark); }
+  .machine-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 1.25rem 0;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: var(--radius);
+    border: 1px dashed var(--border);
+  }
+  .io-box {
+    min-width: 72px;
+    padding: 0.65rem 0.9rem;
+    background: var(--surface);
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--accent-dark);
+  }
+  .io-box.output-box { border-color: var(--success); color: var(--success); }
+  .io-label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-bottom: 0.15rem;
+  }
+  .arrow {
+    font-size: 1.5rem;
+    color: var(--arrow);
+    font-weight: 700;
+    user-select: none;
+  }
+  .op-box {
+    min-width: 88px;
+    padding: 0.85rem 1rem;
+    background: var(--machine-fill);
+    border: 2.5px solid var(--machine);
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--ink);
+    position: relative;
+  }
+  .op-box .op-label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+  .op-box.slot {
+    background: var(--slot);
+    border-style: dashed;
+    border-color: var(--accent);
+    min-height: 58px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .op-box.slot:hover, .op-box.slot.drag-over {
+    background: var(--slot-active);
+    border-color: var(--accent-dark);
+  }
+  .op-box.slot.filled {
+    background: var(--machine-fill);
+    border-style: solid;
+    border-color: var(--machine);
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: flex-end;
+    margin: 1rem 0;
+  }
+  label.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  input[type="number"], select {
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 0.5rem 0.7rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    color: var(--ink);
+    background: var(--surface);
+    min-width: 90px;
+  }
+  input[type="number"]:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .btn {
+    font: inherit;
+    font-weight: 600;
+    padding: 0.6rem 1.15rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--accent-dark); }
+  .btn-secondary { background: var(--accent-soft); color: var(--accent-dark); }
+  .btn-secondary:hover:not(:disabled) { background: #d4e6f7; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .feedback {
+    margin-top: 0.85rem;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: var(--success-bg); color: var(--success); border: 1px solid #9ae6b4; }
+  .feedback.bad { background: var(--error-bg); color: var(--error); border: 1px solid #feb2b2; }
+  .feedback.hint { background: var(--warn-bg); color: var(--warn); border: 1px solid #f6e05e; }
+  .feedback.info { background: var(--accent-soft); color: var(--accent-dark); border: 1px solid #90cdf4; }
+  .quiz-card {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.15rem;
+    margin: 1rem 0;
+  }
+  .quiz-card .q-num {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .quiz-card .q-prompt { font-size: 1.05rem; margin: 0.5rem 0 0.85rem; font-weight: 500; }
+  .answer-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+  }
+  .mc-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+  }
+  .mc-btn {
+    font: inherit;
+    font-weight: 600;
+    padding: 0.65rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .mc-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-soft); }
+  .mc-btn.correct { border-color: var(--success); background: var(--success-bg); color: var(--success); }
+  .mc-btn.wrong { border-color: var(--error); background: var(--error-bg); color: var(--error); }
+  .mc-btn:disabled { cursor: default; }
+  .steps { margin: 1rem 0; }
+  .step {
+    display: none;
+    padding: 0.85rem 1rem;
+    margin-bottom: 0.5rem;
+    background: var(--accent-soft);
+    border-radius: 8px;
+    border-left: 4px solid var(--accent);
+  }
+  .step.visible { display: block; animation: fadeIn 0.3s ease; }
+  .step .step-n { font-weight: 700; color: var(--accent-dark); font-size: 0.85rem; }
+  .try-panel {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+  }
+  .palette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0.75rem 0;
+    padding: 0.75rem;
+    background: #f0f4f8;
+    border-radius: 8px;
+    min-height: 52px;
+  }
+  .token {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 70px;
+    padding: 0.55rem 0.85rem;
+    background: var(--surface);
+    border: 2px solid var(--machine);
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.1s, box-shadow 0.15s;
+  }
+  .token:active { cursor: grabbing; transform: scale(1.05); }
+  .token.selected {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+    box-shadow: var(--shadow);
+  }
+  .token.used { opacity: 0.35; pointer-events: none; }
+  .hint-text { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.5rem; }
+  .match-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  @media (max-width: 520px) {
+    .match-grid { grid-template-columns: 1fr; }
+  }
+  .match-col h4 {
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .match-item {
+    padding: 0.7rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 0.45rem;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .match-item:hover:not(.matched):not(:disabled) { border-color: var(--accent); }
+  .match-item.selected { border-color: var(--accent); background: var(--accent-soft); }
+  .match-item.matched { border-color: var(--success); background: var(--success-bg); color: var(--success); cursor: default; }
+  .match-item.shake { animation: shake 0.4s; border-color: var(--error); }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  .badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .badge-stretch { background: #faf5ff; color: #6b46c1; border: 1px solid #d6bcfa; }
+  .badge-scaffold { background: var(--warn-bg); color: var(--warn); border: 1px solid #f6e05e; }
+  .exit-result {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--accent-soft);
+    border-radius: var(--radius);
+    margin-top: 1rem;
+  }
+  .exit-result .big-score {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--accent-dark);
+  }
+  .tip-box {
+    background: var(--warn-bg);
+    border-left: 4px solid var(--warn);
+    padding: 0.75rem 1rem;
+    border-radius: 0 8px 8px 0;
+    margin: 0.75rem 0;
+    font-size: 0.95rem;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+  .summary-card {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.85rem;
+    text-align: center;
+  }
+  .summary-card .val { font-size: 1.6rem; font-weight: 800; color: var(--accent-dark); }
+  .summary-card .lbl { font-size: 0.8rem; color: var(--muted); }
+
+  .resume-banner {
+    display: none;
+    background: var(--warn-bg);
+    border: 1px solid #f0d9a0;
+    border-left: 5px solid var(--warn);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .resume-banner.show { display: block; }
+  .resume-banner h2 { font-size: 1.1rem; color: var(--ink); margin: 0 0 0.35rem; border: none; padding: 0; }
+  .resume-banner p { margin-bottom: 0.75rem; color: var(--muted); font-size: 0.95rem; }
+  .resume-banner .nav-row { margin-top: 0.5rem; }
+  .progress-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.75rem;
+  }
+  .progress-tools .btn { font-size: 0.78rem; padding: 0.35rem 0.7rem; }
+  .progress-tools .hint-text { font-size: 0.78rem; color: var(--muted); margin: 0; flex: 1 1 100%; }
+  .progress-toast {
+    display: none;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--success);
+  }
+  .progress-toast.show { display: block; }
+  .progress-toast.bad { color: var(--error); }
+  .topic-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+    margin-top: 0.55rem;
+  }
+  .topic-menu[hidden] { display: none; }
+  #topicMenu {
+    flex: 1 1 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.55rem;
+    box-shadow: var(--shadow);
+  }
+  .topic-btn { text-align: left; width: 100%; }
+  .btn:focus-visible {
+    outline: 3px solid var(--accent-dark);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="lesson-header">
+    <h1>Function Machines</h1>
+    <p class="meta">Year 7 Maths · UK National Curriculum · ~40 minutes</p>
+    <div class="progress-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Lesson progress" id="progressBarWrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-label">
+      <span id="sectionLabel">Section 1 of 8</span>
+      <span id="timeHint">Work at your own pace</span>
+    </div>
+    <div class="score-chip">
+      <span class="chip" id="scoreChip">Score: 0</span>
+      <span class="chip" id="streakChip">Streak: 0</span>
+      <span class="chip" id="levelChip">Level: Core</span>
+    </div>
+    <div class="progress-tools" id="progressTools">
+      <button type="button" class="btn btn-ghost" id="topicsBtn" aria-label="Open topics menu" aria-expanded="false" aria-controls="topicMenu" onclick="toggleTopicMenu()">Topics</button>
+      <button type="button" class="btn btn-ghost" onclick="exportProgress()">Download my progress</button>
+      <button type="button" class="btn btn-ghost" onclick="triggerImportProgress()">Load progress file</button>
+      <button type="button" class="btn btn-ghost" onclick="resetSavedProgress()">Clear saved progress</button>
+      <input type="file" id="progressFileInput" accept="application/json,.json" style="display:none" onchange="importProgressFile(event)">
+      <p class="hint-text">Progress saves automatically on this device. Download a file to continue elsewhere or keep a backup.</p>
+      <div class="progress-toast" id="progressToast" role="status" aria-live="polite"></div>
+    </div>
+    <div class="topic-menu" id="topicMenu" hidden role="group" aria-label="Topics"></div>
+  </header>
+
+  <div class="resume-banner" id="resumeBanner" role="region" aria-label="Saved progress">
+    <h2>Welcome back</h2>
+    <p id="resumeMessage">We found saved progress on this device.</p>
+    <div class="nav-row">
+      <button type="button" class="btn btn-primary" onclick="resumeProgress()">Resume where I left off</button>
+      <button type="button" class="btn btn-secondary" onclick="startOverProgress()">Start over</button>
+    </div>
+  </div>
+
+  <section class="section active" id="sec-intro" data-title="Introduction">
+    <h2>What is a function machine?</h2>
+    <p class="lead">A <strong>function machine</strong> takes an <strong>input</strong>, follows a rule, and gives an <strong>output</strong>.</p>
+    <p>Think of it as a number going in one side and a new number coming out the other. The rule is written inside the machine.</p>
+    <div class="machine-row" aria-hidden="true">
+      <div class="io-box"><span class="io-label">Input</span>5</div>
+      <span class="arrow">→</span>
+      <div class="op-box"><span class="op-label">Rule</span>× 3</div>
+      <span class="arrow">→</span>
+      <div class="io-box output-box"><span class="io-label">Output</span>15</div>
+    </div>
+    <h3>Key vocabulary</h3>
+    <ul class="vocab">
+      <li><strong>Input</strong> — the number you put into the machine.</li>
+      <li><strong>Output</strong> — the number that comes out.</li>
+      <li><strong>Function machine</strong> — a diagram that shows a rule applied to a number.</li>
+      <li><strong>Inverse operation</strong> — the operation that undoes another (e.g. + undoes −, × undoes ÷).</li>
+    </ul>
+    <div class="tip-box">
+      Today you will find outputs from inputs <em>forwards</em>, then work <em>backwards</em> to find inputs from outputs. You will meet one-step and two-step machines.
+    </div>
+    <h3>Choose a topic</h3>
+    <p>Start anywhere. You can switch again later with Topics at the top.</p>
+    <div class="topic-menu" id="introTopicMenu" role="group" aria-label="Choose a topic"></div>
+    <div class="nav-row">
+      <span></span>
+      <button class="btn btn-primary" onclick="goTo(1)">Start exploring →</button>
+    </div>
+  </section>
+
+  <section class="section" id="sec-explore" data-title="Explore">
+    <h2>Explore: one-step machine</h2>
+    <p>Choose an operation and an input. Watch the output change. Try several values so you see the pattern.</p>
+    <div class="controls">
+      <label class="field">Operation
+        <select id="exploreOp" onchange="runExplore()">
+          <option value="add">+ (add)</option>
+          <option value="sub">− (subtract)</option>
+          <option value="mul" selected>× (multiply)</option>
+          <option value="div">÷ (divide)</option>
+        </select>
+      </label>
+      <label class="field">Amount
+        <select id="exploreAmt" onchange="runExplore()">
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+        </select>
+      </label>
+      <label class="field">Input
+        <input type="number" id="exploreIn" min="0" max="100" value="4" oninput="runExplore()">
+      </label>
+    </div>
+    <div class="machine-row" id="exploreMachine">
+      <div class="io-box"><span class="io-label">Input</span><span id="exInShow">4</span></div>
+      <span class="arrow">→</span>
+      <div class="op-box"><span class="op-label">Rule</span><span id="exOpShow">× 3</span></div>
+      <span class="arrow">→</span>
+      <div class="io-box output-box"><span class="io-label">Output</span><span id="exOutShow">12</span></div>
+    </div>
+    <div class="feedback info show" id="exploreNote">
+      4 × 3 = 12. Change the input or the rule and see what happens.
+    </div>
+    <p class="hint-text" style="margin-top:1rem">Quick check: set the machine to <strong>× 5</strong> with input <strong>6</strong>. What is the output?</p>
+    <div class="answer-row">
+      <input type="number" id="exploreCheck" min="0" max="999" placeholder="Output?" aria-label="Quick check output">
+      <button class="btn btn-primary" id="btnExploreCheck" onclick="checkExplore()">Check</button>
+    </div>
+    <div class="feedback" id="exploreFb"></div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goTo(0)">← Back</button>
+      <button class="btn btn-primary" id="btnExploreNext" onclick="goTo(2)" disabled>Practise forwards →</button>
+    </div>
+  </section>
+
+  <section class="section" id="sec-forwards" data-title="Practise forwards">
+    <h2>Practise: find the output</h2>
+    <p>Work out the output for each machine. You get instant feedback after each answer.</p>
+    <div id="forwardsQuiz"></div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Back</button>
+      <button class="btn btn-primary" id="btnFwdNext" onclick="goTo(3)" disabled>Worked example →</button>
+    </div>
+  </section>
+
+  <section class="section" id="sec-worked" data-title="Worked example">
+    <h2>Worked example: two-step machine</h2>
+    <p>A <strong>two-step</strong> machine applies one rule, then another. Work left to right.</p>
+    <div class="machine-row">
+      <div class="io-box"><span class="io-label">Input</span>7</div>
+      <span class="arrow">→</span>
+      <div class="op-box"><span class="op-label">Step 1</span>× 2</div>
+      <span class="arrow">→</span>
+      <div class="op-box"><span class="op-label">Step 2</span>+ 5</div>
+      <span class="arrow">→</span>
+      <div class="io-box output-box"><span class="io-label">Output</span>?</div>
+    </div>
+    <p>Reveal each step, or try the answer yourself first.</p>
+    <div class="steps" id="workedSteps">
+      <div class="step" id="ws1">
+        <span class="step-n">Step 1</span>
+        <p>Apply × 2 to the input: 7 × 2 = <strong>14</strong>. This is the middle value.</p>
+      </div>
+      <div class="step" id="ws2">
+        <span class="step-n">Step 2</span>
+        <p>Apply + 5 to 14: 14 + 5 = <strong>19</strong>. So the output is 19.</p>
+      </div>
+      <div class="step" id="ws3">
+        <span class="step-n">Check</span>
+        <p>Input 7 → ×2 → 14 → +5 → <strong>19</strong>. Always finish both steps before writing the output.</p>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="btn btn-secondary" id="btnReveal" onclick="revealStep()">Reveal next step</button>
+      <button class="btn btn-ghost" onclick="resetWorked()">Reset reveals</button>
+    </div>
+    <div class="try-panel">
+      <h3>Try yourself</h3>
+      <p>Same machine (× 2 then + 5). Input = <strong>9</strong>. What is the output?</p>
+      <div class="answer-row">
+        <input type="number" id="tryOut" min="0" max="999" placeholder="Output?" aria-label="Try yourself output">
+        <button class="btn btn-primary" id="btnTryCheck" onclick="checkTryYourself()">Check</button>
+      </div>
+      <div class="feedback" id="tryFb"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goTo(2)">← Back</button>
+      <button class="btn btn-primary" id="btnWorkedNext" onclick="goTo(4)" disabled>Practise backwards →</button>
+    </div>
+  </section>
+
+  <section class="section" id="sec-backwards" data-title="Practise backwards">
+    <h2>Practise: find the input (inverse)</h2>
+    <p>Now the <strong>output</strong> is given. Use the <strong>inverse operation</strong> and work right to left.</p>
+    <div class="tip-box">
+      Inverses: + ↔ − and × ↔ ÷. For two steps, undo the <em>last</em> step first.
+    </div>
+    <div id="backwardsQuiz"></div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goTo(3)">← Back</button>
+      <button class="btn btn-primary" id="btnBackNext" onclick="goTo(5)" disabled>Build a machine →</button>
+    </div>
+  </section>
+
+  <section class="section" id="sec-build" data-title="Build a machine">
+    <h2>Activity: build the machine</h2>
+    <p>Place the correct operations into the slots so the machine matches the description. Click a token, then click a slot (or drag on desktop).</p>
+
+    <div class="quiz-card" id="buildTask1">
+      <div class="q-num">Task A</div>
+      <p class="q-prompt">Build a machine that turns <strong>8</strong> into <strong>24</strong> using one operation from the palette.</p>
+      <p class="hint-text">Click an operation, then click the empty slot. (Or drag.)</p>
+      <div class="palette" id="paletteA" role="listbox" aria-label="Operations palette A"></div>
+      <div class="machine-row">
+        <div class="io-box"><span class="io-label">Input</span>8</div>
+        <span class="arrow">→</span>
+        <div class="op-box slot" id="slotA1" data-slot="A1" tabindex="0" role="button" aria-label="Operation slot A">?</div>
+        <span class="arrow">→</span>
+        <div class="io-box output-box"><span class="io-label">Output</span>24</div>
+      </div>
+      <div class="answer-row">
+        <button class="btn btn-primary" onclick="checkBuild('A')">Check machine</button>
+        <button class="btn btn-ghost" onclick="resetBuild('A')">Clear slot</button>
+      </div>
+      <div class="feedback" id="buildFbA"></div>
+    </div>
+
+    <div class="quiz-card" id="buildTask2">
+      <div class="q-num">Task B — two steps</div>
+      <p class="q-prompt">Build a machine: input <strong>5</strong> → output <strong>17</strong>. Order the two operations correctly.</p>
+      <div class="palette" id="paletteB" role="listbox" aria-label="Operations palette B"></div>
+      <div class="machine-row">
+        <div class="io-box"><span class="io-label">Input</span>5</div>
+        <span class="arrow">→</span>
+        <div class="op-box slot" id="slotB1" data-slot="B1" tabindex="0" role="button" aria-label="First operation slot">?</div>
+        <span class="arrow">→</span>
+        <div class="op-box slot" id="slotB2" data-slot="B2" tabindex="0" role="button" aria-label="Second operation slot">?</div>
+        <span class="arrow">→</span>
+        <div class="io-box output-box"><span class="io-label">Output</span>17</div>
+      </div>
+      <div class="answer-row">
+        <button class="btn btn-primary" onclick="checkBuild('B')">Check machine</button>
+        <button class="btn btn-ghost" onclick="resetBuild('B')">Clear slots</button>
+      </div>
+      <div class="feedback" id="buildFbB"></div>
+    </div>
+
+    <h3>Match inverse pairs</h3>
+    <p>Click one operation, then click its inverse. Match all four pairs.</p>
+    <div class="match-grid" id="matchGrid">
+      <div class="match-col">
+        <h4>Operations</h4>
+        <div id="matchLeft"></div>
+      </div>
+      <div class="match-col">
+        <h4>Inverses</h4>
+        <div id="matchRight"></div>
+      </div>
+    </div>
+    <div class="feedback" id="matchFb"></div>
+
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goTo(4)">← Back</button>
+      <button class="btn btn-primary" id="btnBuildNext" onclick="goAdaptive()" disabled>Next →</button>
+    </div>
+  </section>
+
+  <section class="section" id="sec-scaffold" data-title="Scaffolded review">
+    <h2>Review with support <span class="badge badge-scaffold">Scaffold</span></h2>
+    <p>Your earlier answers suggest a bit more practice will help. Take your time — hints are available.</p>
+    <div id="scaffoldQuiz"></div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goTo(5)">← Back</button>
+      <button class="btn btn-primary" id="btnScafNext" onclick="goTo(7)" disabled>Exit ticket →</button>
+    </div>
+  </section>
+
+  <section class="section" id="sec-stretch" data-title="Challenge stretch">
+    <h2>Challenge <span class="badge badge-stretch">Stretch</span></h2>
+    <p>You are doing well. Try these two-step problems, including working backwards.</p>
+    <div id="stretchQuiz"></div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goTo(5)">← Back</button>
+      <button class="btn btn-primary" id="btnStretchNext" onclick="goTo(7)" disabled>Exit ticket →</button>
+    </div>
+  </section>
+
+  <section class="section" id="sec-exit" data-title="Exit ticket">
+    <h2>Exit ticket</h2>
+    <p>Four short questions to check what you can do. Answer carefully.</p>
+    <div id="exitQuiz"></div>
+    <div id="exitResult" style="display:none"></div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goAdaptive()">← Back</button>
+      <button class="btn btn-success" id="btnFinish" onclick="finishExit()" disabled>Finish lesson</button>
+    </div>
+  </section>
+
+  <section class="section" id="sec-done" data-title="Complete">
+    <h2>Lesson complete</h2>
+    <div class="exit-result" id="finalSummary"></div>
+    <h3>What you practised</h3>
+    <ul class="vocab">
+      <li>Finding <strong>outputs</strong> from inputs (forwards)</li>
+      <li>Finding <strong>inputs</strong> from outputs using <strong>inverse operations</strong></li>
+      <li>One-step and two-step function machines</li>
+    </ul>
+    <p>Well done. You can reopen this file any time to practise again.</p>
+    <div class="progress-tools" style="margin:1rem 0">
+      <button type="button" class="btn btn-ghost" onclick="exportProgress()">Download my progress</button>
+      <button type="button" class="btn btn-ghost" onclick="triggerImportProgress()">Load progress file</button>
+      <button type="button" class="btn btn-ghost" onclick="resetSavedProgress()">Clear saved progress</button>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="restartLesson()">Restart lesson</button>
+    </div>
+  </section>
+
+  <section class="section" id="sec-algebra" data-title="Letters and numbers">
+    <h2>Letters and numbers</h2>
+    <p>A letter can stand for the input. If the rule is <strong>2x + 3</strong> and the input is 4, then x = 4, so 2 × 4 + 3 = 11.</p>
+    <p>Substitute to find a value, find the output of a letter rule, or work backwards to find the input. Use positive whole numbers.</p>
+    <div id="algebraQuiz"></div>
+    <div class="nav-row">
+      <button class="btn btn-secondary" aria-label="Back to Topics list" onclick="goTo(0)">← Topics</button>
+    </div>
+  </section>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  const state = {
+    section: 0,
+    score: 0,
+    streak: 0,
+    correct: 0,
+    attempts: 0,
+    exploreDone: false,
+    fwdDone: 0,
+    fwdTotal: 0,
+    tryDone: false,
+    backDone: 0,
+    backTotal: 0,
+    buildA: false,
+    buildB: false,
+    matchPairs: 0,
+    matchMatchedIds: [],
+    adaptivePath: null,
+    scafDone: 0,
+    scafTotal: 0,
+    stretchDone: 0,
+    stretchTotal: 0,
+    exitDone: 0,
+    exitTotal: 0,
+    exitCorrect: 0,
+    workedReveal: 0,
+    selectedToken: null,
+    slots: { A1: null, B1: null, B2: null },
+    matchSelected: null,
+    learnerName: null,
+    _pendingProgress: null,
+    _restoring: false
+  };
+
+  const PROGRESS_KEY = 'y7-fm-progress-v1';
+  const PROGRESS_MAX_BYTES = 8192;
+  const ALG_SCORED_MAX = 40;
+  let skipProgressSave = false;
+  const KNOWN_SLOT_LABELS = new Set(['\u00d7 3', '+ 16', '\u2212 4', '\u00f7 2', '+ 2', '+ 12', '\u00d7 2']);
+  const MATCH_LEFT_IDS = new Set(['L1', 'L2', 'L3', 'L4']);
+
+  const SECTIONS = [
+    'sec-intro', 'sec-explore', 'sec-forwards', 'sec-worked',
+    'sec-backwards', 'sec-build', 'sec-scaffold', 'sec-exit', 'sec-done',
+    'sec-algebra'
+  ];
+
+  function applyOp(n, op, amt) {
+    switch (op) {
+      case 'add': return n + amt;
+      case 'sub': return n - amt;
+      case 'mul': return n * amt;
+      case 'div': return n / amt;
+      default: return n;
+    }
+  }
+  function opSymbol(op) {
+    return ({ add: '+', sub: '−', mul: '×', div: '÷' })[op] || op;
+  }
+  function fmtOp(op, amt) {
+    return opSymbol(op) + ' ' + amt;
+  }
+
+  function updateHeader() {
+    const labels = [
+      'Introduction', 'Explore', 'Practise forwards', 'Worked example',
+      'Practise backwards', 'Build a machine',
+      state.adaptivePath === 'stretch' ? 'Challenge' : 'Scaffolded review',
+      'Exit ticket', 'Complete', 'Letters and numbers'
+    ];
+    const idx = state.section;
+    const progressMap = [0, 12, 25, 38, 50, 62, 75, 88, 100, 66];
+    const pct = progressMap[idx] != null ? progressMap[idx] : 0;
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressBarWrap').setAttribute('aria-valuenow', pct);
+    let sectionText;
+    if (idx === 8) sectionText = 'Complete';
+    else if (idx === 9) sectionText = 'Letters and numbers';
+    else sectionText = 'Section ' + (idx + 1) + ' of 8 · ' + (labels[idx] || '');
+    document.getElementById('sectionLabel').textContent = sectionText;
+    document.getElementById('scoreChip').textContent = 'Score: ' + state.score;
+    document.getElementById('streakChip').textContent = 'Streak: ' + state.streak;
+    let level = 'Core';
+    if (state.adaptivePath === 'stretch') level = 'Stretch';
+    else if (state.adaptivePath === 'scaffold') level = 'Scaffold';
+    else if (accuracy() >= 0.8 && state.attempts >= 4) level = 'Strong';
+    document.getElementById('levelChip').textContent = 'Level: ' + level;
+  }
+
+  function accuracy() {
+    return state.attempts === 0 ? 0 : state.correct / state.attempts;
+  }
+
+  function record(ok, points) {
+    state.attempts++;
+    if (ok) {
+      state.correct++;
+      state.streak++;
+      state.score += (points || 1) + (state.streak >= 3 ? 1 : 0);
+    } else {
+      state.streak = 0;
+    }
+    updateHeader();
+    saveProgress();
+  }
+
+  /* Domain model: a scorable item scores a correct answer at most once.
+     Scored state lives on the item as _scored / _failed (same flags save/apply restore). */
+  const scoreItems = {
+    explore: { _scored: false, _failed: false },
+    tryYourself: { _scored: false, _failed: false },
+    buildA: { _scored: false, _failed: false },
+    buildB: { _scored: false, _failed: false },
+    match: {}
+  };
+
+  function scoreOnce(item, ok, points, opts) {
+    if (!item || typeof item !== 'object') return false;
+    opts = opts || {};
+    if (ok) {
+      if (item._scored) return false;
+      item._scored = true;
+      record(true, points || 1);
+      return true;
+    }
+    if (opts.everyWrong) {
+      record(false);
+      return false;
+    }
+    if (item._failed) return false;
+    item._failed = true;
+    record(false);
+    return false;
+  }
+
+  function resetScoreItems() {
+    scoreItems.explore._scored = false;
+    scoreItems.explore._failed = false;
+    scoreItems.tryYourself._scored = false;
+    scoreItems.tryYourself._failed = false;
+    scoreItems.buildA._scored = false;
+    scoreItems.buildA._failed = false;
+    scoreItems.buildB._scored = false;
+    scoreItems.buildB._failed = false;
+    scoreItems.match = {};
+    delete state._buildAFail;
+    delete state._buildBFail;
+  }
+
+  function matchScoreItem(id) {
+    if (!scoreItems.match[id]) scoreItems.match[id] = { _scored: false, _failed: false };
+    return scoreItems.match[id];
+  }
+
+  function showFb(el, type, msg) {
+    el.className = 'feedback show ' + type;
+    el.textContent = msg;
+  }
+  window.showFb = showFb;
+
+  function scoredArr(qs, n) {
+    const a = [];
+    for (let i = 0; i < n; i++) a.push(!!(qs[i] && qs[i]._scored));
+    return a;
+  }
+
+  function clampInt(v, lo, hi, fallback) {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return fallback;
+    return Math.max(lo, Math.min(hi, Math.trunc(n)));
+  }
+
+  function isBoolArr(a, len) {
+    return Array.isArray(a) && a.length === len && a.every(x => typeof x === 'boolean');
+  }
+
+  function buildProgressPayload() {
+    const now = new Date();
+    let iso;
+    try {
+      const off = -now.getTimezoneOffset();
+      const sign = off >= 0 ? '+' : '-';
+      const oh = String(Math.floor(Math.abs(off) / 60)).padStart(2, '0');
+      const om = String(Math.abs(off) % 60).padStart(2, '0');
+      iso = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, -1) + sign + oh + ':' + om;
+    } catch (e) {
+      iso = now.toISOString();
+    }
+    const name = state.learnerName;
+    const safeName = (typeof name === 'string' && name.trim())
+      ? name.trim().slice(0, 40)
+      : null;
+    return {
+      schemaVersion: 1,
+      learnerName: safeName,
+      sectionIndex: state.section,
+      adaptivePath: state.adaptivePath,
+      score: state.score,
+      streak: state.streak,
+      attempts: state.attempts,
+      correct: state.correct,
+      sections: {
+        exploreDone: !!state.exploreDone,
+        fwdDone: state.fwdDone,
+        fwdTotal: 6,
+        fwdScored: scoredArr(fwdQuestions, 6),
+        tryDone: !!state.tryDone,
+        workedReveal: state.workedReveal,
+        backDone: state.backDone,
+        backTotal: 6,
+        backScored: scoredArr(backQuestions, 6),
+        buildA: !!state.buildA,
+        buildB: !!state.buildB,
+        matchPairs: state.matchPairs,
+        matchMatchedIds: state.matchMatchedIds.slice(),
+        scafDone: state.scafDone,
+        scafTotal: 4,
+        scafScored: scoredArr(scafQ, 4),
+        stretchDone: state.stretchDone,
+        stretchTotal: 5,
+        stretchScored: scoredArr(stretchQ, 5),
+        exitDone: state.exitDone,
+        exitTotal: 4,
+        exitCorrect: state.exitCorrect,
+        exitScored: scoredArr(exitQ, 4),
+        algScored: scoredArr(algQuestions, algQuestions.length)
+      },
+      build: {
+        slots: {
+          A1: state.slots.A1 ? state.slots.A1.label : null,
+          B1: state.slots.B1 ? state.slots.B1.label : null,
+          B2: state.slots.B2 ? state.slots.B2.label : null
+        }
+      },
+      lastSaved: iso
+    };
+  }
+
+  function validateProgress(obj) {
+    if (!obj || typeof obj !== 'object') return null;
+    if (obj.schemaVersion !== 1) return null;
+    if (obj.adaptivePath !== null && obj.adaptivePath !== 'scaffold' && obj.adaptivePath !== 'stretch') return null;
+    const sectionIndex = clampInt(obj.sectionIndex, 0, 9, NaN);
+    if (!Number.isFinite(sectionIndex)) return null;
+    const score = clampInt(obj.score, 0, 10000, NaN);
+    const streak = clampInt(obj.streak, 0, 10000, NaN);
+    const attempts = clampInt(obj.attempts, 0, 100000, NaN);
+    const correct = clampInt(obj.correct, 0, 100000, NaN);
+    if (![score, streak, attempts, correct].every(Number.isFinite)) return null;
+    let learnerName = null;
+    if (obj.learnerName != null) {
+      if (typeof obj.learnerName !== 'string') return null;
+      learnerName = obj.learnerName.trim().slice(0, 40);
+      if (!learnerName) learnerName = null;
+    }
+    const s = obj.sections;
+    if (!s || typeof s !== 'object') return null;
+    if (typeof s.exploreDone !== 'boolean' || typeof s.tryDone !== 'boolean') return null;
+    if (typeof s.buildA !== 'boolean' || typeof s.buildB !== 'boolean') return null;
+    if (!isBoolArr(s.fwdScored, 6) || !isBoolArr(s.backScored, 6)) return null;
+    if (!isBoolArr(s.scafScored, 4) || !isBoolArr(s.stretchScored, 5) || !isBoolArr(s.exitScored, 4)) return null;
+    const fwdDone = clampInt(s.fwdDone, 0, 6, NaN);
+    const backDone = clampInt(s.backDone, 0, 6, NaN);
+    const scafDone = clampInt(s.scafDone, 0, 4, NaN);
+    const stretchDone = clampInt(s.stretchDone, 0, 5, NaN);
+    const exitDone = clampInt(s.exitDone, 0, 4, NaN);
+    const exitCorrect = clampInt(s.exitCorrect, 0, 4, NaN);
+    const matchPairs = clampInt(s.matchPairs, 0, 4, NaN);
+    const workedReveal = clampInt(s.workedReveal, 0, 3, NaN);
+    if (![fwdDone, backDone, scafDone, stretchDone, exitDone, exitCorrect, matchPairs, workedReveal].every(Number.isFinite)) return null;
+    if (!Array.isArray(s.matchMatchedIds)) return null;
+    const matchMatchedIds = [];
+    for (let i = 0; i < s.matchMatchedIds.length; i++) {
+      const id = s.matchMatchedIds[i];
+      if (typeof id !== 'string' || !MATCH_LEFT_IDS.has(id)) return null;
+      if (matchMatchedIds.indexOf(id) === -1) matchMatchedIds.push(id);
+    }
+    if (matchMatchedIds.length > 4) return null;
+    const build = obj.build;
+    if (!build || typeof build !== 'object' || !build.slots || typeof build.slots !== 'object') return null;
+    const slots = { A1: null, B1: null, B2: null };
+    for (const k of ['A1', 'B1', 'B2']) {
+      const lab = build.slots[k];
+      if (lab == null) { slots[k] = null; continue; }
+      if (typeof lab !== 'string' || !KNOWN_SLOT_LABELS.has(lab)) return null;
+      slots[k] = lab;
+    }
+    if (typeof obj.lastSaved !== 'string' || obj.lastSaved.length > 64) return null;
+    let algScored = null;
+    if (s.algScored != null) {
+      if (!Array.isArray(s.algScored) || s.algScored.length > ALG_SCORED_MAX) return null;
+      if (!s.algScored.every(function (x) { return typeof x === 'boolean'; })) return null;
+      algScored = s.algScored.slice();
+    }
+    return {
+      schemaVersion: 1,
+      learnerName,
+      sectionIndex,
+      adaptivePath: obj.adaptivePath,
+      score, streak, attempts, correct,
+      sections: {
+        exploreDone: s.exploreDone,
+        fwdDone, fwdTotal: 6, fwdScored: s.fwdScored.slice(),
+        tryDone: s.tryDone,
+        workedReveal,
+        backDone, backTotal: 6, backScored: s.backScored.slice(),
+        buildA: s.buildA, buildB: s.buildB,
+        matchPairs, matchMatchedIds,
+        scafDone, scafTotal: 4, scafScored: s.scafScored.slice(),
+        stretchDone, stretchTotal: 5, stretchScored: s.stretchScored.slice(),
+        exitDone, exitTotal: 4, exitCorrect, exitScored: s.exitScored.slice(),
+        algScored: algScored
+      },
+      build: { slots },
+      lastSaved: obj.lastSaved
+    };
+  }
+
+  function progressHasMeaning(p) {
+    if (!p) return false;
+    if (p.sectionIndex > 0 || p.attempts > 0) return true;
+    const s = p.sections;
+    const algLocked = Array.isArray(s.algScored) && s.algScored.some(Boolean);
+    return !!(s.exploreDone || s.tryDone || s.buildA || s.buildB ||
+      s.fwdDone || s.backDone || s.scafDone || s.stretchDone || s.exitDone ||
+      s.matchPairs || s.workedReveal || algLocked);
+  }
+
+  function saveProgress() {
+    if (state._restoring || skipProgressSave) return;
+    /* Do not overwrite the stored save while the resume banner holds an unapplied load. */
+    if (state._pendingProgress) return;
+    try {
+      const payload = buildProgressPayload();
+      const raw = JSON.stringify(payload);
+      if (raw.length > PROGRESS_MAX_BYTES) return;
+      localStorage.setItem(PROGRESS_KEY, raw);
+    } catch (e) { /* quota / private mode */ }
+  }
+
+  function readRawProgress() {
+    try {
+      const raw = localStorage.getItem(PROGRESS_KEY);
+      if (!raw) return null;
+      if (raw.length > PROGRESS_MAX_BYTES) return null;
+      let obj;
+      try { obj = JSON.parse(raw); } catch (e) { return null; }
+      return validateProgress(obj);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function formatSavedWhen(iso) {
+    try {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return 'earlier';
+      return d.toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+    } catch (e) {
+      return 'earlier';
+    }
+  }
+
+  function showProgressToast(msg, bad) {
+    const el = document.getElementById('progressToast');
+    if (!el) return;
+    el.textContent = msg;
+    el.className = 'progress-toast show' + (bad ? ' bad' : '');
+    clearTimeout(showProgressToast._t);
+    const ms = bad ? 7000 : 3500;
+    showProgressToast._t = setTimeout(() => { el.className = 'progress-toast'; el.textContent = ''; }, ms);
+  }
+
+  function disableQuizItem(ansId, btnId, fbId, okMsg) {
+    const btn = document.getElementById(btnId);
+    const ans = document.getElementById(ansId);
+    if (btn) btn.disabled = true;
+    if (ans) ans.disabled = true;
+    if (fbId && okMsg) showFb(document.getElementById(fbId), 'ok', okMsg);
+  }
+
+  function applyScoredNumeric(qs, scored, ansPrefix, btnPrefix, fbPrefix, opts) {
+    opts = opts || {};
+    for (let i = 0; i < qs.length; i++) {
+      const q = qs[i];
+      if (!q) continue;
+      const locked = !!(scored && scored[i]);
+      q._scored = locked;
+      q._failed = false;
+      const ansEl = document.getElementById(ansPrefix + i);
+      const btnEl = document.getElementById(btnPrefix + i);
+      const fbEl = fbPrefix ? document.getElementById(fbPrefix + i) : null;
+      if (locked) {
+        if (btnEl) btnEl.disabled = true;
+        if (ansEl) {
+          ansEl.disabled = true;
+          if (typeof opts.answerOf === 'function') ansEl.value = String(opts.answerOf(q));
+        }
+        if (fbEl) {
+          const msg = typeof opts.okMsg === 'function' ? opts.okMsg(q) : 'Correct.';
+          showFb(fbEl, 'ok', msg);
+        }
+      } else {
+        if (btnEl) btnEl.disabled = false;
+        if (ansEl) {
+          ansEl.disabled = false;
+          ansEl.value = '';
+        }
+        if (fbEl) {
+          fbEl.className = 'feedback';
+          fbEl.textContent = '';
+        }
+      }
+    }
+  }
+
+  function placeSlotByLabel(slotKey, label) {
+    if (!label) return;
+    const which = slotKey.charAt(0);
+    const pal = document.getElementById('palette' + which);
+    if (!pal) return;
+    const toks = pal.querySelectorAll('.token');
+    let tok = null;
+    for (let i = 0; i < toks.length; i++) {
+      if (toks[i].dataset.token === label && !toks[i].classList.contains('used')) {
+        tok = toks[i];
+        break;
+      }
+    }
+    if (!tok) return;
+    state.selectedToken = tok;
+    placeInSlot('slot' + slotKey);
+  }
+
+  function clearQuizFlags(qs) {
+    if (!qs) return;
+    qs.forEach(function (q) {
+      if (!q) return;
+      q._scored = false;
+      q._failed = false;
+    });
+  }
+
+  function clearFb(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.className = 'feedback';
+    el.textContent = '';
+  }
+
+  /* Fresh baseline before every load so leftover in-memory/DOM state cannot leak. */
+  function resetLessonRuntime() {
+    clearQuizFlags(fwdQuestions);
+    clearQuizFlags(backQuestions);
+    clearQuizFlags(exitQ);
+    clearQuizFlags(algQuestions);
+    clearQuizFlags(scafQ);
+    clearQuizFlags(stretchQ);
+    resetScoreItems();
+
+    const scafRoot = document.getElementById('scaffoldQuiz');
+    if (scafRoot) delete scafRoot.dataset.ready;
+    const stRoot = document.getElementById('stretchQuiz');
+    if (stRoot) delete stRoot.dataset.ready;
+
+    initForwards();
+    initBackwards();
+    initExit();
+    initAlgebra();
+    initScaffold();
+    initStretch();
+    initMatch();
+    resetBuild('A');
+    resetBuild('B');
+
+    state.matchSelected = null;
+    state.selectedToken = null;
+    state.slots = { A1: null, B1: null, B2: null };
+    state.matchPairs = 0;
+    state.matchMatchedIds = [];
+    state.buildA = false;
+    state.buildB = false;
+    state.exploreDone = false;
+    state.tryDone = false;
+    state.workedReveal = 0;
+    state.fwdDone = 0;
+    state.backDone = 0;
+    state.scafDone = 0;
+    state.stretchDone = 0;
+    state.exitDone = 0;
+    state.exitCorrect = 0;
+
+    const eAns = document.getElementById('exploreCheck');
+    if (eAns) { eAns.disabled = false; eAns.value = ''; }
+    const btnExploreCheck = document.getElementById('btnExploreCheck');
+    if (btnExploreCheck) btnExploreCheck.disabled = false;
+    const btnEx = document.getElementById('btnExploreNext');
+    if (btnEx) btnEx.disabled = true;
+    clearFb('exploreFb');
+
+    for (let i = 1; i <= 3; i++) {
+      const ws = document.getElementById('ws' + i);
+      if (ws) ws.classList.remove('visible');
+    }
+    const br = document.getElementById('btnReveal');
+    if (br) br.disabled = false;
+    const tryOut = document.getElementById('tryOut');
+    if (tryOut) { tryOut.disabled = false; tryOut.value = ''; }
+    const btnTryCheck = document.getElementById('btnTryCheck');
+    if (btnTryCheck) btnTryCheck.disabled = false;
+    const btnWorked = document.getElementById('btnWorkedNext');
+    if (btnWorked) btnWorked.disabled = true;
+    clearFb('tryFb');
+
+    clearFb('matchFb');
+    clearFb('buildFbA');
+    clearFb('buildFbB');
+
+    const btnFwd = document.getElementById('btnFwdNext');
+    if (btnFwd) btnFwd.disabled = true;
+    const btnBack = document.getElementById('btnBackNext');
+    if (btnBack) btnBack.disabled = true;
+    const btnFinish = document.getElementById('btnFinish');
+    if (btnFinish) btnFinish.disabled = true;
+    const bScaf = document.getElementById('btnScafNext');
+    if (bScaf) bScaf.disabled = true;
+    const bStretch = document.getElementById('btnStretchNext');
+    if (bStretch) bStretch.disabled = true;
+    const bBuild = document.getElementById('btnBuildNext');
+    if (bBuild) bBuild.disabled = true;
+  }
+
+  function applyStretchLocks(scored) {
+    stretchQ.forEach(function (q, i) {
+      const locked = !!(scored && scored[i]);
+      q._scored = locked;
+      q._failed = false;
+      if (q.type === 'mc') {
+        q.options.forEach(function (o, j) {
+          const btn = document.getElementById('stMc' + i + '_' + j);
+          if (!btn) return;
+          btn.disabled = locked;
+          btn.classList.remove('correct', 'wrong');
+          if (locked && o.ok) btn.classList.add('correct');
+        });
+        const fb = document.getElementById('stFb' + i);
+        if (locked) showFb(fb, 'ok', 'Answered.');
+        else if (fb) { fb.className = 'feedback'; fb.textContent = ''; }
+      } else {
+        const ansEl = document.getElementById('stAns' + i);
+        const btnEl = document.getElementById('stBtn' + i);
+        const fbEl = document.getElementById('stFb' + i);
+        if (locked) {
+          if (btnEl) btnEl.disabled = true;
+          if (ansEl) {
+            ansEl.disabled = true;
+            const lockVal = q.dir === 'fwd' ? q.out : q.inp;
+            if (lockVal != null) ansEl.value = String(lockVal);
+          }
+          if (fbEl) showFb(fbEl, 'ok', 'Excellent — correct.');
+        } else {
+          if (btnEl) btnEl.disabled = false;
+          if (ansEl) { ansEl.disabled = false; ansEl.value = ''; }
+          if (fbEl) { fbEl.className = 'feedback'; fbEl.textContent = ''; }
+        }
+      }
+    });
+    const bStretch = document.getElementById('btnStretchNext');
+    if (bStretch) bStretch.disabled = state.stretchDone < state.stretchTotal;
+  }
+
+  function applyProgress(p) {
+    if (!p) return;
+    state._restoring = true;
+    /* Pending save is consumed by this apply — never leave it for a later Topics jump. */
+    state._pendingProgress = null;
+
+    resetLessonRuntime();
+
+    state.learnerName = p.learnerName;
+    state.section = p.sectionIndex;
+    state.adaptivePath = p.adaptivePath;
+    state.score = p.score;
+    state.streak = p.streak;
+    state.attempts = p.attempts;
+    state.correct = p.correct;
+    const s = p.sections;
+    state.exploreDone = s.exploreDone;
+    state.fwdDone = s.fwdDone;
+    state.tryDone = s.tryDone;
+    state.workedReveal = s.workedReveal;
+    state.backDone = s.backDone;
+    state.buildA = s.buildA;
+    state.buildB = s.buildB;
+    state.matchPairs = s.matchPairs;
+    state.matchMatchedIds = s.matchMatchedIds.slice();
+    state.scafDone = s.scafDone;
+    state.stretchDone = s.stretchDone;
+    state.exitDone = s.exitDone;
+    state.exitCorrect = s.exitCorrect;
+
+    applyScoredNumeric(fwdQuestions, s.fwdScored, 'fwdAns', 'fwdBtn', 'fwdFb', {
+      answerOf: function (q) { return q.out; }
+    });
+    applyScoredNumeric(backQuestions, s.backScored, 'backAns', 'backBtn', 'backFb', {
+      answerOf: function (q) { return q.inp; }
+    });
+    applyScoredNumeric(exitQ, s.exitScored, 'exAns', 'exBtn', 'exFb', {
+      answerOf: function (q) { return q.dir === 'fwd' ? q.out : q.inp; }
+    });
+    const algPad = [];
+    for (let ai = 0; ai < algQuestions.length; ai++) {
+      algPad.push(!!(s.algScored && s.algScored[ai]));
+    }
+    applyScoredNumeric(algQuestions, algPad, 'algAns', 'algBtn', 'algFb', {
+      answerOf: function (q) { return q.ans; },
+      okMsg: function (q) { return q.ok || 'Correct.'; }
+    });
+
+    scoreItems.explore._scored = !!state.exploreDone;
+    scoreItems.explore._failed = false;
+    scoreItems.tryYourself._scored = !!state.tryDone;
+    scoreItems.tryYourself._failed = false;
+    scoreItems.buildA._scored = !!state.buildA;
+    scoreItems.buildA._failed = false;
+    scoreItems.buildB._scored = !!state.buildB;
+    scoreItems.buildB._failed = false;
+    state.matchMatchedIds.forEach(function (id) {
+      const it = matchScoreItem(id);
+      it._scored = true;
+      it._failed = false;
+    });
+
+    if (state.exploreDone) {
+      document.getElementById('btnExploreNext').disabled = false;
+      const eAns = document.getElementById('exploreCheck');
+      if (eAns) { eAns.disabled = true; eAns.value = '30'; }
+      const bec = document.getElementById('btnExploreCheck');
+      if (bec) bec.disabled = true;
+      showFb(document.getElementById('exploreFb'), 'ok', 'Correct — 6 × 5 = 30. You are ready to practise.');
+    }
+    document.getElementById('btnFwdNext').disabled = state.fwdDone < state.fwdTotal;
+    document.getElementById('btnBackNext').disabled = state.backDone < state.backTotal;
+    document.getElementById('btnFinish').disabled = state.exitDone < state.exitTotal;
+
+    for (let i = 1; i <= state.workedReveal; i++) {
+      const ws = document.getElementById('ws' + i);
+      if (ws) ws.classList.add('visible');
+    }
+    if (state.workedReveal >= 3) {
+      const br = document.getElementById('btnReveal');
+      if (br) br.disabled = true;
+    }
+    if (state.tryDone) {
+      document.getElementById('btnWorkedNext').disabled = false;
+      const t = document.getElementById('tryOut');
+      if (t) { t.disabled = true; t.value = '23'; }
+      const btc = document.getElementById('btnTryCheck');
+      if (btc) btc.disabled = true;
+      showFb(document.getElementById('tryFb'), 'ok', 'Correct — 9 × 2 = 18, then 18 + 5 = 23.');
+    } else if (state.workedReveal >= 2) {
+      document.getElementById('btnWorkedNext').disabled = false;
+    }
+
+    placeSlotByLabel('A1', p.build.slots.A1);
+    placeSlotByLabel('B1', p.build.slots.B1);
+    placeSlotByLabel('B2', p.build.slots.B2);
+    if (state.buildA) showFb(document.getElementById('buildFbA'), 'ok', 'Machine A complete.');
+    if (state.buildB) showFb(document.getElementById('buildFbB'), 'ok', 'Machine B complete.');
+
+    state.matchMatchedIds.forEach(lid => {
+      const left = matchData.left.find(x => x.id === lid);
+      if (!left) return;
+      const leftEl = document.querySelector('#matchLeft .match-item[data-id="' + lid + '"]');
+      const rightEl = document.querySelector('#matchRight .match-item[data-id="' + left.pair + '"]');
+      if (leftEl) leftEl.classList.add('matched');
+      if (rightEl) rightEl.classList.add('matched');
+    });
+    if (state.matchPairs >= 4) {
+      showFb(document.getElementById('matchFb'), 'ok',
+        'All inverse pairs matched. + undoes \u2212, and \u00d7 undoes \u00f7.');
+    } else if (state.matchPairs > 0) {
+      showFb(document.getElementById('matchFb'), 'ok',
+        'Matched ' + state.matchPairs + ' of 4 pairs.');
+    }
+    maybeUnlockBuild();
+
+    /* Always re-apply both adaptive banks from the save (reset already rebuilt fresh DOM). */
+    applyScoredNumeric(scafQ, s.scafScored, 'scafAns', 'scafBtn', 'scafFb', {
+      answerOf: function (q) { return q.dir === 'fwd' ? q.out : q.inp; }
+    });
+    const bScaf = document.getElementById('btnScafNext');
+    if (bScaf) bScaf.disabled = state.scafDone < state.scafTotal;
+    applyStretchLocks(s.stretchScored);
+
+    updateHeader();
+    state._restoring = false;
+    goTo(p.sectionIndex);
+  }
+
+  window.resumeProgress = function () {
+    const banner = document.getElementById('resumeBanner');
+    if (banner) banner.classList.remove('show');
+    const p = state._pendingProgress || readRawProgress();
+    state._pendingProgress = null;
+    if (p) applyProgress(p);
+  };
+
+  window.startOverProgress = function () {
+    if (!confirm('Clear saved progress on this device? You cannot undo this unless you downloaded a progress file.')) return;
+    skipProgressSave = true;
+    try { localStorage.removeItem(PROGRESS_KEY); } catch (e) { /* ignore */ }
+    state._pendingProgress = null;
+    const banner = document.getElementById('resumeBanner');
+    if (banner) banner.classList.remove('show');
+    location.reload();
+  };
+
+  window.exportProgress = function () {
+    saveProgress();
+    const payload = buildProgressPayload();
+    const raw = JSON.stringify(payload, null, 2);
+    const blob = new Blob([raw], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'y7-function-machines-progress.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showProgressToast('Progress file downloaded.');
+  };
+
+  window.triggerImportProgress = function () {
+    const inp = document.getElementById('progressFileInput');
+    if (inp) { inp.value = ''; inp.click(); }
+  };
+
+  window.importProgressFile = function (ev) {
+    const file = ev.target && ev.target.files && ev.target.files[0];
+    if (!file) return;
+    if (file.size > PROGRESS_MAX_BYTES) {
+      showProgressToast('That file does not look like Year 7 Function Machines progress. Nothing was changed.', true);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function () {
+      let obj;
+      try {
+        const text = String(reader.result || '');
+        if (text.length > PROGRESS_MAX_BYTES) throw new Error('too large');
+        obj = JSON.parse(text);
+      } catch (e) {
+        showProgressToast('That file does not look like Year 7 Function Machines progress. Nothing was changed.', true);
+        return;
+      }
+      const p = validateProgress(obj);
+      if (!p) {
+        showProgressToast('That file does not look like Year 7 Function Machines progress. Nothing was changed.', true);
+        return;
+      }
+      try {
+        localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      } catch (e) {
+        showProgressToast('Could not save imported progress on this device.', true);
+        return;
+      }
+      showProgressToast('Progress loaded. Resuming…');
+      const banner = document.getElementById('resumeBanner');
+      if (banner) banner.classList.remove('show');
+      /* applyProgress clears _pendingProgress; do not stash the import for a later Topics jump. */
+      applyProgress(p);
+    };
+    reader.onerror = function () {
+      showProgressToast('That file does not look like Year 7 Function Machines progress. Nothing was changed.', true);
+    };
+    reader.readAsText(file);
+  };
+
+  window.resetSavedProgress = function () {
+    if (!confirm('Clear saved progress on this device? You cannot undo this unless you downloaded a progress file.')) return;
+    skipProgressSave = true;
+    try { localStorage.removeItem(PROGRESS_KEY); } catch (e) { /* ignore */ }
+    state._pendingProgress = null;
+    const banner = document.getElementById('resumeBanner');
+    if (banner) banner.classList.remove('show');
+    location.reload();
+  };
+
+  function showResumeBannerIfNeeded() {
+    const p = readRawProgress();
+    if (!progressHasMeaning(p)) return;
+    state._pendingProgress = p;
+    const banner = document.getElementById('resumeBanner');
+    const msg = document.getElementById('resumeMessage');
+    if (msg) {
+      msg.textContent = 'We found saved progress from ' + formatSavedWhen(p.lastSaved) + '. Resume where you left off, or start over.';
+    }
+    if (banner) banner.classList.add('show');
+  }
+
+
+  window.goTo = function (n) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    let id;
+    if (n === 6) {
+      id = (state.adaptivePath === 'stretch') ? 'sec-stretch' : 'sec-scaffold';
+      state.section = 6;
+    } else if (n === 7) {
+      id = 'sec-exit';
+      state.section = 7;
+    } else if (n === 8) {
+      id = 'sec-done';
+      state.section = 8;
+    } else if (n === 9) {
+      id = 'sec-algebra';
+      state.section = 9;
+    } else {
+      id = SECTIONS[n];
+      state.section = n;
+    }
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('active');
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    updateHeader();
+    saveProgress();
+  };
+
+  window.goAdaptive = function () {
+    if (!state.adaptivePath) {
+      const rate = accuracy();
+      state.adaptivePath = (rate >= 0.7 && state.correct >= 5) ? 'stretch' : 'scaffold';
+      if (state.adaptivePath === 'scaffold') initScaffold();
+      else initStretch();
+      saveProgress();
+    }
+    goTo(6);
+  };
+
+  window.runExplore = function () {
+    const op = document.getElementById('exploreOp').value;
+    const amt = Number(document.getElementById('exploreAmt').value);
+    let inp = Number(document.getElementById('exploreIn').value);
+    if (isNaN(inp)) inp = 0;
+    document.getElementById('exInShow').textContent = inp;
+    document.getElementById('exOpShow').textContent = fmtOp(op, amt);
+    if (op === 'div' && amt !== 0 && (inp % amt !== 0)) {
+      document.getElementById('exOutShow').textContent = '?';
+      document.getElementById('exploreNote').textContent =
+        inp + ' is not a multiple of ' + amt + '. Pick an input that divides exactly (e.g. ' + (amt * 3) + ').';
+      return;
+    }
+    if (op === 'sub' && inp < amt) {
+      document.getElementById('exOutShow').textContent = String(inp - amt);
+      document.getElementById('exploreNote').textContent =
+        'Note: Year 7 often stays with non-negative results. Try an input ≥ ' + amt + '.';
+      return;
+    }
+    const out = applyOp(inp, op, amt);
+    document.getElementById('exOutShow').textContent = out;
+    document.getElementById('exploreNote').textContent =
+      inp + ' ' + opSymbol(op) + ' ' + amt + ' = ' + out + '. Change the input or the rule and see what happens.';
+  };
+
+  window.checkExplore = function () {
+    const val = Number(document.getElementById('exploreCheck').value);
+    const fb = document.getElementById('exploreFb');
+    const btn = document.getElementById('btnExploreCheck');
+    if (btn && btn.disabled) return;
+    if (val === 30) {
+      showFb(fb, 'ok', 'Correct — 6 × 5 = 30. You are ready to practise.');
+      if (scoreOnce(scoreItems.explore, true, 1)) state.exploreDone = true;
+      const eAns = document.getElementById('exploreCheck');
+      if (eAns) eAns.disabled = true;
+      if (btn) btn.disabled = true;
+      document.getElementById('btnExploreNext').disabled = false;
+    } else {
+      showFb(fb, 'bad', 'Not quite. Set operation to ×, amount 5, input 6, then work out 6 × 5.');
+      scoreOnce(scoreItems.explore, false, 0, { everyWrong: true });
+    }
+  };
+
+  const fwdQuestions = [
+    { input: 6, op: 'add', amt: 9, out: 15, type: 'one' },
+    { input: 20, op: 'sub', amt: 7, out: 13, type: 'one' },
+    { input: 8, op: 'mul', amt: 4, out: 32, type: 'one' },
+    { input: 36, op: 'div', amt: 6, out: 6, type: 'one' },
+    { input: 5, steps: [{ op: 'mul', amt: 3 }, { op: 'add', amt: 2 }], out: 17, type: 'two' },
+    { input: 12, steps: [{ op: 'div', amt: 4 }, { op: 'sub', amt: 1 }], out: 2, type: 'two' }
+  ];
+
+  function machineHTMLOne(inp, rule, out) {
+    return '<div class="machine-row">' +
+      '<div class="io-box"><span class="io-label">Input</span>' + inp + '</div>' +
+      '<span class="arrow">→</span>' +
+      '<div class="op-box"><span class="op-label">Rule</span>' + rule + '</div>' +
+      '<span class="arrow">→</span>' +
+      '<div class="io-box output-box"><span class="io-label">Output</span>' + out + '</div>' +
+      '</div>';
+  }
+  function machineHTMLTwo(inp, r1, r2, out) {
+    return '<div class="machine-row">' +
+      '<div class="io-box"><span class="io-label">Input</span>' + inp + '</div>' +
+      '<span class="arrow">→</span>' +
+      '<div class="op-box"><span class="op-label">Step 1</span>' + r1 + '</div>' +
+      '<span class="arrow">→</span>' +
+      '<div class="op-box"><span class="op-label">Step 2</span>' + r2 + '</div>' +
+      '<span class="arrow">→</span>' +
+      '<div class="io-box output-box"><span class="io-label">Output</span>' + out + '</div>' +
+      '</div>';
+  }
+
+  function initForwards() {
+    state.fwdTotal = fwdQuestions.length;
+    const root = document.getElementById('forwardsQuiz');
+    root.innerHTML = '';
+    fwdQuestions.forEach((q, i) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      card.id = 'fwd-' + i;
+      let machineHTML;
+      if (q.type === 'one') {
+        machineHTML = machineHTMLOne(q.input, fmtOp(q.op, q.amt), '?');
+      } else {
+        machineHTML = machineHTMLTwo(q.input, fmtOp(q.steps[0].op, q.steps[0].amt), fmtOp(q.steps[1].op, q.steps[1].amt), '?');
+      }
+      card.innerHTML =
+        '<div class="q-num">Question ' + (i + 1) + ' of ' + fwdQuestions.length +
+        (q.type === 'two' ? ' · two-step' : '') + '</div>' +
+        '<p class="q-prompt">What is the output?</p>' +
+        machineHTML +
+        '<div class="answer-row">' +
+        '<input type="number" id="fwdAns' + i + '" min="0" max="9999" placeholder="Output" aria-label="Answer for question ' + (i + 1) + '">' +
+        '<button class="btn btn-primary" id="fwdBtn' + i + '" onclick="checkFwd(' + i + ')">Check</button>' +
+        '</div>' +
+        '<div class="feedback" id="fwdFb' + i + '"></div>';
+      root.appendChild(card);
+    });
+  }
+
+  window.checkFwd = function (i) {
+    const q = fwdQuestions[i];
+    const val = Number(document.getElementById('fwdAns' + i).value);
+    const fb = document.getElementById('fwdFb' + i);
+    const btn = document.getElementById('fwdBtn' + i);
+    if (btn.disabled) return;
+    if (val === q.out) {
+      let explain;
+      if (q.type === 'one') {
+        explain = 'Yes — ' + q.input + ' ' + opSymbol(q.op) + ' ' + q.amt + ' = ' + q.out + '.';
+      } else {
+        const m = applyOp(q.input, q.steps[0].op, q.steps[0].amt);
+        explain = 'Yes — ' + q.input + ' ' + opSymbol(q.steps[0].op) + ' ' + q.steps[0].amt +
+          ' = ' + m + ', then ' + m + ' ' + opSymbol(q.steps[1].op) + ' ' + q.steps[1].amt + ' = ' + q.out + '.';
+      }
+      showFb(fb, 'ok', explain);
+      btn.disabled = true;
+      document.getElementById('fwdAns' + i).disabled = true;
+      if (scoreOnce(q, true, q.type === 'two' ? 2 : 1)) state.fwdDone++;
+      if (state.fwdDone >= state.fwdTotal) document.getElementById('btnFwdNext').disabled = false;
+    } else {
+      showFb(fb, 'bad', 'Not yet. Apply the rule carefully from left to right' +
+        (q.type === 'two' ? ', one step at a time.' : '.'));
+      scoreOnce(q, false);
+    }
+  };
+
+  window.revealStep = function () {
+    if (state.workedReveal >= 3) return;
+    state.workedReveal++;
+    document.getElementById('ws' + state.workedReveal).classList.add('visible');
+    if (state.workedReveal >= 3) {
+      document.getElementById('btnReveal').disabled = true;
+    }
+    saveProgress();
+  };
+  window.resetWorked = function () {
+    state.workedReveal = 0;
+    for (let i = 1; i <= 3; i++) document.getElementById('ws' + i).classList.remove('visible');
+    document.getElementById('btnReveal').disabled = false;
+  };
+  window.checkTryYourself = function () {
+    const val = Number(document.getElementById('tryOut').value);
+    const fb = document.getElementById('tryFb');
+    const btn = document.getElementById('btnTryCheck');
+    if (btn && btn.disabled) return;
+    if (val === 23) {
+      showFb(fb, 'ok', 'Correct — 9 × 2 = 18, then 18 + 5 = 23.');
+      if (scoreOnce(scoreItems.tryYourself, true, 2)) state.tryDone = true;
+      const t = document.getElementById('tryOut');
+      if (t) t.disabled = true;
+      if (btn) btn.disabled = true;
+      document.getElementById('btnWorkedNext').disabled = false;
+    } else {
+      showFb(fb, 'hint', 'Hint: first multiply 9 by 2, then add 5 to that result.');
+      scoreOnce(scoreItems.tryYourself, false, 0, { everyWrong: true });
+      if (state.workedReveal >= 2) {
+        document.getElementById('btnWorkedNext').disabled = false;
+      }
+    }
+  };
+
+  const backQuestions = [
+    { out: 18, op: 'add', amt: 5, inp: 13, type: 'one', hint: 'Undo + 5 with − 5.' },
+    { out: 9, op: 'mul', amt: 3, inp: 3, type: 'one', hint: 'Undo × 3 with ÷ 3.' },
+    { out: 14, op: 'sub', amt: 6, inp: 20, type: 'one', hint: 'Undo − 6 with + 6.' },
+    { out: 7, op: 'div', amt: 4, inp: 28, type: 'one', hint: 'Undo ÷ 4 with × 4.' },
+    { out: 19, steps: [{ op: 'mul', amt: 2 }, { op: 'add', amt: 5 }], inp: 7, type: 'two',
+      hint: 'Undo + 5 first (get 14), then undo × 2.' },
+    { out: 4, steps: [{ op: 'add', amt: 2 }, { op: 'div', amt: 3 }], inp: 10, type: 'two',
+      hint: 'Undo ÷ 3 first (× 3), then undo + 2.' }
+  ];
+
+  function initBackwards() {
+    state.backTotal = backQuestions.length;
+    const root = document.getElementById('backwardsQuiz');
+    root.innerHTML = '';
+    backQuestions.forEach((q, i) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      let machineHTML;
+      if (q.type === 'one') {
+        machineHTML = machineHTMLOne('?', fmtOp(q.op, q.amt), q.out);
+      } else {
+        machineHTML = machineHTMLTwo('?', fmtOp(q.steps[0].op, q.steps[0].amt), fmtOp(q.steps[1].op, q.steps[1].amt), q.out);
+      }
+      card.innerHTML =
+        '<div class="q-num">Question ' + (i + 1) + ' of ' + backQuestions.length +
+        (q.type === 'two' ? ' · two-step inverse' : '') + '</div>' +
+        '<p class="q-prompt">What is the input?</p>' +
+        machineHTML +
+        '<div class="answer-row">' +
+        '<input type="number" id="backAns' + i + '" min="0" max="9999" placeholder="Input" aria-label="Input answer ' + (i + 1) + '">' +
+        '<button class="btn btn-primary" id="backBtn' + i + '" onclick="checkBack(' + i + ')">Check</button>' +
+        '<button class="btn btn-ghost" onclick="hintBack(' + i + ')">Hint</button>' +
+        '</div>' +
+        '<div class="feedback" id="backFb' + i + '"></div>';
+      root.appendChild(card);
+    });
+  }
+
+  window.hintBack = function (i) {
+    showFb(document.getElementById('backFb' + i), 'hint', backQuestions[i].hint);
+  };
+
+  window.checkBack = function (i) {
+    const q = backQuestions[i];
+    const val = Number(document.getElementById('backAns' + i).value);
+    const fb = document.getElementById('backFb' + i);
+    const btn = document.getElementById('backBtn' + i);
+    if (btn.disabled) return;
+    if (val === q.inp) {
+      showFb(fb, 'ok', 'Correct — the input is ' + q.inp + '. You used the inverse well.');
+      btn.disabled = true;
+      document.getElementById('backAns' + i).disabled = true;
+      if (scoreOnce(q, true, q.type === 'two' ? 2 : 1)) state.backDone++;
+      if (state.backDone >= state.backTotal) document.getElementById('btnBackNext').disabled = false;
+    } else {
+      showFb(fb, 'bad', 'Not yet. Work from the output back through the inverse of each step.');
+      scoreOnce(q, false);
+    }
+  };
+
+  const palettes = {
+    A: ['× 3', '+ 16', '− 4', '÷ 2'],
+    B: ['× 3', '+ 2', '+ 12', '× 2']
+  };
+
+  function initBuild() {
+    setupPalette('A');
+    setupPalette('B');
+    initMatch();
+  }
+
+  function setupPalette(which) {
+    const pal = document.getElementById('palette' + which);
+    pal.innerHTML = '';
+    palettes[which].forEach((label, idx) => {
+      const tok = document.createElement('div');
+      tok.className = 'token';
+      tok.textContent = label;
+      tok.draggable = true;
+      tok.dataset.token = label;
+      tok.dataset.palette = which;
+      tok.id = 'tok-' + which + '-' + idx;
+      tok.setAttribute('role', 'option');
+      tok.tabIndex = 0;
+      tok.addEventListener('click', () => selectToken(tok));
+      tok.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectToken(tok); }
+      });
+      tok.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', JSON.stringify({ label: label, palette: which, id: tok.id }));
+        state.selectedToken = tok;
+      });
+      pal.appendChild(tok);
+    });
+    const slots = which === 'A' ? ['slotA1'] : ['slotB1', 'slotB2'];
+    slots.forEach(sid => {
+      const slot = document.getElementById(sid);
+      slot.addEventListener('click', () => placeInSlot(sid));
+      slot.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); placeInSlot(sid); }
+      });
+      slot.addEventListener('dragover', (e) => { e.preventDefault(); slot.classList.add('drag-over'); });
+      slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
+      slot.addEventListener('drop', (e) => {
+        e.preventDefault();
+        slot.classList.remove('drag-over');
+        try {
+          const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+          const tok = document.getElementById(data.id);
+          if (tok) {
+            state.selectedToken = tok;
+            placeInSlot(sid);
+          }
+        } catch (err) { /* ignore */ }
+      });
+    });
+  }
+
+  function selectToken(tok) {
+    if (tok.classList.contains('used')) return;
+    document.querySelectorAll('.token.selected').forEach(t => t.classList.remove('selected'));
+    tok.classList.add('selected');
+    state.selectedToken = tok;
+  }
+
+  function placeInSlot(slotId) {
+    const tok = state.selectedToken;
+    if (!tok || tok.classList.contains('used')) return;
+    const slotKey = slotId.replace('slot', '');
+    if (state.slots[slotKey]) {
+      const prev = document.getElementById(state.slots[slotKey].tokId);
+      if (prev) prev.classList.remove('used');
+    }
+    const label = tok.dataset.token;
+    state.slots[slotKey] = { label: label, tokId: tok.id };
+    const slot = document.getElementById(slotId);
+    slot.textContent = '';
+    const labEl = document.createElement('span');
+    labEl.className = 'op-label';
+    labEl.textContent = 'Rule';
+    slot.appendChild(labEl);
+    slot.appendChild(document.createTextNode(label));
+    slot.classList.add('filled');
+    saveProgress();
+    tok.classList.add('used');
+    tok.classList.remove('selected');
+    state.selectedToken = null;
+  }
+
+  window.resetBuild = function (which) {
+    const keys = which === 'A' ? ['A1'] : ['B1', 'B2'];
+    keys.forEach(k => {
+      if (state.slots[k]) {
+        const prev = document.getElementById(state.slots[k].tokId);
+        if (prev) prev.classList.remove('used');
+        state.slots[k] = null;
+      }
+      const slot = document.getElementById('slot' + k);
+      slot.innerHTML = '?';
+      slot.classList.remove('filled');
+    });
+    const fb = document.getElementById('buildFb' + which);
+    fb.className = 'feedback';
+    fb.textContent = '';
+  };
+
+  function applyLabel(n, lab) {
+    const m = lab.match(/^([+\u2212\u00d7\u00f7])\s*(\d+)$/);
+    if (!m) return n;
+    const sym = m[1], amt = Number(m[2]);
+    if (sym === '+') return n + amt;
+    if (sym === '\u2212') return n - amt;
+    if (sym === '\u00d7') return n * amt;
+    if (sym === '\u00f7') return n / amt;
+    return n;
+  }
+  function evalTwo(n, lab1, lab2) {
+    return applyLabel(applyLabel(n, lab1), lab2);
+  }
+
+  window.checkBuild = function (which) {
+    const fb = document.getElementById('buildFb' + which);
+    if (which === 'A') {
+      const s = state.slots.A1;
+      if (!s) { showFb(fb, 'hint', 'Place an operation in the slot first.'); return; }
+      if (s.label === '\u00d7 3' || s.label === '+ 16') {
+        const msg = s.label === '\u00d7 3'
+          ? 'Correct — 8 \u00d7 3 = 24.'
+          : 'Correct — 8 + 16 = 24. (\u00d7 3 also works.)';
+        showFb(fb, 'ok', msg);
+        if (scoreOnce(scoreItems.buildA, true, 2)) state.buildA = true;
+        maybeUnlockBuild();
+      } else {
+        showFb(fb, 'bad', 'That rule does not turn 8 into 24. Try again.');
+        scoreOnce(scoreItems.buildA, false);
+      }
+    } else {
+      const s1 = state.slots.B1, s2 = state.slots.B2;
+      if (!s1 || !s2) { showFb(fb, 'hint', 'Fill both slots.'); return; }
+      const out = evalTwo(5, s1.label, s2.label);
+      if (out === 17) {
+        showFb(fb, 'ok', 'Correct — 5 ' + s1.label + ' then ' + s2.label + ' gives 17.');
+        if (scoreOnce(scoreItems.buildB, true, 2)) state.buildB = true;
+        maybeUnlockBuild();
+      } else {
+        showFb(fb, 'bad', 'That gives ' + out + ', not 17. Check the order of the steps.');
+        scoreOnce(scoreItems.buildB, false);
+      }
+    }
+  };
+
+  function maybeUnlockBuild() {
+    if (state.buildA && state.buildB && state.matchPairs >= 4) {
+      document.getElementById('btnBuildNext').disabled = false;
+    }
+  }
+
+  const matchData = {
+    left: [
+      { id: 'L1', label: '+ 7', pair: 'R1' },
+      { id: 'L2', label: '\u00d7 4', pair: 'R2' },
+      { id: 'L3', label: '\u2212 3', pair: 'R3' },
+      { id: 'L4', label: '\u00f7 5', pair: 'R4' }
+    ],
+    right: [
+      { id: 'R2', label: '\u00f7 4' },
+      { id: 'R3', label: '+ 3' },
+      { id: 'R1', label: '\u2212 7' },
+      { id: 'R4', label: '\u00d7 5' }
+    ]
+  };
+
+  function initMatch() {
+    const left = document.getElementById('matchLeft');
+    const right = document.getElementById('matchRight');
+    left.innerHTML = '';
+    right.innerHTML = '';
+    matchData.left.forEach(item => {
+      const d = document.createElement('div');
+      d.className = 'match-item';
+      d.textContent = item.label;
+      d.dataset.id = item.id;
+      d.dataset.pair = item.pair;
+      d.dataset.side = 'L';
+      d.addEventListener('click', () => onMatchClick(d));
+      left.appendChild(d);
+    });
+    matchData.right.forEach(item => {
+      const d = document.createElement('div');
+      d.className = 'match-item';
+      d.textContent = item.label;
+      d.dataset.id = item.id;
+      d.dataset.side = 'R';
+      d.addEventListener('click', () => onMatchClick(d));
+      right.appendChild(d);
+    });
+  }
+
+  function onMatchClick(el) {
+    if (el.classList.contains('matched')) return;
+    if (!state.matchSelected) {
+      document.querySelectorAll('.match-item.selected').forEach(x => x.classList.remove('selected'));
+      el.classList.add('selected');
+      state.matchSelected = el;
+      return;
+    }
+    if (state.matchSelected === el) {
+      el.classList.remove('selected');
+      state.matchSelected = null;
+      return;
+    }
+    const a = state.matchSelected;
+    const b = el;
+    if (a.dataset.side === b.dataset.side) {
+      a.classList.remove('selected');
+      b.classList.add('selected');
+      state.matchSelected = b;
+      return;
+    }
+    const leftEl = a.dataset.side === 'L' ? a : b;
+    const rightEl = a.dataset.side === 'R' ? a : b;
+    if (leftEl.dataset.pair === rightEl.dataset.id) {
+      leftEl.classList.remove('selected');
+      rightEl.classList.remove('selected');
+      leftEl.classList.add('matched');
+      rightEl.classList.add('matched');
+      state.matchPairs++;
+      if (state.matchMatchedIds.indexOf(leftEl.dataset.id) === -1) {
+        state.matchMatchedIds.push(leftEl.dataset.id);
+      }
+      state.matchSelected = null;
+      scoreOnce(matchScoreItem(leftEl.dataset.id), true, 1);
+      saveProgress();
+      showFb(document.getElementById('matchFb'), 'ok',
+        'Matched ' + state.matchPairs + ' of 4 pairs.');
+      if (state.matchPairs >= 4) {
+        showFb(document.getElementById('matchFb'), 'ok',
+          'All inverse pairs matched. + undoes \u2212, and \u00d7 undoes \u00f7.');
+        maybeUnlockBuild();
+      }
+    } else {
+      rightEl.classList.add('shake');
+      leftEl.classList.add('shake');
+      setTimeout(() => {
+        rightEl.classList.remove('shake');
+        leftEl.classList.remove('shake');
+        a.classList.remove('selected');
+      }, 400);
+      state.matchSelected = null;
+      scoreOnce({}, false, 0, { everyWrong: true });
+      showFb(document.getElementById('matchFb'), 'bad',
+        'Those are not inverses. Remember: + \u2194 \u2212 and \u00d7 \u2194 \u00f7 (same number).');
+    }
+  }
+
+  const scafQ = [
+    { input: 10, op: 'add', amt: 5, out: 15, dir: 'fwd', hint: 'Add 5 to 10.' },
+    { input: 15, op: 'mul', amt: 2, out: 30, dir: 'fwd', hint: 'Multiply 15 by 2.' },
+    { out: 12, op: 'add', amt: 4, inp: 8, dir: 'back', hint: 'Undo + 4: do 12 − 4.' },
+    { out: 20, op: 'mul', amt: 5, inp: 4, dir: 'back', hint: 'Undo × 5: do 20 ÷ 5.' }
+  ];
+  window.scafQ = scafQ;
+
+  function initScaffold() {
+    state.scafTotal = scafQ.length;
+    const root = document.getElementById('scaffoldQuiz');
+    if (root.dataset.ready) return;
+    root.dataset.ready = '1';
+    root.innerHTML = '';
+    scafQ.forEach((q, i) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      const isFwd = q.dir === 'fwd';
+      const machine = machineHTMLOne(isFwd ? q.input : '?', fmtOp(q.op, q.amt), isFwd ? '?' : q.out);
+      card.innerHTML =
+        '<div class="q-num">Review ' + (i + 1) + ' · ' + (isFwd ? 'find output' : 'find input') + '</div>' +
+        '<p class="q-prompt">' + (isFwd ? 'What is the output?' : 'What is the input?') + '</p>' +
+        machine +
+        '<div class="answer-row">' +
+        '<input type="number" id="scafAns' + i + '" min="0" max="9999" placeholder="Answer">' +
+        '<button class="btn btn-primary" id="scafBtn' + i + '" onclick="checkScaf(' + i + ')">Check</button>' +
+        '<button class="btn btn-ghost" onclick="hintScaf(' + i + ')">Hint</button>' +
+        '</div>' +
+        '<div class="feedback" id="scafFb' + i + '"></div>';
+      root.appendChild(card);
+    });
+  }
+
+  window.hintScaf = function (i) {
+    showFb(document.getElementById('scafFb' + i), 'hint', scafQ[i].hint);
+  };
+
+  window.checkScaf = function (i) {
+    const q = scafQ[i];
+    const val = Number(document.getElementById('scafAns' + i).value);
+    const fb = document.getElementById('scafFb' + i);
+    const btn = document.getElementById('scafBtn' + i);
+    if (btn.disabled) return;
+    const target = q.dir === 'fwd' ? q.out : q.inp;
+    if (val === target) {
+      showFb(fb, 'ok', 'Well done — that is correct.');
+      btn.disabled = true;
+      document.getElementById('scafAns' + i).disabled = true;
+      if (scoreOnce(q, true, 1)) state.scafDone++;
+      if (state.scafDone >= state.scafTotal) document.getElementById('btnScafNext').disabled = false;
+    } else {
+      showFb(fb, 'bad', 'Try the hint, then check again.');
+      scoreOnce(q, false);
+    }
+  };
+
+  const stretchQ = [
+    { input: 6, steps: [{ op: 'mul', amt: 4 }, { op: 'sub', amt: 3 }], out: 21, dir: 'fwd' },
+    { input: 18, steps: [{ op: 'div', amt: 3 }, { op: 'add', amt: 7 }], out: 13, dir: 'fwd' },
+    { out: 25, steps: [{ op: 'mul', amt: 3 }, { op: 'add', amt: 4 }], inp: 7, dir: 'back',
+      hint: 'Undo + 4 first → 21, then ÷ 3 → 7.' },
+    { out: 9, steps: [{ op: 'sub', amt: 1 }, { op: 'div', amt: 2 }], inp: 19, dir: 'back',
+      hint: 'Undo ÷ 2 first (× 2) → 18, then undo − 1 (+ 1) → 19.' },
+    {
+      type: 'mc',
+      prompt: 'Input 4 gives output 14. Which machine could it be?',
+      options: [
+        { label: '× 2 then + 6', ok: true },
+        { label: '+ 6 then × 2', ok: false },
+        { label: '× 3 then + 1', ok: false },
+        { label: '÷ 2 then + 12', ok: true }
+      ]
+    }
+  ];
+
+  function initStretch() {
+    state.stretchTotal = stretchQ.length;
+    const root = document.getElementById('stretchQuiz');
+    if (root.dataset.ready) return;
+    root.dataset.ready = '1';
+    root.innerHTML = '';
+    stretchQ.forEach((q, i) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      if (q.type === 'mc') {
+        let opts = '<div class="mc-options">';
+        q.options.forEach((o, j) => {
+          opts += '<button class="mc-btn" id="stMc' + i + '_' + j + '" onclick="checkStretchMc(' + i + ',' + j + ')">' +
+            o.label + '</button>';
+        });
+        opts += '</div>';
+        card.innerHTML =
+          '<div class="q-num">Challenge ' + (i + 1) + ' · choose the machine</div>' +
+          '<p class="q-prompt">' + q.prompt + '</p>' + opts +
+          '<div class="feedback" id="stFb' + i + '"></div>';
+      } else {
+        const isFwd = q.dir === 'fwd';
+        const machine = machineHTMLTwo(
+          isFwd ? q.input : '?',
+          fmtOp(q.steps[0].op, q.steps[0].amt),
+          fmtOp(q.steps[1].op, q.steps[1].amt),
+          isFwd ? '?' : q.out
+        );
+        const hintBtn = q.hint
+          ? '<button class="btn btn-ghost" onclick="hintStretch(' + i + ')">Hint</button>'
+          : '';
+        card.innerHTML =
+          '<div class="q-num">Challenge ' + (i + 1) + ' · ' + (isFwd ? 'find output' : 'find input') + '</div>' +
+          '<p class="q-prompt">' + (isFwd ? 'What is the output?' : 'What is the input?') + '</p>' +
+          machine +
+          '<div class="answer-row">' +
+          '<input type="number" id="stAns' + i + '" min="0" max="9999" placeholder="Answer">' +
+          '<button class="btn btn-primary" id="stBtn' + i + '" onclick="checkStretch(' + i + ')">Check</button>' +
+          hintBtn +
+          '</div>' +
+          '<div class="feedback" id="stFb' + i + '"></div>';
+      }
+      root.appendChild(card);
+    });
+  }
+
+  window.hintStretch = function (i) {
+    showFb(document.getElementById('stFb' + i), 'hint', stretchQ[i].hint);
+  };
+
+  window.checkStretch = function (i) {
+    const q = stretchQ[i];
+    const val = Number(document.getElementById('stAns' + i).value);
+    const fb = document.getElementById('stFb' + i);
+    const btn = document.getElementById('stBtn' + i);
+    if (btn.disabled) return;
+    const target = q.dir === 'fwd' ? q.out : q.inp;
+    if (val === target) {
+      showFb(fb, 'ok', 'Excellent — ' + target + ' is right.');
+      btn.disabled = true;
+      document.getElementById('stAns' + i).disabled = true;
+      if (scoreOnce(q, true, 2)) state.stretchDone++;
+      if (state.stretchDone >= state.stretchTotal) document.getElementById('btnStretchNext').disabled = false;
+    } else {
+      showFb(fb, 'bad', 'Not yet. Work carefully through each step' +
+        (q.dir === 'back' ? ' from right to left.' : '.'));
+      scoreOnce(q, false);
+    }
+  };
+
+  window.checkStretchMc = function (i, j) {
+    const q = stretchQ[i];
+    if (q._scored) return;
+    const fb = document.getElementById('stFb' + i);
+    const opt = q.options[j];
+    const btn = document.getElementById('stMc' + i + '_' + j);
+    if (opt.ok) {
+      btn.classList.add('correct');
+      showFb(fb, 'ok', 'Yes — that machine gives 14 from 4. (Order matters: + 6 then × 2 gives 20.)');
+      q.options.forEach((_, k) => { document.getElementById('stMc' + i + '_' + k).disabled = true; });
+      if (scoreOnce(q, true, 2)) state.stretchDone++;
+      if (state.stretchDone >= state.stretchTotal) document.getElementById('btnStretchNext').disabled = false;
+    } else {
+      btn.classList.add('wrong');
+      btn.disabled = true;
+      showFb(fb, 'bad', 'That machine does not give 14 from 4. Try another.');
+      scoreOnce(q, false);
+    }
+  };
+
+  const exitQ = [
+    { input: 9, op: 'mul', amt: 3, out: 27, dir: 'fwd' },
+    { out: 16, op: 'sub', amt: 5, inp: 21, dir: 'back' },
+    { input: 4, steps: [{ op: 'mul', amt: 5 }, { op: 'add', amt: 3 }], out: 23, dir: 'fwd' },
+    { out: 11, steps: [{ op: 'add', amt: 1 }, { op: 'div', amt: 2 }], inp: 21, dir: 'back' }
+  ];
+
+  function initExit() {
+    state.exitTotal = exitQ.length;
+    const root = document.getElementById('exitQuiz');
+    root.innerHTML = '';
+    exitQ.forEach((q, i) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      const isFwd = q.dir === 'fwd';
+      let machine;
+      if (q.steps) {
+        machine = machineHTMLTwo(
+          isFwd ? q.input : '?',
+          fmtOp(q.steps[0].op, q.steps[0].amt),
+          fmtOp(q.steps[1].op, q.steps[1].amt),
+          isFwd ? '?' : q.out
+        );
+      } else {
+        machine = machineHTMLOne(isFwd ? q.input : '?', fmtOp(q.op, q.amt), isFwd ? '?' : q.out);
+      }
+      card.innerHTML =
+        '<div class="q-num">Exit ' + (i + 1) + ' of ' + exitQ.length + '</div>' +
+        '<p class="q-prompt">' + (isFwd ? 'What is the output?' : 'What is the input?') + '</p>' +
+        machine +
+        '<div class="answer-row">' +
+        '<input type="number" id="exAns' + i + '" min="0" max="9999" placeholder="Answer">' +
+        '<button class="btn btn-primary" id="exBtn' + i + '" onclick="checkExit(' + i + ')">Check</button>' +
+        '</div>' +
+        '<div class="feedback" id="exFb' + i + '"></div>';
+      root.appendChild(card);
+    });
+  }
+
+  window.checkExit = function (i) {
+    const q = exitQ[i];
+    const val = Number(document.getElementById('exAns' + i).value);
+    const fb = document.getElementById('exFb' + i);
+    const btn = document.getElementById('exBtn' + i);
+    if (btn.disabled) return;
+    const target = q.dir === 'fwd' ? q.out : q.inp;
+    if (val === target) {
+      showFb(fb, 'ok', 'Correct.');
+      btn.disabled = true;
+      document.getElementById('exAns' + i).disabled = true;
+      if (scoreOnce(q, true, 1)) {
+        state.exitDone++;
+        state.exitCorrect++;
+      }
+      saveProgress();
+    } else {
+      showFb(fb, 'bad', 'Not yet — try again.');
+      scoreOnce(q, false);
+      /* Keep input and Check enabled so the learner can retry until correct. */
+    }
+    if (state.exitDone >= state.exitTotal) {
+      document.getElementById('btnFinish').disabled = false;
+    }
+  };
+
+  window.finishExit = function () {
+    const pct = Math.round((state.exitCorrect / state.exitTotal) * 100);
+    let msg;
+    if (pct >= 75) msg = 'Strong finish. You can find outputs and use inverse operations to find inputs.';
+    else if (pct >= 50) msg = 'A solid start. Revisit the backwards section if inverse steps still feel tricky.';
+    else msg = 'Keep practising one-step machines first, then try two-step again.';
+
+    document.getElementById('finalSummary').innerHTML =
+      '<p class="big-score">' + state.exitCorrect + ' / ' + state.exitTotal + '</p>' +
+      '<p>Exit ticket score</p>' +
+      '<div class="summary-grid">' +
+      '<div class="summary-card"><div class="val">' + state.score + '</div><div class="lbl">Lesson points</div></div>' +
+      '<div class="summary-card"><div class="val">' + state.correct + '</div><div class="lbl">Correct answers</div></div>' +
+      '<div class="summary-card"><div class="val">' +
+      (state.adaptivePath === 'stretch' ? 'Stretch' : 'Scaffold') +
+      '</div><div class="lbl">Path taken</div></div>' +
+      '</div>' +
+      '<p style="margin-top:1rem">' + msg + '</p>';
+
+    goTo(8);
+  };
+
+  window.restartLesson = function () {
+    const clear = confirm('Also clear saved progress?\n\nOK = clear saved progress and restart\nCancel = restart but keep saved progress');
+    if (clear) {
+      skipProgressSave = true;
+      try { localStorage.removeItem(PROGRESS_KEY); } catch (e) { /* ignore */ }
+    }
+    location.reload();
+  };
+
+
+  const algQuestions = [
+    { kind: 'sub', expr: 'x + 4', letter: 'x', value: 6, ans: 10, steps: 'one',
+      prompt: 'Work out the value of x + 4 when x = 6.',
+      ok: 'Yes — 6 + 4 = 10.' },
+    { kind: 'sub', expr: '3x', letter: 'x', value: 5, ans: 15, steps: 'one',
+      prompt: 'Work out the value of 3x when x = 5.',
+      ok: 'Yes — 3 × 5 = 15.' },
+    { kind: 'sub', expr: '2x + 3', letter: 'x', value: 4, ans: 11, steps: 'two',
+      prompt: 'Work out the value of 2x + 3 when x = 4.',
+      ok: 'Yes — 2 × 4 = 8, then 8 + 3 = 11.' },
+    { kind: 'sub', expr: '4x − 1', letter: 'x', value: 3, ans: 11, steps: 'two',
+      prompt: 'Work out the value of 4x − 1 when x = 3.',
+      ok: 'Yes — 4 × 3 = 12, then 12 − 1 = 11.' },
+    { kind: 'out', expr: '2x', input: 7, ans: 14, steps: 'one',
+      prompt: 'The input is 7. The rule is 2x, where x is the input. What is the output?',
+      ok: 'Yes — 2 × 7 = 14.' },
+    { kind: 'out', expr: 'x + 5', input: 9, ans: 14, steps: 'one',
+      prompt: 'The input is 9. The rule is x + 5, where x is the input. What is the output?',
+      ok: 'Yes — 9 + 5 = 14.' },
+    { kind: 'out', expr: '3x + 2', input: 4, ans: 14, steps: 'two',
+      prompt: 'The input is 4. The rule is 3x + 2, where x is the input. What is the output?',
+      ok: 'Yes — 3 × 4 = 12, then 12 + 2 = 14.' },
+    { kind: 'in', expr: 'x + 4', output: 11, ans: 7, steps: 'one',
+      prompt: 'The rule is x + 4, where x is the input. The output is 11. What is the input?',
+      ok: 'Yes — the input is 7, because 7 + 4 = 11.' },
+    { kind: 'in', expr: '3x', output: 18, ans: 6, steps: 'one',
+      prompt: 'The rule is 3x, where x is the input. The output is 18. What is the input?',
+      ok: 'Yes — the input is 6, because 3 × 6 = 18.' },
+    { kind: 'in', expr: '2x + 3', output: 11, ans: 4, steps: 'two',
+      prompt: 'The rule is 2x + 3, where x is the input. The output is 11. What is the input?',
+      ok: 'Yes — the input is 4, because 2 × 4 + 3 = 11.' },
+    { kind: 'in', expr: '5x − 2', output: 13, ans: 3, steps: 'two',
+      prompt: 'The rule is 5x − 2, where x is the input. The output is 13. What is the input?',
+      ok: 'Yes — the input is 3, because 5 × 3 − 2 = 13.' },
+    { kind: 'sub', expr: 'x − 3', letter: 'x', value: 8, ans: 5, steps: 'one',
+      prompt: 'Work out the value of x − 3 when x = 8.',
+      ok: 'Yes — 8 − 3 = 5.' },
+    { kind: 'sub', expr: '4x', letter: 'x', value: 6, ans: 24, steps: 'one',
+      prompt: 'Work out the value of 4x when x = 6.',
+      ok: 'Yes — 4 × 6 = 24.' },
+    { kind: 'sub', expr: 'x ÷ 2', letter: 'x', value: 14, ans: 7, steps: 'one',
+      prompt: 'Work out the value of x ÷ 2 when x = 14.',
+      ok: 'Yes — 14 ÷ 2 = 7.' },
+    { kind: 'sub', expr: '3x − 4', letter: 'x', value: 5, ans: 11, steps: 'two',
+      prompt: 'Work out the value of 3x − 4 when x = 5.',
+      ok: 'Yes — 3 × 5 = 15, then 15 − 4 = 11.' },
+    { kind: 'sub', expr: '5x + 1', letter: 'x', value: 2, ans: 11, steps: 'two',
+      prompt: 'Work out the value of 5x + 1 when x = 2.',
+      ok: 'Yes — 5 × 2 = 10, then 10 + 1 = 11.' },
+    { kind: 'sub', expr: 'x ÷ 3 + 2', letter: 'x', value: 9, ans: 5, steps: 'two',
+      prompt: 'Work out the value of x ÷ 3 + 2 when x = 9.',
+      ok: 'Yes — 9 ÷ 3 = 3, then 3 + 2 = 5.' },
+    { kind: 'out', expr: 'x − 3', input: 10, ans: 7, steps: 'one',
+      prompt: 'The input is 10. The rule is x − 3, where x is the input. What is the output?',
+      ok: 'Yes — 10 − 3 = 7.' },
+    { kind: 'out', expr: '4x', input: 5, ans: 20, steps: 'one',
+      prompt: 'The input is 5. The rule is 4x, where x is the input. What is the output?',
+      ok: 'Yes — 4 × 5 = 20.' },
+    { kind: 'out', expr: 'x ÷ 2', input: 16, ans: 8, steps: 'one',
+      prompt: 'The input is 16. The rule is x ÷ 2, where x is the input. What is the output?',
+      ok: 'Yes — 16 ÷ 2 = 8.' },
+    { kind: 'out', expr: '2x − 5', input: 6, ans: 7, steps: 'two',
+      prompt: 'The input is 6. The rule is 2x − 5, where x is the input. What is the output?',
+      ok: 'Yes — 2 × 6 = 12, then 12 − 5 = 7.' },
+    { kind: 'out', expr: '6x + 2', input: 3, ans: 20, steps: 'two',
+      prompt: 'The input is 3. The rule is 6x + 2, where x is the input. What is the output?',
+      ok: 'Yes — 6 × 3 = 18, then 18 + 2 = 20.' },
+    { kind: 'out', expr: 'x ÷ 4 + 1', input: 12, ans: 4, steps: 'two',
+      prompt: 'The input is 12. The rule is x ÷ 4 + 1, where x is the input. What is the output?',
+      ok: 'Yes — 12 ÷ 4 = 3, then 3 + 1 = 4.' },
+    { kind: 'in', expr: 'x − 3', output: 12, ans: 15, steps: 'one',
+      prompt: 'The rule is x − 3, where x is the input. The output is 12. What is the input?',
+      ok: 'Yes — the input is 15, because 15 − 3 = 12.' },
+    { kind: 'in', expr: '4x', output: 28, ans: 7, steps: 'one',
+      prompt: 'The rule is 4x, where x is the input. The output is 28. What is the input?',
+      ok: 'Yes — the input is 7, because 4 × 7 = 28.' },
+    { kind: 'in', expr: 'x ÷ 2', output: 9, ans: 18, steps: 'one',
+      prompt: 'The rule is x ÷ 2, where x is the input. The output is 9. What is the input?',
+      ok: 'Yes — the input is 18, because 18 ÷ 2 = 9.' },
+    { kind: 'in', expr: '3x − 4', output: 14, ans: 6, steps: 'two',
+      prompt: 'The rule is 3x − 4, where x is the input. The output is 14. What is the input?',
+      ok: 'Yes — the input is 6, because 3 × 6 = 18, then 18 − 4 = 14.' },
+    { kind: 'in', expr: '5x + 1', output: 16, ans: 3, steps: 'two',
+      prompt: 'The rule is 5x + 1, where x is the input. The output is 16. What is the input?',
+      ok: 'Yes — the input is 3, because 5 × 3 = 15, then 15 + 1 = 16.' },
+    { kind: 'in', expr: 'x ÷ 3 + 2', output: 6, ans: 12, steps: 'two',
+      prompt: 'The rule is x ÷ 3 + 2, where x is the input. The output is 6. What is the input?',
+      ok: 'Yes — the input is 12, because 12 ÷ 3 = 4, then 4 + 2 = 6.' }
+  ];
+
+  function initAlgebra() {
+    const root = document.getElementById('algebraQuiz');
+    if (!root) return;
+    root.innerHTML = '';
+    algQuestions.forEach(function (q, i) {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      card.dataset.kind = q.kind;
+      card.dataset.expr = q.expr;
+      let visual = '';
+      if (q.kind === 'sub') {
+        visual = '<div class="machine-row">' +
+          '<div class="op-box"><span class="op-label">Expression</span>' + q.expr + '</div>' +
+          '<span class="arrow">→</span>' +
+          '<div class="io-box"><span class="io-label">When ' + q.letter + ' =</span>' + q.value + '</div>' +
+          '</div>';
+      } else if (q.kind === 'out') {
+        visual = machineHTMLOne(q.input, q.expr, '?');
+      } else {
+        visual = machineHTMLOne('?', q.expr, q.output);
+      }
+      const stepNote = q.steps === 'two' ? ' · two-step' : ' · one-step';
+      const kindLabel = q.kind === 'sub' ? 'Substitute' : (q.kind === 'out' ? 'Find the output' : 'Find the input');
+      card.innerHTML =
+        '<div class="q-num">Question ' + (i + 1) + ' of ' + algQuestions.length + stepNote + ' · ' + kindLabel + '</div>' +
+        '<p class="q-prompt">' + q.prompt + '</p>' +
+        visual +
+        '<div class="answer-row">' +
+        '<input type="number" id="algAns' + i + '" min="0" max="9999" placeholder="Answer" aria-label="Answer for letters question ' + (i + 1) + '">' +
+        '<button class="btn btn-primary" id="algBtn' + i + '" onclick="checkAlg(' + i + ')">Check</button>' +
+        '</div>' +
+        '<div class="feedback" id="algFb' + i + '"></div>';
+      root.appendChild(card);
+    });
+  }
+
+  window.checkAlg = function (i) {
+    const q = algQuestions[i];
+    const input = document.getElementById('algAns' + i);
+    const val = Number(input.value);
+    const fb = document.getElementById('algFb' + i);
+    const btn = document.getElementById('algBtn' + i);
+    if (!btn || btn.disabled) return;
+    if (val === q.ans) {
+      showFb(fb, 'ok', q.ok);
+      btn.disabled = true;
+      input.disabled = true;
+      scoreOnce(q, true, q.steps === 'two' ? 2 : 1);
+    } else {
+      showFb(fb, 'bad', 'Not yet. Try again.');
+      scoreOnce(q, false);
+    }
+  };
+
+  const TOPICS = [
+    { label: 'Introduction', index: 0 },
+    { label: 'Explore: one-step machine', index: 1 },
+    { label: 'Practise: find the output', index: 2 },
+    { label: 'Worked example: two-step machine', index: 3 },
+    { label: 'Practise: find the input', index: 4 },
+    { label: 'Build a machine', index: 5 },
+    { label: 'Review with support', index: 6, path: 'scaffold' },
+    { label: 'Challenge', index: 6, path: 'stretch' },
+    { label: 'Exit ticket', index: 7 },
+    { label: 'Letters and numbers', index: 9 }
+  ];
+
+  function fillTopicMenu(el) {
+    TOPICS.forEach(function (t) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn btn-secondary topic-btn';
+      b.textContent = t.label;
+      b.onclick = function () { jumpTopic(t.index, t.path || null); };
+      el.appendChild(b);
+    });
+  }
+
+  function closeTopicMenu() {
+    const menu = document.getElementById('topicMenu');
+    const btn = document.getElementById('topicsBtn');
+    if (menu) menu.hidden = true;
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
+
+  window.toggleTopicMenu = function () {
+    const menu = document.getElementById('topicMenu');
+    const btn = document.getElementById('topicsBtn');
+    if (!menu || !btn) return;
+    const willOpen = !!menu.hidden;
+    menu.hidden = !willOpen;
+    btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    if (willOpen) {
+      const first = menu.querySelector('button');
+      if (first) first.focus();
+    }
+  };
+
+  function jumpTopic(index, path) {
+    const banner = document.getElementById('resumeBanner');
+    if (banner) banner.classList.remove('show');
+    if (state._pendingProgress) {
+      const pending = state._pendingProgress;
+      state._pendingProgress = null;
+      if (path === 'scaffold' || path === 'stretch') pending.adaptivePath = path;
+      pending.sectionIndex = index;
+      applyProgress(pending);
+      closeTopicMenu();
+      return;
+    }
+    if (path === 'scaffold') {
+      state.adaptivePath = 'scaffold';
+      initScaffold();
+    } else if (path === 'stretch') {
+      state.adaptivePath = 'stretch';
+      initStretch();
+    }
+    closeTopicMenu();
+    goTo(index);
+  }
+  window.jumpTopic = jumpTopic;
+
+  function init() {
+    fillTopicMenu(document.getElementById('introTopicMenu'));
+    fillTopicMenu(document.getElementById('topicMenu'));
+    initForwards();
+    initBackwards();
+    initBuild();
+    initExit();
+    initAlgebra();
+    runExplore();
+    updateHeader();
+    showResumeBannerIfNeeded();
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeTopicMenu();
+  });
+
+  window.validateProgress = validateProgress;
+  window.buildProgressPayload = buildProgressPayload;
+  window.PROGRESS_KEY = PROGRESS_KEY;
+  window.algQuestions = algQuestions;
+  window.PROGRESS_MAX_BYTES = PROGRESS_MAX_BYTES;
+  window.applyProgress = applyProgress;
+  window.resetLessonRuntime = resetLessonRuntime;
+  window.scoreOnce = scoreOnce;
+  window.scoreItems = scoreItems;
+  window.record = record;
+
+  window.addEventListener('pagehide', saveProgress);
+  window.addEventListener('beforeunload', saveProgress);
+
+  init();
+})();
+</script>
+</body>
+</html>
