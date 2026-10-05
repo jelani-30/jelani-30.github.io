@@ -1,0 +1,51 @@
+e: "Neutral.", difficulty: 2 },
+    { letter: "X", hands: "two", tip: "Cross the index fingers (or wrists) to form X.", movement: "Hold cross.", face: "Neutral.", difficulty: 2 },
+    { letter: "Y", hands: "two", tip: "Link dominant thumb + index tips with non-dominant thumb + index tips (Y join).", movement: "Hold.", face: "Neutral.", difficulty: 3 },
+    { letter: "Z", hands: "two", tip: "Draw a Z on the non-dominant palm with the dominant index finger.", movement: "Trace Z clearly.", face: "Neutral.", difficulty: 2 }
+  ],
+
+  beginnerSigns: [
+    {
+      id: "hello", gloss: "HELLO", english: "Hello",
+      tip: "Open flat hand near the side of the forehead / temple area; move the hand forward slightly in a small greeting arc (confirm with video — regional variation exists).",
+      movement: "Small forward movement from head area.", face: "Smile / friendly expression — facial expression is part of BSL.",
+      difficulty: 1, videoSearch: "https://www.signbsl.com/sign/hello", category: "greetings",
+      videos: [
+        { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/hello" },
+        { source: "ndcs", label: "NDCS Family", variety: "family/child-friendly", url: "https://www.youtube.com/@NationalDeafChildrensSociety" },
+        { source: "commanding-hands", label: "Commanding Hands", variety: "family/child-friendly", url: "https://www.youtube.com/@CommandingHands" }
+      ]
+    },
+    {
+      id: "goodbye", gloss: "GOODBYE", english: "Goodbye",
+      tip: "Open hand waves or closes in a goodbye motion at chest/head height — check Sign BSL for the form you will use at home.",
+      movement: "Wave or closing action.", face: "Friendly.",
+      difficulty: 1, videoSearch: "https://www.signbsl.com/sign/goodbye", category: "greetings",
+      videos: [
+        { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/goodbye" },
+        { source: "british-sign", label: "british-sign", variety: "multi-signer dictionary", url: "https://www.british-sign.co.uk/" }
+      ]
+    },
+    {
+      id: "please", gloss: "PLEASE", english: "Please",
+      tip: "Flat hand circles on the chest (common PLEASE). Match the exact path in a UK BSL video.",
+      movement: "Circular on chest.", face: "Polite / soft.",
+      difficulty: 1, videoSearch: "https://www.signbsl.com/sign/please", category: "manners",
+      videos: [
+        { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/please" },
+        { source: "school-of-signs", label: "School of Signs", variety: "family/child-friendly", url: "https://theschoolofsigns.org.uk/" }
+      ]
+    },
+    {
+      id: "thank-you", gloss: "THANK-YOU", english: "Thank you",
+      tip: "Fingertips of flat hand touch chin then move forward/down (common THANK-YOU).",
+      movement: "Chin → forward.", face: "Grateful smile.",
+      difficulty: 1, videoSearch: "https://www.signbsl.com/sign/thank-you", category: "manners",
+      videos: [
+        { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/thank-you" },
+        { source: "ndcs", label: "NDCS Family", variety: "family/child-friendly", url: "https://www.youtube.com/@NationalDeafChildrensSociety" }
+      ]
+    },
+    {
+      id: "yes", gloss: "YES", english: "Yes",
+      tip: "Fist nods (like a head nod with the hand) — confirm local form 
