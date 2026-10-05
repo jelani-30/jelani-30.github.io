@@ -1,0 +1,30 @@
+source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/bad" }]
+    }
+  ],
+
+  packs: {
+    family: [
+      { id: "mum", gloss: "MUM", english: "Mum", tip: "Open hand taps side of chin/cheek twice (common MUM) — confirm on Sign BSL / NDCS.", movement: "Short taps at cheek.", face: "Warm.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/mum", category: "family",
+        videos: [
+          { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/mum" },
+          { source: "ndcs", label: "NDCS Family", variety: "family/child-friendly", url: "https://www.youtube.com/@NationalDeafChildrensSociety" }
+        ]},
+      { id: "dad", gloss: "DAD", english: "Dad", tip: "Open hand taps forehead/temple area twice (common DAD) — check video.", movement: "Short taps at forehead.", face: "Warm.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/dad", category: "family",
+        videos: [
+          { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/dad" },
+          { source: "ndcs", label: "NDCS Family", variety: "family/child-friendly", url: "https://www.youtube.com/@NationalDeafChildrensSociety" }
+        ]},
+      { id: "sister", gloss: "SISTER", english: "Sister", tip: "Often indexed from chin or linked fingers — verify exact UK BSL form on Sign BSL.", movement: "Short path from face/chin.", face: "Neutral / friendly.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/sister", category: "family",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/sister" }]},
+      { id: "brother", gloss: "BROTHER", english: "Brother", tip: "Often indexed from forehead or linked fingers — check Sign BSL, not ASL.", movement: "Short path from forehead.", face: "Neutral.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/brother", category: "family",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/brother" }]},
+      { id: "baby", gloss: "BABY", english: "Baby", tip: "Arms cradle / rock as if holding a baby.", movement: "Gentle rock.", face: "Soft / caring.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/baby", category: "family",
+        videos: [
+          { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/baby" },
+          { source: "ndcs", label: "NDCS Family", variety: "family/child-friendly", url: "https://www.youtube.com/@NationalDeafChildrensSociety" }
+        ]},
+      { id: "family", gloss: "FAMILY", english: "Family", tip: "Fingers linked or circle around family group — match Sign BSL demo.", movement: "Group / circle gesture.", face: "Inclusive.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/family", category: "family",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/family" }]},
+      { id: "friend", gloss: "FRIEND", english: "Friend", tip: "Index fingers hook or tap together (common FRIEND).", movement: "Hook / tap.", face: "Friendly smile.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/friend", category: "family",
+        videos: [
+          { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url
