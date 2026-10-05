@@ -1,0 +1,67 @@
+A</h2>
+          <div id="guide-hand"></div>
+          <div id="guide-demo"></div>
+        </div>
+        <div class="card">
+          <div id="guide-step-pills" class="step-pills" aria-label="Formation steps"></div>
+          <div id="guide-step-card" class="guide-step-card">
+            <p id="guide-step-label" class="step-label">Step 1</p>
+            <p id="guide-step-text" class="guide-step-text"></p>
+          </div>
+          <div class="feedback info" id="guide-feedback"></div>
+          <div class="nav-row">
+            <button type="button" class="secondary" id="btn-guide-prev-step">← Prev step</button>
+            <button type="button" class="big" id="btn-guide-next-step">Next step →</button>
+          </div>
+          <div class="nav-row" style="margin-top:.5rem">
+            <button type="button" class="secondary" id="btn-guide-play-all">▶️ Play all steps</button>
+            <button type="button" class="secondary" id="btn-guide-next-letter">Next letter →</button>
+            <button type="button" class="secondary" id="btn-guide-speak">🗣️ Replay coach</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORIES -->
+    <section id="screen-stories" class="screen" aria-label="Signed stories">
+      <div class="toolbar">
+        <button type="button" class="secondary" id="btn-stories-back">← Home</button>
+        <span class="level-chip">Signed stories · UK BSL</span>
+      </div>
+      <div id="stories-list" class="grid"></div>
+      <div id="story-player" class="card" style="display:none;margin-top:1rem">
+        <p id="story-coach-banner" class="coach-banner" style="display:none">Conversation coach — watch the turn strip, form each sign in-panel, then listen for spoken guidance.</p>
+        <h2 id="story-title"></h2>
+        <p id="story-progress" class="level-chip"></p>
+        <div id="story-turn-strip" class="turn-strip" aria-label="Conversation turns"></div>
+        <p id="story-role" class="turn-role"></p>
+        <p id="story-english" class="hero" style="margin:0.6rem 0"></p>
+        <p id="story-gloss" class="spell-word"></p>
+        <div id="story-sign-coach" class="sign-coach-panel" aria-label="How to form signs"></div>
+        <div id="story-demo"></div>
+        <div class="nav-row" style="margin-top:0.8rem">
+          <button type="button" class="secondary" id="btn-story-prev">← Back</button>
+          <button type="button" class="secondary" id="btn-story-speak">🗣️ Speak line</button>
+          <button type="button" id="btn-story-coach">🎓 Coach</button>
+          <button type="button" class="big" id="btn-story-next">Next →</button>
+        </div>
+        <div class="feedback" id="story-feedback"></div>
+      </div>
+    </section>
+
+    <!-- PARENT GATE -->
+    <section id="screen-parent-gate" class="screen" aria-label="Parent gate">
+      <div class="card parent-gate">
+        <h2>👪 Parent zone</h2>
+        <p id="parent-gate-msg">Enter PIN <strong>1234</strong> (or leave blank and confirm).</p>
+        <label class="sr-only" for="parent-pin">PIN</label>
+        <input id="parent-pin" type="password" inputmode="numeric" placeholder="PIN (1234)" autocomplete="off" />
+        <div class="mode-row" style="justify-content:center">
+          <button type="button" id="btn-parent-enter">Open dashboard</button>
+          <button type="button" class="secondary" id="btn-parent-cancel">Cancel</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARENT DASH -->
+    <section id="screen-parent

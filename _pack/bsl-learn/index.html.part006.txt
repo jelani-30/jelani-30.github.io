@@ -1,0 +1,46 @@
+" class="screen" aria-label="Parent dashboard">
+      <div class="toolbar">
+        <button type="button" class="secondary" id="btn-parent-back">← Back</button>
+        <button type="button" class="danger" id="btn-reset-progress">Reset progress</button>
+      </div>
+      <h2>Weekly learning snapshot</h2>
+      <p class="meaning">Approx. from on-device activity (localStorage). Times are estimates from session lengths.</p>
+      <div class="stat-grid" id="parent-stats"></div>
+      <div class="card">
+        <h3>Last 7 days (minutes)</h3>
+        <div id="parent-bars"></div>
+      </div>
+      <div class="grid" style="margin-top:1rem">
+        <div class="card">
+          <h3>Modules completed</h3>
+          <ul id="parent-modules"></ul>
+        </div>
+        <div class="card">
+          <h3>Quiz accuracy by area</h3>
+          <ul id="parent-quiz"></ul>
+        </div>
+      </div>
+      <div class="card" style="margin-top:1rem">
+        <h3>Household &amp; kid-safe gates</h3>
+        <p class="note">PIN is only a soft gate — not security. Use kid mode so leaving parent zone / switching profiles / reset needs the PIN.</p>
+        <div class="mode-row">
+          <label>Soft PIN <input id="parent-set-pin" type="password" inputmode="numeric" placeholder="new PIN" maxlength="8" style="width:7rem;padding:.4rem;border-radius:10px;border:2px solid #ddd6fe" /></label>
+          <button type="button" class="secondary" id="btn-save-pin">Save PIN</button>
+          <label><input type="checkbox" id="parent-kid-mode" /> Kid mode on</label>
+        </div>
+        <div class="mode-row" style="margin-top:.6rem">
+          <input id="parent-new-name" type="text" placeholder="New profile name" maxlength="24" style="padding:.5rem;border-radius:10px;border:2px solid #ddd6fe" />
+          <button type="button" class="secondary" id="btn-add-profile">Add profile</button>
+          <button type="button" class="secondary" id="btn-export-pack">Export JSON pack</button>
+          <button type="button" class="secondary" id="btn-parent-offline">Save for offline</button>
+        </div>
+        <p id="parent-xp-summary" class="note"></p>
+        <div class="badge-row" id="parent-badges"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/bsl-data.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
