@@ -1,10 +1,6 @@
 name: assemble-site
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '_assemble/**'
-      - '.github/workflows/assemble-site.yml'
 permissions:
   contents: write
 jobs:
