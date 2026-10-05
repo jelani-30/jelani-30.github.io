@@ -1,0 +1,50 @@
+  ]
+  },
+
+  stories: [
+    {
+      id: "hello-friend",
+      title: "Hello, friend!",
+      blurb: "A short greeting dialogue for kids.",
+      steps: [
+        { glosses: ["HELLO"], english: "Hello!", signIds: ["hello"], demo: "https://www.signbsl.com/sign/hello", role: "you" },
+        { glosses: ["ME", "NAME"], english: "My name is… (fingerspell your name).", signIds: ["me", "name"], demo: "https://www.signbsl.com/sign/name", role: "you" },
+        { glosses: ["YOU", "NAME", "?"], english: "What is your name?", signIds: ["you", "name"], demo: "https://www.signbsl.com/sign/you", role: "partner" },
+        { glosses: ["FRIEND"], english: "Friend!", signIds: ["friend"], demo: "https://www.signbsl.com/sign/friend", role: "partner" },
+        { glosses: ["THANK-YOU"], english: "Thank you!", signIds: ["thank-you"], demo: "https://www.signbsl.com/sign/thank-you", role: "you" }
+      ]
+    },
+    {
+      id: "snack-time",
+      title: "Snack time",
+      blurb: "Hungry? Ask for a drink and a biscuit.",
+      steps: [
+        { glosses: ["HUNGRY"], english: "I'm hungry.", signIds: ["hungry"], demo: "https://www.signbsl.com/sign/hungry", role: "you" },
+        { glosses: ["EAT", "PLEASE"], english: "Can I eat, please?", signIds: ["eat", "please"], demo: "https://www.signbsl.com/sign/eat", role: "you" },
+        { glosses: ["DRINK", "WATER"], english: "I'd like a drink of water.", signIds: ["drink", "water"], demo: "https://www.signbsl.com/sign/drink", role: "partner" },
+        { glosses: ["BISCUIT", "PLEASE"], english: "A biscuit, please!", signIds: ["biscuit", "please"], demo: "https://www.signbsl.com/sign/biscuit", role: "you" },
+        { glosses: ["THANK-YOU", "GOOD"], english: "Thank you — that's good!", signIds: ["thank-you", "good"], demo: "https://www.signbsl.com/sign/thank-you", role: "partner" }
+      ]
+    },
+    {
+      id: "play-outside",
+      title: "Let's play!",
+      blurb: "Feelings + play signs for a sunny afternoon.",
+      steps: [
+        { glosses: ["HAPPY"], english: "I feel happy!", signIds: ["happy"], demo: "https://www.signbsl.com/sign/happy", role: "you" },
+        { glosses: ["PLAY", "PLEASE"], english: "Can we play, please?", signIds: ["play", "please"], demo: "https://www.signbsl.com/sign/play", role: "you" },
+        { glosses: ["BALL"], english: "Ball!", signIds: ["ball"], demo: "https://www.signbsl.com/sign/ball", role: "partner" },
+        { glosses: ["RUN", "JUMP"], english: "Run and jump!", signIds: ["run", "jump"], demo: "https://www.signbsl.com/sign/run", role: "you" },
+        { glosses: ["FUN", "GOODBYE"], english: "That was fun — goodbye!", signIds: ["fun", "goodbye"], demo: "https://www.signbsl.com/sign/fun", role: "partner" }
+      ]
+    },
+    {
+      id: "your-turn",
+      title: "Your turn!",
+      blurb: "Practise turn-taking: you ask, partner answers, you thank them.",
+      steps: [
+        { glosses: ["HELLO"], english: "Hello!", signIds: ["hello"], demo: "https://www.signbsl.com/sign/hello", role: "you" },
+        { glosses: ["YOU", "GOOD", "?"], english: "Are you good?", signIds: ["you", "good"], demo: "https://www.signbsl.com/sign/you", role: "you" },
+        { glosses: ["YES", "ME", "GOOD"], english: "Yes — I'm good!", signIds: ["yes", "me", "good"], demo: "https://www.signbsl.com/sign/yes", role: "partner" },
+        { glosses: ["THANK-YOU"], english: "Thank you!", signIds: ["thank-you"], demo: "https://www.signbsl.com/sign/thank-you", role: "you" },
+        { glosses: ["GOODBYE"], engl
