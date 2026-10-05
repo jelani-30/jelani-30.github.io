@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Kid-friendly UK British Sign Language (BSL) learning app — fingerspelling, greetings, quizzes, mirror practice." />
+  <meta name="theme-color" content="#0284c7" />
+  <title>UK BSL Learn — British Sign Language for kids</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="celeb-burst" class="celeb-burst" aria-hidden="true"></div>
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-badge" aria-hidden="true">🤟</div>
+      <div>
+        <h1>UK BSL Learn</h1>
+        <p>British Sign Language · not ASL</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="pill profile" id="profile-badge" title="Active profile">🌟 Learner 1</span>
+      <span class="pill streak" id="streak-badge" title="Daily streak">🔥 0 day streak</span>
+      <span class="pill stars" id="stars-badge">⭐ 0</span>
+      <span class="pill xp" id="xp-badge" title="Experience">✨ 0 XP</span>
+      <span class="pill gems" id="gems-badge" title="Gems">💎 0</span>
+      <span class="level-chip" id="level-chip">Level: beginner</span>
+      <button type="button" class="secondary" id="btn-replay" title="Replay last speech">🔁 Replay</button>
+      <button type="button" class="secondary" id="btn-mute" aria-pressed="false">🔊 Sound on</button>
+      <button type="button" class="secondary" id="btn-home">🏠 Home</button>
+      <button type="button" class="secondary" id="btn-parent">👪 Parent</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="screen-home" class="screen active" aria-label="Home">
+      <div class="hero">
+        <h2>Let's learn UK BSL! ✨</h2>
+        <p>
+          Fingerspell with <strong>two hands</strong>, practise greetings &amp; kid-life packs,
+          quiz yourself, mirror mode, stories, and review weak signs.
+        </p>
+        <span class="uk-tag">🇬🇧 UK British Sign Language only</span>
+      </div>
+
+      <div class="profile-bar card" id="profile-bar">
+        <div class="mode-row" style="justify-content:space-between;width:100%">
+          <div>
+            <strong>Who's learning?</strong>
+            <span id="profile-switcher-label" class="note"> Active profile</span>
+          </div>
+          <div class="mode-row" id="profile-switcher"></div>
+        </div>
+      </div>
+
+      <p id="streak-home-msg" class="note" style="margin-bottom:1rem"></p>
+      <p id="home-celebrate" class="feedback ok" style="display:none"></p>
+
+      <div class="grid" id="home-grid">
+        <article class="card">
+          <div class="emoji">🔁</div>
+          <h3>Review &amp; favourites</h3>
+          <p>Spaced review, weak signs (leeches), and your starred My Signs list.</p>
+          <div class="mode-row">
+            <button type="button" data-open="review:quiz">Review due</button>
+            <button type="button" class="secondary" data-open="leech:quiz">Weak signs</button>
+            <button type="button" class="secondary" data-open="favourites:learn">My Signs</button>
+            <button type="button" class="secondary" data-open="favourites:quiz">Quiz favourites</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="emoji">🔤</div>
+          <h3>1. Fingerspelling drills</h3>
+          <p>Foundational practice: show → sign → reveal, timed sequences, and letter→word spelling.</p>
+          <div class="mode-row">
+            <button type="button" data-open="alphabet:drill-show">Show &amp; sign</button>
+            <button type="button" class="secondary" data-open="alphabet:drill-timed">Timed</button>
+            <button type="button" class="secondary" data-open="alphabet:drill-spell">Spell words</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="emoji">🅰️</div>
+          <h3>2. Alphabet A–Z</h3>
+          <p>Guided formation steps with spoken coaching, then Learn / quiz &amp; match.</p>
+          <div class="mode-row">
+            <button type="button" data-open="alphabet:guide">✨ Guided alphabet</button>
+            <button type="button" class="secondary" data-open="alphabet:learn">Learn</button>
+            <button type="button" class="secondary" data-open="alphabet:quiz">Quiz</button>
+            <button type="button" class="secondary" data-open="alphabet:match">Match</button>
+            <button type="button" class="secondary" data-open="alphabet:mirror">🪞 Mirror</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="emoji">👋</div>
+          <h3>3. Greetings &amp; manners</h3>
+          <p>Hello, Please, Thank you and more — with Deaf-led dictionary demos.</p>
+          <div class="mode-row">
+            <button type="button" data-open="greetings:learn">Learn</button>
+            <button type="button" class="secondary" data-open="greetings:quiz">Quiz</button>
+            <button type="button" class="secondary" data-open="greetings:match">Match</button>
+            <button type="button" class="secondary" data-open="greetings:mirror">🪞 Mirror</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="emoji">👨‍👩‍👧</div>
+          <h3>Family</h3>
+          <p>Mum, Dad, Sister, Brother, Baby, Family, Friend, Love.</p>
+          <div class="mode-row">
+            <button type="button" data-open="family:learn">Learn</button>
+            <button type="button" class="secondary" data-open="family:quiz">Quiz</button>
+            <button type="button" class="secondary" data-open="family:match">Match</button>
+            <button type="button" class="secondary" data-open="family:mirror">🪞 Mirror</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="emoji">💛</div>
+          <h3>Feelings</h3>
+          <p>Happy, sad, angry, scared, tired, excited, proud, worried.</p>
+          <div class="mode-row">
+            <button type="button" data-open="feelings:learn">Learn</button>
+            <button type="button" class="secondary" data-open="feelings:quiz">Quiz</button>
+            <button type="button" class="secondary" data-open="feelings:match">Match</button>
+            <button type="button" class="secondary" data-open="feelings:mirror">🪞 Mirror</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="emoji">🏫</div>
+          <h3>School</h3>
+          <p>School, teacher, book, write, read, draw, friend, learn.</p>
+          <div class="mode-row">
+            <button type="button" data-open="school:learn">Learn</button>
+            <button type="button" class="secondary" data-open="school:quiz">Quiz</button>
+            <button type="button" class="secondary" data-open="school:match">Match</button>
+            <button type="button" class="secondary" data-open="school:mirror">🪞 Mirror</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="emoji">🍎</div>
+          <h3>Food &amp; drink</h3>
+          <p>Eat, drink, water, apple, milk, bread, hungry, biscuit.</p>
+          <div class="mode-row">
+            <button type="button" data-open="food:learn">Learn</button>
+            <button type="button" class="secondary" data-open="food:quiz">Quiz</button>
+            <button type="button" class="secondary" data-open="food:match">Match</button>
+            <button type="button" class="secondary" data-open="food:mirror">🪞 Mirror</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="emoji">🎮</div>
+          <h3>Play time</h3>
+          <p>Play, ball, game, toy, run, dance, jump, fun.</p>
+          <div class="mode-row">
+            <button type="button" data-open="play:learn">Learn</button>
+            <button type="button" class="secondary" data-open="play:quiz">Quiz</button>
+            <button typ
