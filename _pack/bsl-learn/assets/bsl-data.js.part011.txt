@@ -1,0 +1,31 @@
+ish: "Goodbye!", signIds: ["goodbye"], demo: "https://www.signbsl.com/sign/goodbye", role: "partner" }
+      ]
+    }
+  ],
+
+  modules: [
+    { id: "fingerspelling", title: "Fingerspelling alphabet", level: "beginner", status: "live", blurb: "Learn the BSL two-handed alphabet with drills, audio and mirror practice." },
+    { id: "greetings", title: "Greetings & manners", level: "beginner", status: "live", blurb: "Hello, please, thank you, sorry, yes/no — full interactive lessons." },
+    { id: "family", title: "Family signs", level: "beginner", status: "live", blurb: "Mum, dad, sister, brother, baby, family, friend, love." },
+    { id: "feelings", title: "Feelings", level: "beginner", status: "live", blurb: "Happy, sad, angry, scared, tired, excited, proud, worried." },
+    { id: "school", title: "School", level: "beginner", status: "live", blurb: "School, teacher, book, write, read, draw, friend, learn." },
+    { id: "food", title: "Food & drink", level: "beginner", status: "live", blurb: "Eat, drink, water, apple, milk, bread, hungry, biscuit." },
+    { id: "play", title: "Play time", level: "beginner", status: "live", blurb: "Play, ball, game, toy, run, dance, jump, fun." },
+    { id: "stories", title: "Signed stories", level: "beginner", status: "live", blurb: "Short kid dialogues stepping through glosses with English lines." },
+    { id: "colours", title: "Colours & numbers", level: "beginner", status: "scaffold", blurb: "Coming next — practise via BSL SignBank quiz in the meantime." },
+    { id: "conversation", title: "Short conversations", level: "beginner", status: "live", blurb: "Turn-taking coach on signed stories — English, glosses, how-to tips, spoken guidance." },
+    { id: "fluency", title: "Receptive practice", level: "advanced", status: "scaffold", blurb: "Watch Lumo TV / Deaf content; journal signs you catch." }
+  ],
+
+  drillWords: ["CAT", "DOG", "MUM", "DAD", "YES", "NO", "HI", "LOVE", "BOOK", "PLAY", "NAME", "GOOD", "BAD", "HOME", "SCHOOL", "FRIEND", "WATER", "APPLE", "HAPPY", "PLEASE"],
+
+  badges: [
+    { id: "first-quiz", title: "First quiz", emoji: "🧠", desc: "Answered your first quiz question." },
+    { id: "streak-7", title: "7-day streak", emoji: "🔥", desc: "Practised 7 days in a row." },
+    { id: "pack-complete", title: "Pack complete", emoji: "📦", desc: "Finished every sign in a vocab pack." },
+    { id: "leech-cleared", title: "Leech cleared", emoji: "💪", desc: "Cleared a weak sign from the leech list." },
+    { id: "fav-10", title: "Favourite 10", emoji: "⭐", desc: "Starred 10 signs as favourites." },
+    { id: "story-done", title: "Story star", emoji: "📖", desc: "Finished a signed story." },
+    { id: "gem-collector", title: "Gem collector", emoji: "💎", desc: "Earned 25 gems." }
+  ]
+};
