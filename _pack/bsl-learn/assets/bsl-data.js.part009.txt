@@ -1,0 +1,24 @@
+", movement: "Tap / break.", face: "Neutral.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/biscuit", category: "food",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/biscuit" }]}
+    ],
+    play: [
+      { id: "play", gloss: "PLAY", english: "Play", tip: "Y-hands shake or twist (common PLAY) — confirm UK BSL.", movement: "Shake / twist.", face: "Playful.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/play", category: "play",
+        videos: [
+          { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/play" },
+          { source: "ndcs", label: "NDCS Family", variety: "family/child-friendly", url: "https://www.youtube.com/@NationalDeafChildrensSociety" }
+        ]},
+      { id: "ball", gloss: "BALL", english: "Ball", tip: "Hands form a sphere shape.", movement: "Sphere hold.", face: "Neutral.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/ball", category: "play",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/ball" }]},
+      { id: "game", gloss: "GAME", english: "Game", tip: "Similar to PLAY or fingers interlocking — check Sign BSL.", movement: "Playful shake.", face: "Excited.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/game", category: "play",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/game" }]},
+      { id: "toy", gloss: "TOY", english: "Toy", tip: "Often related to PLAY handshape — verify Sign BSL.", movement: "Short playful motion.", face: "Happy.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/toy", category: "play",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/toy" }]},
+      { id: "run", gloss: "RUN", english: "Run", tip: "Index fingers alternate forward like legs running.", movement: "Alternating forward.", face: "Energetic.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/run", category: "play",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/run" }]},
+      { id: "dance", gloss: "DANCE", english: "Dance", tip: "V or flat hands sway as if dancing — confirm video.", movement: "Sway / bounce.", face: "Joyful.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/dance", category: "play",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/dance" }]},
+      { id: "jump", gloss: "JUMP", english: "Jump", tip: "Hands hop upward or V on palm jumps — check Sign BSL.", movement: "Up hop.", face: "Energetic.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/jump", category: "play",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/jump" }]},
+      { id: "fun", gloss: "FUN", english: "Fun", tip: "Nose tap or playful twist — verify UK form on Sign BSL (not ASL).", movement: "Playful tap/twist.", face: "Fun grin.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/fun", category: "play",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/fun" }]}
+  
