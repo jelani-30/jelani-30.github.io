@@ -1,0 +1,54 @@
+ign/brother", category: "family",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/brother" }]},
+      { id: "baby", gloss: "BABY", english: "Baby", tip: "Arms cradle / rock as if holding a baby.", movement: "Gentle rock.", face: "Soft / caring.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/baby", category: "family",
+        videos: [
+          { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/baby" },
+          { source: "ndcs", label: "NDCS Family", variety: "family/child-friendly", url: "https://www.youtube.com/@NationalDeafChildrensSociety" }
+        ]},
+      { id: "family", gloss: "FAMILY", english: "Family", tip: "Fingers linked or circle around family group — match Sign BSL demo.", movement: "Group / circle gesture.", face: "Inclusive.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/family", category: "family",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/family" }]},
+      { id: "friend", gloss: "FRIEND", english: "Friend", tip: "Index fingers hook or tap together (common FRIEND).", movement: "Hook / tap.", face: "Friendly smile.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/friend", category: "family",
+        videos: [
+          { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/friend" },
+          { source: "school-of-signs", label: "School of Signs", variety: "family/child-friendly", url: "https://theschoolofsigns.org.uk/" }
+        ]},
+      { id: "love", gloss: "LOVE", english: "Love", tip: "Arms cross over chest (common LOVE) — confirm on video.", movement: "Cross arms to chest.", face: "Warm affection.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/love", category: "family",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/love" }]}
+    ],
+    feelings: [
+      { id: "happy", gloss: "HAPPY", english: "Happy", tip: "Open hands brush up chest with bright face (common HAPPY).", movement: "Upward brush.", face: "Big smile — expression is key.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/happy", category: "feelings",
+        videos: [
+          { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/happy" },
+          { source: "ndcs", label: "NDCS Family", variety: "family/child-friendly", url: "https://www.youtube.com/@NationalDeafChildrensSociety" }
+        ]},
+      { id: "sad", gloss: "SAD", english: "Sad", tip: "Hands / fingers draw down the face with sad expression.", movement: "Downward face path.", face: "Sad expression essential.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/sad", category: "feelings",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/sad" }]},
+      { id: "angry", gloss: "ANGRY", english: "Angry", tip: "Clawed hands near face with strong angry expression — check UK form.", movement: "Sharp claw near face.", face: "Angry brows.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/angry", category: "feelings",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/angry" }]},
+      { id: "scared", gloss: "SCARED", english: "Scared", tip: "Hands flutter near chest/face with wide eyes — match Sign BSL.", movement: "Flutter / startle.", face: "Wide eyes.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/scared", category: "feelings",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/scared" }]},
+      { id: "tired", gloss: "TIRED", english: "Tired", tip: "Hands drop from chin/face or limp wrists — confirm video.", movement: "Drop / sag.", face: "Weary.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/tired", category: "feelings",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/tired" }]},
+      { id: "excited", gloss: "EXCITED", english: "Excited", tip: "Hands flutter up chest with bright face — check Sign BSL.", movement: "Upward flutter.", face: "Excited grin.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/excited", category: "feelings",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/excited" }]},
+      { id: "proud", gloss: "PROUD", english: "Proud", tip: "Thumb or flat hand moves up chest with proud face.", movement: "Up chest.", face: "Proud smile.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/proud", category: "feelings",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/proud" }]},
+      { id: "worried", gloss: "WORRIED", english: "Worried", tip: "Fingers circle or wring near forehead/chest — verify on Sign BSL.", movement: "Circle / wring.", face: "Concerned brows.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/worried", category: "feelings",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/worried" }]}
+    ],
+    school: [
+      { id: "school", gloss: "SCHOOL", english: "School", tip: "Flat hands clap or tap together (common SCHOOL) — check Sign BSL.", movement: "Clap / tap.", face: "Neutral.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/school", category: "school",
+        videos: [
+          { source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/school" },
+          { source: "school-of-signs", label: "School of Signs", variety: "family/child-friendly", url: "https://theschoolofsigns.org.uk/" }
+        ]},
+      { id: "teacher", gloss: "TEACHER", english: "Teacher", tip: "Flat hands move forward from forehead/temples (common TEACHER).", movement: "Forward from head.", face: "Neutral.", difficulty: 2, videoSearch: "https://www.signbsl.com/sign/teacher", category: "school",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/teacher" }]},
+      { id: "book", gloss: "BOOK", english: "Book", tip: "Palms open like opening a book.", movement: "Open book.", face: "Neutral.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/book", category: "school",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/book" }]},
+      { id: "write", gloss: "WRITE", english: "Write", tip: "Dominant hand writes on non-dominant palm.", movement: "Writing motion.", face: "Neutral.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/write", category: "school",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/write" }]},
+      { id: "read", gloss: "READ", english: "Read", tip: "V or flat hand scans across open palm / book shape.", movement: "Scan across.", face: "Focused.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/read", category: "school",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dictionary", url: "https://www.signbsl.com/sign/read" }]},
+      { id: "draw", gloss: "DRAW", english: "Draw", tip: "Writing/drawing motion in air or on palm — confirm Sign BSL.", movement: "Draw path.", face: "Creative focus.", difficulty: 1, videoSearch: "https://www.signbsl.com/sign/draw", category: "school",
+        videos: [{ source: "signbsl", label: "Sign BSL", variety: "multi-signer dicti
