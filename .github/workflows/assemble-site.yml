@@ -12,9 +12,9 @@ jobs:
         run: |
           python3 << 'PY'
           import pathlib, base64, re
-          root = pathlib.Path("_assemble")
+          root = pathlib.Path("_pack")
           if not root.exists():
-              print("no _assemble")
+              print("no _pack")
               raise SystemExit(0)
           text_dests, bin_dests = {}, {}
           for p in sorted(root.rglob("*")):
@@ -46,7 +46,7 @@ jobs:
           PY
       - name: Cleanup staging and probes
         run: |
-          rm -rf _assemble
+          rm -rf _pack _assemble
           rm -f _probe_size.txt
           rm -f bsl-learn/assets/media/_probe.txt bsl-learn/assets/media/_probe2.bin || true
       - name: Commit
