@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Muscles in Football – Learn, Label & Quiz (KS3/GCSE PE)</title>
+<title>Muscles in Football – Learn, Label and Quiz (KS3/GCSE PE)</title>
 <style>
   :root{
     --pitch:#1b6b34; --pitch-dark:#0f4a22; --pitch-light:#2e8a4a; --line:#ffffff;
@@ -311,7 +311,7 @@ function buildSVG(view){
 function $(sel, root){ return (root||document).querySelector(sel); }
 function $all(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
 function shuffle(arr){ var a = arr.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
-function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&","<":"<",">":">",'"':""","'":"&#39;"}[c]; }); }
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"\x26amp;","<":"\x26lt;",">":"\x26gt;",'"':"\x26quot;","'":"\x26#39;"}[c]; }); }
 
 /* ---------- Diagram component ---------- */
 function Diagram(panel, onPick){
