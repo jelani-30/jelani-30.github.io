@@ -179,45 +179,46 @@
 var MUSCLES = {
   deltoid:{name:"Deltoid", views:["front","back"],
     location:"The rounded cap of the shoulder. The front (anterior) part is seen from the front; the back is the posterior deltoid.",
-    action:"Abducts the arm at the shoulder (lifts it out to the side). The front part also flexes the shoulder (arm forwards and up); the posterior deltoid extends it (pulls the arm back).",
-    football:"A goalkeeper raises their arms up to catch or tip a high cross over the bar. The posterior deltoid pulls the arms back behind the head to wind up a throw-in.",
-    pair:"Latissimus dorsi (abduction / adduction at the shoulder)"},
-  pecs:{name:"Pectorals", views:["front"],
+    action:"Abducts the arm at the shoulder (lifts it out to the side). The front part also flexes the shoulder (arm forwards and up); the posterior deltoid extends it (pulls the arm back) and horizontally abducts it (takes the arm back at shoulder height).",
+    where:"the rounded cap of the shoulder",
+    football:"A goalkeeper raises their arms up to catch or tip a high cross over the bar. The posterior (back) deltoid extends the shoulder, swinging the arms back behind the body before a player jumps for a header.",
+    pair:"Latissimus dorsi (abduction / adduction at the shoulder). Some exam boards (Edexcel) pair the pectorals with the lats instead."},
+  pecs:{name:"Pectorals", alt:"pectoralis major", views:["front"], where:"the chest",
     location:"The chest, across the front of the ribcage.",
     action:"Adducts the arm at the shoulder and brings it across the chest (horizontal flexion).",
-    football:"A goalkeeper sweeps an arm across their body to palm a shot away,.",
-    pair:null},
-  biceps:{name:"Biceps", views:["front"],
+    football:"A goalkeeper sweeps an arm across their body to palm a shot away.",
+    pair:"Latissimus dorsi (at the shoulder; the Edexcel pairing)"},
+  biceps:{name:"Biceps", views:["front"], where:"the front of the upper arm",
     location:"The front of the upper arm.",
     action:"Flexes the elbow (bends the arm).",
     football:"A goalkeeper bends the elbows to pull a caught ball safely into the chest.",
     pair:"Triceps (at the elbow)"},
-  triceps:{name:"Triceps", views:["back"],
+  triceps:{name:"Triceps", views:["back"], where:"the back of the upper arm",
     location:"The back of the upper arm.",
     action:"Extends the elbow (straightens the arm).",
     football:"Straightening the arms to release a throw-in, or a goalkeeper pushing the ball out to a defender.",
     pair:"Biceps (at the elbow)"},
-  lats:{name:"Latissimus dorsi", views:["back"],
+  lats:{name:"Latissimus dorsi", views:["back"], where:"the sides of the back, below the armpits",
     location:"The large muscle on the sides of the back, below the armpits.",
     action:"Adducts and extends the arm at the shoulder (pulls the arm down and back towards the body).",
     football:"On a long throw-in, the lats pull the arms powerfully down and forwards from behind the head to launch the ball.",
-    pair:"Deltoid (adduction / abduction at the shoulder)"},
-  glutes:{name:"Gluteals", views:["back"],
+    pair:"Deltoid (adduction / abduction at the shoulder). Some exam boards (Edexcel) pair the lats with the pectorals instead."},
+  glutes:{name:"Gluteals", alt:"gluteus maximus", views:["back"], where:"the buttocks",
     location:"The buttocks, at the back of the hip.",
     action:"Extends the hip (moves the leg backwards).",
     football:"Driving each leg back hard when sprinting after a through ball, and when jumping.",
     pair:"Hip flexors (at the hip)"},
-  quads:{name:"Quadriceps", views:["front"],
+  quads:{name:"Quadriceps", views:["front"], where:"the front of the thigh",
     location:"The front of the thigh (a group of four muscles).",
     action:"Extends the knee (straightens the leg).",
     football:"Straightening the knee to strike the ball when shooting or passing; also extending the knees to jump for a header.",
     pair:"Hamstrings (at the knee)"},
-  hamstrings:{name:"Hamstrings", views:["back"],
+  hamstrings:{name:"Hamstrings", views:["back"], where:"the back of the thigh",
     location:"The back of the thigh (a group of three muscles).",
     action:"Flexes the knee (bends the leg). They also help extend the hip.",
-    football:"Bending the knee to take the leg back in the backswing before a kick, and pulling the leg through when sprinting.",
+    football:"Bending the knee to take the leg back in the backswing before a kick, and to bring the heel up behind the body in the recovery phase of each sprinting stride.",
     pair:"Quadriceps (at the knee)"},
-  gastrocnemius:{name:"Gastrocnemius", views:["back"],
+  gastrocnemius:{name:"Gastrocnemius", views:["back"], where:"the calf, at the back of the lower leg",
     location:"The back of the lower leg – the calf.",
     action:"Plantar flexion of the ankle (points the toes / pushes up onto tiptoes).",
     football:"Pushing up off the toes to jump for a header, and pushing off the ground with each stride when sprinting.",
@@ -249,17 +250,17 @@ var BANK = [
   {t:"action",q:"Which muscle works as an antagonistic pair with the quadriceps at the knee?",a:"Hamstrings",w:["Gastrocnemius","Gluteals","Biceps"],e:"Quadriceps and hamstrings are an antagonistic pair: one contracts while the other relaxes."},
   {t:"action",q:"Which muscle works as an antagonistic pair with the biceps at the elbow?",a:"Triceps",w:["Deltoid","Pectorals","Latissimus dorsi"],e:"Biceps flex the elbow and triceps extend it – a classic antagonistic pair."},
   {t:"football",q:"A striker shoots and the leg straightens at the knee to hit the ball. Which muscle is the main mover (agonist)?",a:"Quadriceps",w:["Hamstrings","Gastrocnemius","Biceps"],e:"The quadriceps contract to extend the knee as the foot strikes the ball."},
-  {t:"football",q:"Before kicking, a player bends the knee to swing the leg back. Which muscle does this?",a:"Hamstrings",w:["Quadriceps","Gluteals","Pectorals"],e:"The hamstrings flex the knee in the backswing / preparation phase."},
+  {t:"football",q:"Before kicking, a player bends the knee to bring the foot back. Which muscle flexes the knee?",a:"Hamstrings",w:["Quadriceps","Triceps","Pectorals"],e:"The hamstrings flex the knee in the backswing / preparation phase."},
   {t:"football",q:"A defender pushes up off their toes to jump for a header. Which muscle causes the plantar flexion?",a:"Gastrocnemius",w:["Quadriceps","Hamstrings","Latissimus dorsi"],e:"The gastrocnemius plantar flexes the ankle to push off the ground."},
   {t:"football",q:"A winger sprints after a through ball, driving each leg back at the hip. Which muscle extends the hip?",a:"Gluteals",w:["Quadriceps","Pectorals","Biceps"],e:"The gluteals extend the hip, powering the leg backwards in each stride."},
-  {t:"football",q:"On a long throw-in, which muscle pulls the arms down and forwards from behind the head?",a:"Latissimus dorsi",w:["Biceps","Gastrocnemius","Deltoid"],e:"The lats extend and adduct the shoulder, pulling the arms down and forwards to release the ball."},
+  {t:"football",q:"On a long throw-in, which muscle pulls the arms down and forwards from behind the head?",a:"Latissimus dorsi",w:["Biceps","Gastrocnemius","Quadriceps"],e:"The lats extend and adduct the shoulder, pulling the arms down and forwards to release the ball."},
   {t:"football",q:"As a throw-in is released, the elbows straighten. Which muscle extends the elbows?",a:"Triceps",w:["Biceps","Pectorals","Hamstrings"],e:"The triceps extend the elbow to push the ball away."},
   {t:"football",q:"A goalkeeper catches the ball and bends the elbows to pull it into the chest. Which muscle flexes the elbows?",a:"Biceps",w:["Triceps","Deltoid","Latissimus dorsi"],e:"The biceps flex the elbow to bring the ball in safely."},
   {t:"football",q:"A goalkeeper lifts their arms up and out to reach a high cross. Which shoulder muscle does this?",a:"Deltoid",w:["Latissimus dorsi","Biceps","Gluteals"],e:"The deltoid abducts and flexes the shoulder to raise the arms."},
   {t:"football",q:"A goalkeeper sweeps an arm across their body to palm a shot away. Which muscle brings the arm across the chest?",a:"Pectorals",w:["Triceps","Latissimus dorsi","Gastrocnemius"],e:"The pectorals adduct the arm and bring it across the chest (horizontal flexion)."},
   {t:"football",q:"A player jumps for a header and straightens the knees to take off. Which muscle extends the knees?",a:"Quadriceps",w:["Hamstrings","Biceps","Pectorals"],e:"The quadriceps extend the knees to drive the body upwards."},
   {t:"football",q:"When a player kicks, the quadriceps contract to extend the knee. What role do the hamstrings play?",a:"Antagonist – they relax and lengthen",w:["Agonist – they contract to extend the knee","They plantar flex the ankle","They abduct the hip"],e:"In an antagonistic pair, the antagonist (hamstrings) relaxes while the agonist (quadriceps) contracts."},
-  {t:"football",q:"Which muscle pulls the arms back behind the head to wind up a throw-in?",a:"Posterior deltoid",w:["Pectorals","Biceps","Quadriceps"],e:"The posterior (back) part of the deltoid extends the shoulder, taking the arms back."}
+  {t:"football",q:"Before jumping for a header, a player swings both arms backwards behind their body. Which part of the deltoid extends the shoulder?",a:"Posterior deltoid",w:["Pectorals","Biceps","Quadriceps"],e:"The posterior (back) part of the deltoid extends the shoulder, swinging the arms backwards behind the body."}
 ];
 var QUIZ_LEN = 15;
 var BEST_KEY = "mfq-best-v1";
@@ -391,7 +392,7 @@ learn.show = function(id){
   $all(".chip", chipsHost).forEach(function(c){ c.setAttribute("aria-pressed", c.getAttribute("data-muscle") === id ? "true" : "false"); });
   var sub = id === "deltoid"
     ? (learnDiagram.view === "back" ? "Shown here: posterior (back) deltoid · also on the front view" : "Shown here: front (anterior) deltoid · posterior deltoid on the back view")
-    : "Seen on the " + m.views[0] + " view";
+    : (m.alt ? "Also called " + m.alt + " · " : "") + "Seen on the " + m.views[0] + " view";
   infoCard.innerHTML =
     '<h2 class="card-name">'+esc(id === "deltoid" && learnDiagram.view === "back" ? "Deltoid (posterior)" : m.name)+'</h2>' +
     '<p class="card-sub">'+esc(sub)+'</p>' +
@@ -446,7 +447,7 @@ label.pick = function(id, g){
     g.classList.add("wrong"); label.lastPick = {id:id, cls:"wrong"};
     var c = labelDiagram.region(label.target); if (c) c.classList.add("reveal");
     labelFb.setAttribute("data-result","wrong");
-    labelFb.textContent = "✘ Not quite – that's the " + MUSCLES[id].name + ". The right answer, " + m.name + ", is flashing green (" + m.location.replace(/\.$/,"").toLowerCase() + ").";
+    labelFb.textContent = "✘ Not quite – that's the " + MUSCLES[id].name + ". The right answer, " + m.name + ", is flashing green: it's " + m.where + ".";
   }
   labelScoreEl.textContent = label.right + " / " + label.total;
   labelNextBtn.hidden = false; labelNextBtn.focus();
