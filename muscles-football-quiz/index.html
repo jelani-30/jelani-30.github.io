@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muscles in Football – Learn, Label & Quiz (KS3/GCSE PE)</title>
+<style>
+  :root{
+    --pitch:#1b6b34; --pitch-dark:#0f4a22; --pitch-light:#2e8a4a; --line:#ffffff;
+    --ink:#14211a; --muted:#45584c; --card:#ffffff; --bg:#eef5ef;
+    --muscle:#d8735f; --muscle-stroke:#8f3a2b; --hover:#f0a08e;
+    --sel:#ffd23f; --ok:#1f8a3b; --ok-bg:#dff3e4; --bad:#b3261e; --bad-bg:#fbe3e1;
+    --focus:#1d4ed8; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.45;font-size:17px}
+  header{background:repeating-linear-gradient(90deg,var(--pitch) 0 48px,var(--pitch-light) 48px 96px);color:#fff;padding:14px 16px 10px;border-bottom:4px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:10px;max-width:1100px;margin:0 auto}
+  .brand h1{font-size:1.25rem;margin:0;line-height:1.2;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+  .brand p{margin:2px 0 0;font-size:.85rem;opacity:.95}
+  .ball{flex:none;width:40px;height:40px}
+  nav[role=tablist]{display:flex;gap:6px;max-width:1100px;margin:12px auto 0}
+  .tab{flex:1;min-height:46px;border:2px solid #fff;background:rgba(0,0,0,.18);color:#fff;font-weight:700;font-size:1rem;border-radius:12px 12px 0 0;cursor:pointer}
+  .tab[aria-selected=true]{background:#fff;color:var(--pitch-dark)}
+  main{max-width:1100px;margin:0 auto;padding:16px}
+  .panel[hidden]{display:none}
+  .layout{display:grid;gap:16px}
+  @media (min-width:820px){.layout{grid-template-columns:minmax(300px,420px) 1fr;align-items:start}}
+  .box{background:var(--card);border-radius:var(--radius);padding:14px;box-shadow:0 2px 8px rgba(15,74,34,.12)}
+  .diagram-wrap{position:relative}
+  .diagram-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+  .view-label{font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--pitch-dark)}
+  .diagram svg{width:100%;height:auto;max-height:68vh;display:block;margin:0 auto;touch-action:manipulation}
+  .diagram{background:radial-gradient(circle at 50% 45%,#f7fbf7 0 55%,#e3efe5 100%);border-radius:12px;border:2px dashed #b9d6c0}
+  .body-outline{fill:#f3dcc8;stroke:#7a5a45;stroke-width:1.6;stroke-linejoin:round}
+  .detail{fill:none;stroke:#7a5a45;stroke-width:1;opacity:.6}
+  .muscle{cursor:pointer;outline:none}
+  .muscle path,.muscle ellipse{fill:var(--muscle);stroke:var(--muscle-stroke);stroke-width:1.3;transition:fill .15s}
+  @media (hover:hover){.muscle:hover path,.muscle:hover ellipse{fill:var(--hover)}}
+  .muscle:focus-visible path,.muscle:focus-visible ellipse{stroke:var(--focus);stroke-width:3}
+  .muscle.selected path,.muscle.selected ellipse{fill:var(--sel);stroke:#7a5b00;stroke-width:2.2}
+  .muscle.correct path,.muscle.correct ellipse{fill:#3fbf63;stroke:#0d5a23;stroke-width:2.4}
+  .muscle.wrong path,.muscle.wrong ellipse{fill:#e5534b;stroke:#6e130e;stroke-width:2.4}
+  .muscle.reveal path,.muscle.reveal ellipse{fill:#3fbf63;stroke:#0d5a23;stroke-width:2.4;animation:pulse 1s ease-in-out 3}
+  @keyframes pulse{50%{stroke-width:5;stroke:#ffd23f}}
+  button{font:inherit}
+  .btn{min-height:44px;padding:8px 16px;border-radius:10px;border:2px solid var(--pitch-dark);background:var(--pitch);color:#fff;font-weight:700;cursor:pointer}
+  .btn:hover{background:var(--pitch-dark)}
+  .btn.secondary{background:#fff;color:var(--pitch-dark)}
+  .btn.secondary:hover{background:#e6f2e9}
+  .btn[hidden]{display:none}
+  :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chip{min-height:44px;padding:6px 12px;border-radius:999px;border:2px solid #b9d6c0;background:#fff;color:var(--ink);font-weight:600;cursor:pointer}
+  .chip[aria-pressed=true]{background:var(--sel);border-color:#7a5b00}
+  .card-name{margin:0 0 4px;font-size:1.45rem;color:var(--pitch-dark)}
+  .card-sub{margin:0 0 10px;color:var(--muted);font-size:.9rem}
+  dl.facts{margin:0;display:grid;gap:10px}
+  dl.facts dt{font-weight:800;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  dl.facts dd{margin:0}
+  .football{background:#e8f5ec;border-left:5px solid var(--pitch);padding:8px 10px;border-radius:8px}
+  .placeholder{color:var(--muted)}
+  .prompt{font-size:1.3rem;margin:0 0 8px}
+  .prompt strong{color:var(--pitch-dark)}
+  .feedback{min-height:3em;padding:10px;border-radius:10px;margin:10px 0;font-weight:600}
+  .feedback[data-result=correct]{background:var(--ok-bg);color:#0d4f1f}
+  .feedback[data-result=wrong]{background:var(--bad-bg);color:#7d1711}
+  .scoreline{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700}
+  .progress{height:14px;background:#d7e7db;border-radius:999px;overflow:hidden;margin:6px 0 14px}
+  .progress > div{height:100%;width:0;background:linear-gradient(90deg,var(--pitch),#55c271);transition:width .3s}
+  #qText{font-size:1.2rem;margin:4px 0 14px}
+  #qOptions{display:grid;gap:10px}
+  .opt{text-align:left;min-height:52px;padding:10px 14px;border:2px solid #b9d6c0;border-radius:12px;background:#fff;color:var(--ink);font-weight:600;cursor:pointer;font-size:1rem}
+  .opt:hover:not(:disabled){border-color:var(--pitch);background:#f1f8f3}
+  .opt:disabled{cursor:default}
+  .opt.correct{background:var(--ok-bg);border-color:var(--ok);color:#0d4f1f}
+  .opt.correct::after{content:"  ✔"}
+  .opt.wrong{background:var(--bad-bg);border-color:var(--bad);color:#7d1711}
+  .opt.wrong::after{content:"  ✘"}
+  .explain{margin-top:12px;padding:10px;border-radius:10px;background:#f4f7f5;border-left:5px solid var(--pitch)}
+  .explain[hidden]{display:none}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .big-score{font-size:2.6rem;font-weight:900;color:var(--pitch-dark);margin:4px 0}
+  .review-item{border:1px solid #d7e7db;border-radius:10px;padding:10px;margin:8px 0;background:#fbfdfb}
+  .review-item p{margin:4px 0}
+  .best{font-size:.95rem;color:var(--muted);font-weight:600}
+  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:16px}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg class="ball" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#fff" stroke="#14211a" stroke-width="2"/><polygon points="20,12 27,17 24.5,25 15.5,25 13,17" fill="#14211a"/><path d="M20 12V3M27 17l8-3M24.5 25l5 7M15.5 25l-5 7M13 17l-8-3" stroke="#14211a" stroke-width="1.6"/></svg>
+    <div>
+      <h1>Muscles in Football</h1>
+      <p>KS3 / GCSE PE · learn them, label them, then take the quiz</p>
+    </div>
+  </div>
+  <nav role="tablist" aria-label="Mode">
+    <button class="tab" role="tab" id="tab-learn" aria-controls="panel-learn" aria-selected="true">Learn</button>
+    <button class="tab" role="tab" id="tab-label" aria-controls="panel-label" aria-selected="false" tabindex="-1">Label it</button>
+    <button class="tab" role="tab" id="tab-quiz" aria-controls="panel-quiz" aria-selected="false" tabindex="-1">Quiz</button>
+  </nav>
+</header>
+
+<main>
+  <!-- LEARN -->
+  <section class="panel" id="panel-learn" role="tabpanel" aria-labelledby="tab-learn">
+    <div class="layout">
+      <div class="box diagram-wrap">
+        <div class="diagram-head">
+          <span class="view-label" data-role="viewLabel">Front view</span>
+          <button class="btn secondary" data-role="viewToggle" aria-pressed="false">Show back</button>
+        </div>
+        <div class="diagram" data-role="diagram"></div>
+      </div>
+      <div>
+        <div class="box" id="infoCard" aria-live="polite">
+          <p class="placeholder">Tap a muscle on the body (or pick one below) to see where it is, what it does and how footballers use it.</p>
+        </div>
+        <div class="box" style="margin-top:16px">
+          <strong>All muscles</strong>
+          <div class="chips" id="chips"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LABEL -->
+  <section class="panel" id="panel-label" role="tabpanel" aria-labelledby="tab-label" hidden>
+    <div class="layout">
+      <div class="box diagram-wrap">
+        <div class="diagram-head">
+          <span class="view-label" data-role="viewLabel">Front view</span>
+          <button class="btn secondary" data-role="viewToggle" aria-pressed="false">Show back</button>
+        </div>
+        <div class="diagram" data-role="diagram"></div>
+      </div>
+      <div class="box">
+        <p class="prompt">Tap the: <strong id="labelTarget" data-target=""></strong></p>
+        <div class="feedback" id="labelFeedback" aria-live="polite" data-result="">Find it on the body. Switch between front and back if you need to.</div>
+        <div class="scoreline"><span>Score: <span id="labelScore">0 / 0</span></span>
+          <button class="btn" id="labelNext" hidden>Next muscle ▶</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+    <div class="box" id="qRun">
+      <div class="scoreline"><span id="qCount">Question 1 of 15</span><span class="best" id="bestScore">Best: none yet</span></div>
+      <div class="progress" id="qProgress" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0"><div></div></div>
+      <h2 id="qText" tabindex="-1"></h2>
+      <div id="qOptions" role="group" aria-labelledby="qText"></div>
+      <div class="explain" id="qExplain" aria-live="polite" hidden></div>
+      <div class="actions"><button class="btn" id="qNext" hidden>Next ▶</button></div>
+    </div>
+    <div class="box" id="qResults" hidden>
+      <h2 style="margin:0">Full time! ⚽</h2>
+      <div class="big-score" id="qFinalScore" data-score="0">0 / 15</div>
+      <p id="qMessage"></p>
+      <p class="best" id="bestScoreResults"></p>
+      <div class="actions"><button class="btn" id="qRetry">Play again (new questions)</button></div>
+      <h3>Ones to review</h3>
+      <div id="qReview"></div>
+    </div>
+  </section>
+</main>
+<footer>Diagrams are simplified drawings for revision. Made for school PE revision.</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Data ---------- */
+var MUSCLES = {
+  deltoid:{name:"Deltoid", views:["front","back"],
+    location:"The rounded cap of the shoulder. The front (anterior) part is seen from the front; the back is the posterior deltoid.",
+    action:"Abducts the arm at the shoulder (lifts it out to the side). The front part also flexes the shoulder (arm forwards and up); the posterior deltoid extends it (pulls the arm back).",
+    football:"A goalkeeper raises their arms up to catch or tip a high cross over the bar. The posterior deltoid pulls the arms back behind the head to wind up a throw-in.",
+    pair:"Latissimus dorsi (abduction / adduction at the shoulder)"},
+  pecs:{name:"Pectorals", views:["front"],
+    location:"The chest, across the front of the ribcage.",
+    action:"Adducts the arm at the shoulder and brings it across the chest (horizontal flexion).",
+    football:"A goalkeeper sweeps an arm across their body to palm a shot away,.",
+    pair:null},
+  biceps:{name:"Biceps", views:["front"],
+    location:"The front of the upper arm.",
+    action:"Flexes the elbow (bends the arm).",
+    football:"A goalkeeper bends the elbows to pull a caught ball safely into the chest.",
+    pair:"Triceps (at the elbow)"},
+  triceps:{name:"Triceps", views:["back"],
+    location:"The back of the upper arm.",
+    action:"Extends the elbow (straightens the arm).",
+    football:"Straightening the arms to release a throw-in, or a goalkeeper pushing the ball out to a defender.",
+    pair:"Biceps (at the elbow)"},
+  lats:{name:"Latissimus dorsi", views:["back"],
+    location:"The large muscle on the sides of the back, below the armpits.",
+    action:"Adducts and extends the arm at the shoulder (pulls the arm down and back towards the body).",
+    football:"On a long throw-in, the lats pull the arms powerfully down and forwards from behind the head to launch the ball.",
+    pair:"Deltoid (adduction / abduction at the shoulder)"},
+  glutes:{name:"Gluteals", views:["back"],
+    location:"The buttocks, at the back of the hip.",
+    action:"Extends the hip (moves the leg backwards).",
+    football:"Driving each leg back hard when sprinting after a through ball, and when jumping.",
+    pair:"Hip flexors (at the hip)"},
+  quads:{name:"Quadriceps", views:["front"],
+    location:"The front of the thigh (a group of four muscles).",
+    action:"Extends the knee (straightens the leg).",
+    football:"Straightening the knee to strike the ball when shooting or passing; also extending the knees to jump for a header.",
+    pair:"Hamstrings (at the knee)"},
+  hamstrings:{name:"Hamstrings", views:["back"],
+    location:"The back of the thigh (a group of three muscles).",
+    action:"Flexes the knee (bends the leg). They also help extend the hip.",
+    football:"Bending the knee to take the leg back in the backswing before a kick, and pulling the leg through when sprinting.",
+    pair:"Quadriceps (at the knee)"},
+  gastrocnemius:{name:"Gastrocnemius", views:["back"],
+    location:"The back of the lower leg – the calf.",
+    action:"Plantar flexion of the ankle (points the toes / pushes up onto tiptoes).",
+    football:"Pushing up off the toes to jump for a header, and pushing off the ground with each stride when sprinting.",
+    pair:"Tibialis anterior (at the ankle)"}
+};
+var ORDER = ["deltoid","pecs","biceps","triceps","lats","glutes","quads","hamstrings","gastrocnemius"];
+
+/* Each question: q, a (correct), w (3 wrong), e (explanation), t (type) */
+var BANK = [
+  {t:"location",q:"Which muscle group is found at the front of the thigh?",a:"Quadriceps",w:["Hamstrings","Gastrocnemius","Gluteals"],e:"The quadriceps are the four muscles at the front of the thigh. The hamstrings are at the back."},
+  {t:"location",q:"Where are the hamstrings?",a:"The back of the thigh",w:["The front of the thigh","The back of the lower leg","The back of the upper arm"],e:"The hamstrings run down the back of the thigh, from the hip to just below the knee."},
+  {t:"location",q:"The gastrocnemius is found in the…",a:"Calf (back of the lower leg)",w:["Front of the shin","Back of the thigh","Buttocks"],e:"The gastrocnemius is the main calf muscle at the back of the lower leg."},
+  {t:"location",q:"Which muscle forms the rounded cap of the shoulder?",a:"Deltoid",w:["Pectorals","Latissimus dorsi","Triceps"],e:"The deltoid covers the shoulder joint. Its back part is the posterior deltoid."},
+  {t:"location",q:"Where are the triceps?",a:"The back of the upper arm",w:["The front of the upper arm","The top of the shoulder","The forearm"],e:"Triceps are at the back of the upper arm; biceps are at the front."},
+  {t:"location",q:"Where is the latissimus dorsi?",a:"The sides of the back, below the armpits",w:["The chest","The front of the stomach","The back of the thigh"],e:"The ‘lats’ are the big, wide muscles on the sides of the back."},
+  {t:"location",q:"Which muscle group is found in the chest?",a:"Pectorals",w:["Latissimus dorsi","Deltoid","Gluteals"],e:"The pectorals (‘pecs’) cover the front of the chest."},
+  {t:"location",q:"The gluteals are located in the…",a:"Buttocks (back of the hip)",w:["Back of the knee","Lower stomach","Front of the thigh"],e:"The gluteals make up the buttocks and act on the hip joint."},
+  {t:"location",q:"Which muscle is at the front of the upper arm?",a:"Biceps",w:["Triceps","Deltoid","Pectorals"],e:"The biceps are at the front of the upper arm."},
+  {t:"location",q:"Which of these muscles can you see on the BACK view of the body?",a:"Hamstrings",w:["Quadriceps","Pectorals","Biceps"],e:"Hamstrings are at the back of the thigh. Quads, pecs and biceps are all on the front."},
+  {t:"action",q:"What is the main action of the quadriceps?",a:"Extending (straightening) the knee",w:["Flexing (bending) the knee","Plantar flexion of the ankle","Extending the hip"],e:"The quadriceps extend the knee. The hamstrings do the opposite – they flex it."},
+  {t:"action",q:"What is the main action of the hamstrings?",a:"Flexing (bending) the knee",w:["Extending the knee","Abducting the arm","Plantar flexion of the ankle"],e:"The hamstrings flex the knee (and help extend the hip)."},
+  {t:"action",q:"Which movement does the gastrocnemius cause at the ankle?",a:"Plantar flexion (pointing the toes)",w:["Dorsiflexion (pulling the toes up)","Flexion of the hip","Extension of the elbow"],e:"The gastrocnemius plantar flexes the ankle. Tibialis anterior does dorsiflexion."},
+  {t:"action",q:"What is the main action of the biceps?",a:"Flexing the elbow",w:["Extending the elbow","Extending the knee","Abducting the shoulder"],e:"The biceps bend (flex) the arm at the elbow."},
+  {t:"action",q:"What is the main action of the triceps?",a:"Extending the elbow",w:["Flexing the elbow","Flexing the knee","Adducting the shoulder"],e:"The triceps straighten (extend) the arm at the elbow."},
+  {t:"action",q:"What is the main action of the gluteals?",a:"Extending the hip (moving the leg backwards)",w:["Flexing the hip","Flexing the elbow","Plantar flexion of the ankle"],e:"The gluteals extend the hip, driving the leg backwards."},
+  {t:"action",q:"What is the main action of the deltoid?",a:"Abducting the arm at the shoulder (lifting it out to the side)",w:["Flexing the elbow","Extending the knee","Extending the hip"],e:"The deltoid abducts the arm. Its front part flexes the shoulder and its posterior part extends it."},
+  {t:"action",q:"What does the latissimus dorsi do?",a:"Adducts and extends the arm at the shoulder",w:["Abducts the arm at the shoulder","Flexes the elbow","Extends the hip"],e:"The lats pull the arm down and back towards the body (adduction and extension)."},
+  {t:"action",q:"What do the pectorals do?",a:"Adduct the arm and bring it across the chest",w:["Extend the elbow","Abduct the arm","Extend the hip"],e:"The pectorals adduct the arm and bring it across the chest (horizontal flexion)."},
+  {t:"action",q:"Which muscle works as an antagonistic pair with the quadriceps at the knee?",a:"Hamstrings",w:["Gastrocnemius","Gluteals","Biceps"],e:"Quadriceps and hamstrings are an antagonistic pair: one contracts while the other relaxes."},
+  {t:"action",q:"Which muscle works as an antagonistic pair with the biceps at the elbow?",a:"Triceps",w:["Deltoid","Pectorals","Latissimus dorsi"],e:"Biceps flex the elbow and triceps extend it – a classic antagonistic pair."},
+  {t:"football",q:"A striker shoots and the leg straightens at the knee to hit the ball. Which muscle is the main mover (agonist)?",a:"Quadriceps",w:["Hamstrings","Gastrocnemius","Biceps"],e:"The quadriceps contract to extend the knee as the foot strikes the ball."},
+  {t:"football",q:"Before kicking, a player bends the knee to swing the leg back. Which muscle does this?",a:"Hamstrings",w:["Quadriceps","Gluteals","Pectorals"],e:"The hamstrings flex the knee in the backswing / preparation phase."},
+  {t:"football",q:"A defender pushes up off their toes to jump for a header. Which muscle causes the plantar flexion?",a:"Gastrocnemius",w:["Quadriceps","Hamstrings","Latissimus dorsi"],e:"The gastrocnemius plantar flexes the ankle to push off the ground."},
+  {t:"football",q:"A winger sprints after a through ball, driving each leg back at the hip. Which muscle extends the hip?",a:"Gluteals",w:["Quadriceps","Pectorals","Biceps"],e:"The gluteals extend the hip, powering the leg backwards in each stride."},
+  {t:"football",q:"On a long throw-in, which muscle pulls the arms down and forwards from behind the head?",a:"Latissimus dorsi",w:["Biceps","Gastrocnemius","Deltoid"],e:"The lats extend and adduct the shoulder, pulling the arms down and forwards to release the ball."},
+  {t:"football",q:"As a throw-in is released, the elbows straighten. Which muscle extends the elbows?",a:"Triceps",w:["Biceps","Pectorals","Hamstrings"],e:"The triceps extend the elbow to push the ball away."},
+  {t:"football",q:"A goalkeeper catches the ball and bends the elbows to pull it into the chest. Which muscle flexes the elbows?",a:"Biceps",w:["Triceps","Deltoid","Latissimus dorsi"],e:"The biceps flex the elbow to bring the ball in safely."},
+  {t:"football",q:"A goalkeeper lifts their arms up and out to reach a high cross. Which shoulder muscle does this?",a:"Deltoid",w:["Latissimus dorsi","Biceps","Gluteals"],e:"The deltoid abducts and flexes the shoulder to raise the arms."},
+  {t:"football",q:"A goalkeeper sweeps an arm across their body to palm a shot away. Which muscle brings the arm across the chest?",a:"Pectorals",w:["Triceps","Latissimus dorsi","Gastrocnemius"],e:"The pectorals adduct the arm and bring it across the chest (horizontal flexion)."},
+  {t:"football",q:"A player jumps for a header and straightens the knees to take off. Which muscle extends the knees?",a:"Quadriceps",w:["Hamstrings","Biceps","Pectorals"],e:"The quadriceps extend the knees to drive the body upwards."},
+  {t:"football",q:"When a player kicks, the quadriceps contract to extend the knee. What role do the hamstrings play?",a:"Antagonist – they relax and lengthen",w:["Agonist – they contract to extend the knee","They plantar flex the ankle","They abduct the hip"],e:"In an antagonistic pair, the antagonist (hamstrings) relaxes while the agonist (quadriceps) contracts."},
+  {t:"football",q:"Which muscle pulls the arms back behind the head to wind up a throw-in?",a:"Posterior deltoid",w:["Pectorals","Biceps","Quadriceps"],e:"The posterior (back) part of the deltoid extends the shoulder, taking the arms back."}
+];
+var QUIZ_LEN = 15;
+var BEST_KEY = "mfq-best-v1";
+
+/* ---------- SVG diagram ---------- */
+var MIRROR = ' transform="matrix(-1 0 0 1 200 0)"';
+var OUTLINE =
+  '<circle class="body-outline" cx="100" cy="38" r="24"/>' +
+  '<path class="body-outline" d="M90,58 L110,58 L112,80 L88,80 Z"/>' +
+  '<path class="body-outline" d="M70,78 Q100,70 130,78 L144,90 L138,150 L130,200 L134,232 L66,232 L70,200 L62,150 L56,90 Z"/>' +
+  '<path class="body-outline" d="M58,84 L40,96 L30,170 L22,240 L36,244 L44,174 L60,124 Z"/>' +
+  '<path class="body-outline"' + MIRROR + ' d="M58,84 L40,96 L30,170 L22,240 L36,244 L44,174 L60,124 Z"/>' +
+  '<ellipse class="body-outline" cx="28" cy="254" rx="9" ry="12"/>' +
+  '<ellipse class="body-outline" cx="172" cy="254" rx="9" ry="12"/>' +
+  '<path class="body-outline" d="M66,226 L99,230 L98,300 L94,380 L93,418 L75,418 L72,380 L65,300 Z"/>' +
+  '<path class="body-outline"' + MIRROR + ' d="M66,226 L99,230 L98,300 L94,380 L93,418 L75,418 L72,380 L65,300 Z"/>' +
+  '<ellipse class="body-outline" cx="82" cy="426" rx="13" ry="7"/>' +
+  '<ellipse class="body-outline" cx="118" cy="426" rx="13" ry="7"/>';
+
+var SHAPES = {
+  deltoid:'<ellipse cx="55" cy="97" rx="11" ry="15" transform="rotate(20 55 97)"/>',
+  pecs:'<path d="M72,98 Q86,92 98,98 L98,128 Q84,135 70,124 Z"/>',
+  biceps:'<ellipse cx="44" cy="140" rx="8" ry="22" transform="rotate(10 44 140)"/>',
+  triceps:'<ellipse cx="44" cy="140" rx="8" ry="22" transform="rotate(10 44 140)"/>',
+  lats:'<path d="M66,116 Q82,122 97,140 L97,186 Q84,190 73,196 L67,152 Z"/>',
+  glutes:'<path d="M69,206 Q84,198 98,206 L98,242 Q84,252 69,242 Z"/>',
+  quads:'<path d="M70,240 L98,242 L96,300 L90,330 L76,330 L69,300 Z"/>',
+  hamstrings:'<path d="M70,256 L98,256 L96,305 L90,330 L76,330 L69,302 Z"/>',
+  gastrocnemius:'<ellipse cx="83" cy="362" rx="10" ry="24"/>'
+};
+// Left-side shape plus a mirrored copy for the right side.
+function pairShape(id){
+  var s = SHAPES[id];
+  return '<g class="muscle" data-muscle="'+id+'" tabindex="0" role="button" aria-label="'+MUSCLES[id].name+'">' +
+    s + '<g'+MIRROR+'>'+s+'</g></g>';
+}
+function buildSVG(view){
+  var ids = ORDER.filter(function(id){ return MUSCLES[id].views.indexOf(view) !== -1; });
+  var details = view === "front"
+    ? '<path class="detail" d="M92,40 Q100,46 108,40"/><circle cx="91" cy="32" r="2" fill="#7a5a45"/><circle cx="109" cy="32" r="2" fill="#7a5a45"/><path class="detail" d="M100,140 L100,196"/>'
+    : '<path class="detail" d="M100,82 L100,204"/><path class="detail" d="M80,24 Q100,10 120,24"/>';
+  var title = view === "front" ? "Front view of the body" : "Back view of the body";
+  return '<svg viewBox="0 0 200 440" data-view="'+view+'" role="group" aria-label="'+title+'">' +
+    '<title>'+title+'</title>' + OUTLINE + details +
+    ids.map(pairShape).join("") + '</svg>';
+}
+
+/* ---------- Helpers ---------- */
+function $(sel, root){ return (root||document).querySelector(sel); }
+function $all(sel, root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+function shuffle(arr){ var a = arr.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&","<":"<",">":">",'"':""","'":"&#39;"}[c]; }); }
+
+/* ---------- Diagram component ---------- */
+function Diagram(panel, onPick){
+  this.panel = panel; this.onPick = onPick; this.view = "front";
+  this.host = $('[data-role=diagram]', panel);
+  this.toggle = $('[data-role=viewToggle]', panel);
+  this.label = $('[data-role=viewLabel]', panel);
+  var self = this;
+  this.toggle.addEventListener("click", function(){ self.setView(self.view === "front" ? "back" : "front"); });
+  this.host.addEventListener("click", function(ev){
+    var g = ev.target.closest && ev.target.closest(".muscle");
+    if (g) self.onPick(g.getAttribute("data-muscle"), g);
+  });
+  this.host.addEventListener("keydown", function(ev){
+    if (ev.key !== "Enter" && ev.key !== " " && ev.key !== "Spacebar") return;
+    var g = ev.target.closest && ev.target.closest(".muscle");
+    if (g){ ev.preventDefault(); self.onPick(g.getAttribute("data-muscle"), g); }
+  });
+  this.render();
+}
+Diagram.prototype.render = function(){
+  this.host.innerHTML = buildSVG(this.view);
+  var back = this.view === "back";
+  this.toggle.setAttribute("aria-pressed", back ? "true" : "false");
+  this.toggle.textContent = back ? "Show front" : "Show back";
+  this.label.textContent = back ? "Back view" : "Front view";
+  if (this.afterRender) this.afterRender();
+};
+Diagram.prototype.setView = function(v){ if (v !== this.view){ this.view = v; this.render(); } };
+Diagram.prototype.region = function(id){ return $('.muscle[data-muscle="'+id+'"]', this.host); };
+Diagram.prototype.clearMarks = function(){ $all(".muscle", this.host).forEach(function(g){ g.classList.remove("selected","correct","wrong","reveal"); }); };
+
+/* ---------- Tabs ---------- */
+var tabs = $all('[role=tab]');
+function selectTab(tab, focus){
+  tabs.forEach(function(t){
+    var on = t === tab;
+    t.setAttribute("aria-selected", on ? "true" : "false");
+    t.tabIndex = on ? 0 : -1;
+    document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+  });
+  if (focus) tab.focus();
+  if (tab.id === "tab-quiz" && !quiz.started) quiz.start();
+  if (tab.id === "tab-label" && !label.target) label.next();
+}
+tabs.forEach(function(t, i){
+  t.addEventListener("click", function(){ selectTab(t); });
+  t.addEventListener("keydown", function(ev){
+    var n = null;
+    if (ev.key === "ArrowRight") n = tabs[(i+1)%tabs.length];
+    else if (ev.key === "ArrowLeft") n = tabs[(i-1+tabs.length)%tabs.length];
+    else if (ev.key === "Home") n = tabs[0];
+    else if (ev.key === "End") n = tabs[tabs.length-1];
+    if (n){ ev.preventDefault(); selectTab(n, true); }
+  });
+});
+
+/* ---------- Learn ---------- */
+var learn = { selected:null };
+var infoCard = $("#infoCard");
+var chipsHost = $("#chips");
+ORDER.forEach(function(id){
+  var b = document.createElement("button");
+  b.className = "chip"; b.type = "button"; b.textContent = MUSCLES[id].name;
+  b.setAttribute("data-muscle", id); b.setAttribute("aria-pressed","false");
+  b.addEventListener("click", function(){
+    var m = MUSCLES[id];
+    if (m.views.indexOf(learnDiagram.view) === -1) learnDiagram.setView(m.views[0]);
+    learn.show(id);
+  });
+  chipsHost.appendChild(b);
+});
+learn.show = function(id){
+  var m = MUSCLES[id]; learn.selected = id;
+  learnDiagram.clearMarks();
+  var g = learnDiagram.region(id); if (g) g.classList.add("selected");
+  $all(".chip", chipsHost).forEach(function(c){ c.setAttribute("aria-pressed", c.getAttribute("data-muscle") === id ? "true" : "false"); });
+  var sub = id === "deltoid"
+    ? (learnDiagram.view === "back" ? "Shown here: posterior (back) deltoid · also on the front view" : "Shown here: front (anterior) deltoid · posterior deltoid on the back view")
+    : "Seen on the " + m.views[0] + " view";
+  infoCard.innerHTML =
+    '<h2 class="card-name">'+esc(id === "deltoid" && learnDiagram.view === "back" ? "Deltoid (posterior)" : m.name)+'</h2>' +
+    '<p class="card-sub">'+esc(sub)+'</p>' +
+    '<dl class="facts">' +
+      '<div><dt>Where is it?</dt><dd data-field="location">'+esc(m.location)+'</dd></div>' +
+      '<div><dt>Main action</dt><dd data-field="action">'+esc(m.action)+'</dd></div>' +
+      '<div class="football"><dt>⚽ In football</dt><dd data-field="football">'+esc(m.football)+'</dd></div>' +
+      (m.pair ? '<div><dt>Antagonistic pair</dt><dd data-field="pair">'+esc(m.pair)+'</dd></div>' : '') +
+    '</dl>';
+};
+var learnDiagram = new Diagram($("#panel-learn"), function(id){ learn.show(id); });
+learnDiagram.afterRender = function(){
+  if (!learn.selected) return;
+  var g = learnDiagram.region(learn.selected);
+  if (g){ g.classList.add("selected"); if (learn.selected === "deltoid") learn.show("deltoid"); }
+};
+
+/* ---------- Label practice ---------- */
+var label = { target:null, answered:false, right:0, total:0 };
+var labelTargetEl = $("#labelTarget"), labelFb = $("#labelFeedback"), labelScoreEl = $("#labelScore"), labelNextBtn = $("#labelNext");
+var labelDiagram = new Diagram($("#panel-label"), function(id, g){ label.pick(id, g); });
+labelDiagram.afterRender = function(){
+  // re-apply marks after a view switch
+  if (label.answered && label.lastPick){
+    var p = labelDiagram.region(label.lastPick.id); if (p) p.classList.add(label.lastPick.cls);
+    if (label.lastPick.cls === "wrong"){ var c = labelDiagram.region(label.target); if (c) c.classList.add("reveal"); }
+  }
+};
+label.next = function(){
+  var choices = ORDER.filter(function(id){ return id !== label.target; });
+  label.target = choices[Math.floor(Math.random()*choices.length)];
+  label.answered = false; label.lastPick = null;
+  var m = MUSCLES[label.target];
+  if (m.views.indexOf(labelDiagram.view) === -1) labelDiagram.setView(m.views[0]);
+  labelDiagram.clearMarks();
+  labelTargetEl.textContent = m.name;
+  labelTargetEl.setAttribute("data-target", label.target);
+  labelFb.setAttribute("data-result", "");
+  labelFb.textContent = "Tap the " + m.name + " on the body.";
+  labelNextBtn.hidden = true;
+};
+label.pick = function(id, g){
+  if (label.answered || !label.target) return;
+  label.answered = true; label.total++;
+  var m = MUSCLES[label.target];
+  if (id === label.target){
+    label.right++;
+    g.classList.add("correct"); label.lastPick = {id:id, cls:"correct"};
+    labelFb.setAttribute("data-result","correct");
+    labelFb.textContent = "✔ Correct! That's the " + m.name + ". " + m.action;
+  } else {
+    g.classList.add("wrong"); label.lastPick = {id:id, cls:"wrong"};
+    var c = labelDiagram.region(label.target); if (c) c.classList.add("reveal");
+    labelFb.setAttribute("data-result","wrong");
+    labelFb.textContent = "✘ Not quite – that's the " + MUSCLES[id].name + ". The right answer, " + m.name + ", is flashing green (" + m.location.replace(/\.$/,"").toLowerCase() + ").";
+  }
+  labelScoreEl.textContent = label.right + " / " + label.total;
+  labelNextBtn.hidden = false; labelNextBtn.focus();
+};
+labelNextBtn.addEventListener("click", function(){ label.next(); });
+
+/* ---------- Best score (defensive) ---------- */
+function readBest(){
+  try {
+    var raw = window.localStorage.getItem(BEST_KEY);
+    if (raw == null) return null;
+    var v = JSON.parse(raw);
+    if (!v || typeof v !== "object") return null;
+    var s = v.score, t = v.total;
+    if (typeof s !== "number" || typeof t !== "number" || !isFinite(s) || !isFinite(t)) return null;
+    if (s < 0 || t <= 0 || s > t || Math.floor(s) !== s) return null;
+    return { score:s, total:t };
+  } catch (e) { return null; }
+}
+function writeBest(score, total){
+  try { window.localStorage.setItem(BEST_KEY, JSON.stringify({score:score,total:total,date:new Date().toISOString()})); return true; }
+  catch (e) { return false; }
+}
+function bestText(){ var b = readBest(); return b ? "Best: " + b.score + " / " + b.total : "Best: none yet"; }
+
+/* ---------- Quiz ---------- */
+var quiz = { started:false, qs:[], i:0, score:0, missed:[], answered:false };
+var qText=$("#qText"), qOptions=$("#qOptions"), qExplain=$("#qExplain"), qNext=$("#qNext"), qCount=$("#qCount"),
+    qProgress=$("#qProgress"), qBar=$("#qProgress > div"), qRun=$("#qRun"), qResults=$("#qResults"), bestEl=$("#bestScore");
+quiz.start = function(){
+  quiz.started = true;
+  quiz.qs = shuffle(BANK).slice(0, QUIZ_LEN).map(function(q){
+    return { q:q.q, a:q.a, e:q.e, t:q.t, options: shuffle([q.a].concat(q.w)) };
+  });
+  quiz.i = 0; quiz.score = 0; quiz.missed = [];
+  qRun.hidden = false; qResults.hidden = true;
+  bestEl.textContent = bestText();
+  quiz.render();
+};
+quiz.render = function(){
+  var cur = quiz.qs[quiz.i];
+  quiz.answered = false;
+  qCount.textContent = "Question " + (quiz.i+1) + " of " + quiz.qs.length;
+  qProgress.setAttribute("aria-valuenow", String(quiz.i));
+  qBar.style.width = (quiz.i / quiz.qs.length * 100) + "%";
+  qText.textContent = cur.q;
+  qOptions.innerHTML = "";
+  cur.options.forEach(function(opt){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "opt"; b.textContent = opt;
+    b.addEventListener("click", function(){ quiz.answer(b, opt); });
+    qOptions.appendChild(b);
+  });
+  qExplain.hidden = true; qExplain.textContent = "";
+  qNext.hidden = true;
+};
+quiz.answer = function(btn, opt){
+  if (quiz.answered) return;          // guard against double clicks
+  quiz.answered = true;
+  var cur = quiz.qs[quiz.i], right = opt === cur.a;
+  $all(".opt", qOptions).forEach(function(b){
+    b.disabled = true;
+    if (b.textContent === cur.a) b.classList.add("correct");
+  });
+  if (right) quiz.score++;
+  else { btn.classList.add("wrong"); quiz.missed.push({q:cur.q, chosen:opt, a:cur.a, e:cur.e}); }
+  qExplain.innerHTML = (right ? "<strong>✔ Correct!</strong> " : "<strong>✘ Not quite.</strong> The answer is <strong>"+esc(cur.a)+"</strong>. ") + esc(cur.e);
+  qExplain.hidden = false;
+  qProgress.setAttribute("aria-valuenow", String(quiz.i+1));
+  qBar.style.width = ((quiz.i+1) / quiz.qs.length * 100) + "%";
+  qNext.textContent = quiz.i + 1 < quiz.qs.length ? "Next ▶" : "See my score";
+  qNext.hidden = false; qNext.focus();
+};
+qNext.addEventListener("click", function(){
+  if (!quiz.answered) return;
+  if (quiz.i + 1 < quiz.qs.length){ quiz.i++; quiz.render(); qText.focus(); }
+  else quiz.finish();
+});
+quiz.finish = function(){
+  var total = quiz.qs.length, s = quiz.score, pct = Math.round(s/total*100);
+  var prev = readBest(), newBest = !prev || s > prev.score;
+  var saved = newBest ? writeBest(s, total) : true;
+  qRun.hidden = true; qResults.hidden = false;
+  var fs = $("#qFinalScore"); fs.textContent = s + " / " + total; fs.setAttribute("data-score", String(s));
+  var msg = pct === 100 ? "Perfect hat-trick of knowledge – top of the league!" :
+            pct >= 80 ? "Brilliant – that's a match-winning performance." :
+            pct >= 60 ? "Solid result. Review the misses and go again." :
+            pct >= 40 ? "Decent effort – a bit more training and you'll smash it." :
+                        "Early days! Use Learn mode, then have another go.";
+  $("#qMessage").textContent = pct + "% · " + msg;
+  $("#bestScoreResults").textContent = (newBest && saved ? "New best score! " : "") + bestText();
+  bestEl.textContent = bestText();
+  var rv = $("#qReview");
+  rv.innerHTML = quiz.missed.length ? quiz.missed.map(function(m){
+    return '<div class="review-item"><p><strong>'+esc(m.q)+'</strong></p><p>Your answer: '+esc(m.chosen)+'</p><p>Correct answer: <strong>'+esc(m.a)+'</strong></p><p>'+esc(m.e)+'</p></div>';
+  }).join("") : '<p>Nothing to review – you got them all right! 🏆</p>';
+  $("#qRetry").focus();
+};
+$("#qRetry").addEventListener("click", function(){ quiz.start(); });
+
+bestEl.textContent = bestText();
+window.MFQ = { muscles:MUSCLES, bank:BANK };
+})();
+</script>
+</body>
+</html>
