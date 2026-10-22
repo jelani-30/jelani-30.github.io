@@ -1,0 +1,1058 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Year 7 reading comprehension practice: seven short original texts with retrieval, inference, vocabulary and Point-Evidence-Explain questions.">
+<title>Year 7 Reading Comprehension Practice</title>
+<style>
+:root{
+  --ink:#1a1a1a; --muted:#4a4f57; --bg:#f6f4ef; --card:#ffffff; --paper:#fffdf6;
+  --line:#d6d2c7; --accent:#1d4ed8; --accent-ink:#ffffff; --focus:#b45309;
+  --ok-bg:#dcfce7; --ok-ink:#14532d; --bad-bg:#fee2e2; --bad-ink:#7f1d1d; --hint-bg:#fef3c7; --hint-ink:#713f12;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:1.0625rem/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;overflow-wrap:break-word}
+.wrap{max-width:800px;margin:0 auto;padding:0 16px}
+.skip{position:absolute;left:-9999px;top:0;background:#000;color:#fff;padding:8px 14px;z-index:10;min-height:44px;display:inline-flex;align-items:center}
+.skip:focus{left:8px;top:8px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+/* On the navy header the orange ring is only 2.5:1, so use a pale yellow ring there (about 10:1). */
+header.site :focus-visible,.skip:focus,.skip:focus-visible{outline-color:#fde68a}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+header.site{background:#17325c;color:#fff;padding:18px 0 14px}
+header.site h1{margin:0;font-size:1.6rem;line-height:1.25}
+header.site .sub{margin:4px 0 10px;color:#dbe4f3}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.toolbar label{display:inline-flex;gap:8px;align-items:center;cursor:pointer;min-height:44px}
+.toolbar input[type=checkbox]{width:1.2rem;height:1.2rem}
+.total{margin:10px 0 0;font-weight:600}
+button,.btn{font:inherit;font-weight:600;border-radius:8px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);padding:8px 14px;cursor:pointer;min-height:44px;text-decoration:none;display:inline-flex;align-items:center}
+button.secondary,.btn.secondary{background:#fff;color:var(--accent)}
+header.site button.secondary{border-color:#fff}
+button[aria-disabled=true]{background:#e5e7eb;border-color:#9ca3af;color:#374151;cursor:default}
+.notice{margin:10px 0 0;padding:8px 12px;border-radius:8px;background:var(--hint-bg);color:var(--hint-ink)}
+nav.passages{background:#fff;border-bottom:1px solid var(--line)}
+nav.passages ol{list-style:none;margin:0 auto;padding:8px 16px;max-width:800px;display:flex;flex-wrap:wrap;gap:6px}
+nav.passages a{display:flex;flex-direction:column;padding:6px 10px;border-radius:8px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:.92rem;line-height:1.3;min-height:44px;justify-content:center}
+nav.passages a[aria-current=page]{border-color:var(--accent);background:#e8efff;font-weight:700}
+nav.passages .badge{font-size:.8rem;color:var(--muted);font-weight:400}
+details.howto{margin:16px 0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:0 14px}
+details.howto summary{cursor:pointer;font-weight:600;padding:9px 0;min-height:44px}
+details.howto[open]{padding-bottom:10px}
+section.passage{margin:18px 0 40px}
+section.passage > h2{font-size:1.5rem;margin:0 0 2px;line-height:1.25}
+.meta{margin:0;color:var(--muted)}
+.pscore{margin:6px 0 12px;font-weight:600}
+.text{background:var(--paper);border:1px solid var(--line);border-left:6px solid #c8a24a;border-radius:10px;padding:16px 18px;margin:0 0 20px}
+.text p{margin:0 0 .9em}
+.text p:last-child{margin-bottom:0}
+.poem .stanza{margin:0 0 1em}
+.poem .stanza:last-child{margin-bottom:0}
+.poem .line{display:block;padding-left:1.5em;text-indent:-1.5em}
+h3{font-size:1.2rem;margin:20px 0 8px}
+ol.questions{list-style:none;margin:0;padding:0;counter-reset:q}
+ol.questions > li{counter-increment:q;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin:0 0 14px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend,.qlabel{display:block;font-weight:600;margin:0 0 8px;padding:0;width:100%}
+.qnum::before{content:counter(q) ". "}
+.tag{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:#3b2f00;background:#f4e3b0;border-radius:999px;padding:1px 8px;margin:0 6px 4px 0;vertical-align:1px}
+.tag.inference,.tag.howknow{background:#e0e7ff;color:#1e2a78}
+.tag.vocab{background:#dff3ec;color:#0f4d3a}
+.tag.pee{background:#fde2e4;color:#7a1730}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;margin:0 0 6px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.opt input{margin-top:.35em;width:1.1rem;height:1.1rem;flex:none}
+.opt.is-correct{background:var(--ok-bg);border-color:#16a34a}
+.opt.is-wrong{background:var(--bad-bg);border-color:#dc2626}
+input[type=text],textarea{font:inherit;width:100%;padding:8px 10px;border:2px solid #8b8f97;border-radius:8px;background:#fff;color:var(--ink)}
+textarea{min-height:6.5em;resize:vertical}
+input[readonly]{background:#f3f4f6}
+.row{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.fb{margin-top:10px}
+.fb:empty{display:none}
+.fb .box{padding:8px 12px;border-radius:8px}
+.fb .ok{background:var(--ok-bg);color:var(--ok-ink)}
+.fb .bad{background:var(--bad-bg);color:var(--bad-ink)}
+.fb .hint{background:var(--hint-bg);color:var(--hint-ink)}
+.model{margin-top:10px;padding:10px 14px;border-radius:8px;background:#eef4ff;border:1px solid #c7d6f5}
+.model h4{margin:0 0 4px;font-size:1rem}
+.model p{margin:0 0 .5em}
+.pee-box{margin:0 0 12px}
+.pee-box label{font-weight:600;display:flex;align-items:center;min-height:44px}
+.starters{margin:2px 0 6px;padding-left:1.2em;color:var(--muted);font-size:.93rem}
+.checklist{list-style:none;padding:0;margin:8px 0 0}
+.checklist label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;padding:9px 0;min-height:44px}
+.checklist input{margin-top:.35em;width:1.1rem;height:1.1rem;flex:none}
+.pactions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+footer{color:var(--muted);font-size:.9rem;padding:16px 0 40px}
+.print-only{display:none}
+@media (max-width:480px){
+  /* Compact header: the three controls share one row and the total is one short block, so the reading starts higher. */
+  header.site{padding:8px 0}
+  header.site h1{font-size:1.2rem}
+  header.site .sub{margin:2px 0 6px;font-size:.88rem;line-height:1.35}
+  .toolbar{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:6px;align-items:stretch}
+  .toolbar label{font-size:.85rem;line-height:1.2;gap:6px}
+  .toolbar button{font-size:.85rem;line-height:1.2;padding:4px 8px;justify-content:center;text-align:center}
+  .total{margin-top:6px;font-size:.85rem;line-height:1.35}
+  /* Compact nav: one row that scrolls sideways, so the reading starts above the fold. */
+  nav.passages ol{flex-wrap:nowrap;overflow-x:auto;padding:6px 12px;gap:6px;scrollbar-width:thin}
+  nav.passages li{flex:none}
+  nav.passages a{flex-direction:row;align-items:center;gap:6px;white-space:nowrap;padding:4px 10px}
+  details.howto{margin:10px 0}
+  section.passage{margin-top:12px}
+  .text{padding:12px 12px}
+  ol.questions > li{padding:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+}
+@media print{
+  :root{--bg:#fff;--card:#fff;--paper:#fff}
+  body{background:#fff;color:#000;font-size:11.5pt;line-height:1.45}
+  header.site{background:#fff;color:#000;padding:0 0 6px;border-bottom:1px solid #000}
+  header.site .sub{color:#000}
+  .no-print,nav.passages,.toolbar,button,.btn,.skip,.notice,details.howto,.pactions,footer,.total{display:none !important}
+  .print-only{display:block}
+  .wrap{max-width:none;padding:0}
+  section.passage{margin:0 0 12pt}
+  .print-all section.passage[hidden]{display:block !important}
+  .print-all section.passage + section.passage{break-before:page}
+  .text{border:1px solid #000;border-left:4px solid #000}
+  ol.questions > li{break-inside:avoid;border:1px solid #777;padding:8pt}
+  .tag{border:1px solid #000;background:#fff !important;color:#000 !important}
+  .opt{border:0;padding:2px 0;margin:0}
+  input[type=text],textarea{border:1px solid #000}
+  textarea{min-height:5em}
+  a{color:#000;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the reading</a>
+<header class="site">
+  <div class="wrap">
+    <h1>Year 7 Reading Comprehension Practice</h1>
+    <p class="sub">Seven short texts. Read each one carefully, answer the questions, then check your work.</p>
+    <div class="toolbar no-print">
+      <label><input type="checkbox" id="save-toggle"> Save my progress on this device</label>
+      <button type="button" class="secondary" id="print-all">Print all texts</button>
+      <button type="button" class="secondary" id="reset-all">Reset all progress</button>
+    </div>
+    <p id="total" class="total"></p>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+  </div>
+</header>
+<div id="announce" class="sr-only" role="status" aria-live="polite"></div>
+<nav class="passages" aria-label="Texts"><ol id="nav"></ol></nav>
+<main id="main" class="wrap" tabindex="-1">
+  <details class="howto no-print">
+    <summary>How this works</summary>
+    <ul>
+      <li>Each text is <strong>scored out of 4</strong>: a retrieval multiple-choice question, a retrieval short answer, a vocabulary question and an inference question. These are marked when you press Check answer.</li>
+      <li>Each multiple-choice question can be checked once. A short answer gets one more try if the first answer is wrong. Give one answer, not a list of guesses.</li>
+      <li>The <strong>how do you know?</strong> and <strong>Point-Evidence-Explain</strong> answers <strong>are not marked</strong>. Write your answer first, then compare it with the model answer.</li>
+      <li>Your score for each text is shown at the top of the text. Use Try this text again to start a text over.</li>
+      <li>Saving is off unless you tick Save my progress. Then answers are kept only in this browser on this device. On a shared computer, leave it off. Nothing is sent anywhere and there is no sign-in.</li>
+    </ul>
+  </details>
+  <div id="passages"></div>
+</main>
+<footer class="wrap">All texts and questions are original, written for Year 7 (KS3) practice. No sign-in, no tracking, nothing leaves your device.</footer>
+<script>
+"use strict";
+/*DATA-START*/
+const PASSAGES = [
+{
+  id: "lighthouse",
+  title: "The Lighthouse Key",
+  type: "Fiction (mystery)",
+  form: "prose",
+  text: `The key was heavier than it looked. Mira turned it over in her palm while the wind hurled rain against the window of Grandad's narrow kitchen, rattling the old frame as though the storm wanted to be let in. It was made of dark, pitted iron, almost as long as her hand, and someone had carefully scratched three letters into its handle: T.H.K.
+
+'Where did you find that?' Grandad asked. He had stopped stirring the soup.
+
+'In the biscuit tin under the stairs. Behind the old photographs.'
+
+For a long moment he said nothing at all. The wooden spoon dripped steadily onto the cooker, and he did not seem to notice. Then he wiped his hands slowly and deliberately on a tea towel, folding it into a neat square afterwards, as if he were buying himself time.
+
+'That,' he said at last, 'belongs to Tarren Head. The lighthouse.'
+
+Mira knew the lighthouse; everyone in the village did. It stood on the jagged rocks at the far end of the bay, white and blind, its enormous lamp switched off years before she was born. Fishing boats relied on satellite navigation these days, so nobody needed a beam of light to guide them safely home.
+
+'You worked there?'
+
+'I was the last keeper.' Grandad lowered himself into a chair, suddenly looking older than she had ever seen him. 'When the authorities closed it, I was supposed to return that key to their office in town. I never did.'
+
+'Why not?'
+
+He gazed out at the grey water, where the waves were breaking white against the rocks, and his voice became quiet and careful. 'Because some promises are harder to give back than keys,' he said.
+
+Mira waited, but he did not explain. Instead he pushed the key gently back across the table towards her, and something in his expression had changed, as though a door inside him had opened a crack.`,
+  questions: [
+    { cat: "retrieval", kind: "mcq", q: "Where did Mira find the key?",
+      options: ["In a kitchen drawer beside the old cooker", "In Grandad's coat pocket by the front door", "On the rocks at the far end of the bay", "In the biscuit tin under the stairs"], answer: 3,
+      evidence: "In the biscuit tin under the stairs.", explain: "Mira tells Grandad she found it in the biscuit tin under the stairs, behind the old photographs." },
+    { cat: "retrieval", kind: "short", q: "What is the name of the lighthouse?",
+      accept: ["Tarren Head", "Tarren Head lighthouse", "Tarren", "Tarren lighthouse", "Taren Head", "Tarren Head light house"],
+      reject: ["kettle fell", "millbrook", "ashgrove", "ashford"],
+      evidence: "belongs to Tarren Head. The lighthouse.", explain: "Grandad says the key belongs to Tarren Head, the lighthouse." },
+    { cat: "vocab", kind: "mcq", q: "Grandad wipes his hands 'as if he were buying himself time'. What does 'buying himself time' mean here?",
+      options: ["He was paying for something he needed", "He wanted Mira to leave the kitchen", "He was delaying so he could think", "He was checking what time it was"], answer: 2,
+      evidence: "as if he were buying himself time", explain: "Buying time means delaying. Grandad wipes his hands slowly because he needs a moment before he answers." },
+    { cat: "inference", kind: "mcq", q: "Grandad stops stirring and does not notice the spoon dripping. What does this suggest?",
+      options: ["He is shocked or unsettled by the key", "He is bored of cooking", "He is angry with Mira for being nosy", "He is too tired to hold the spoon"], answer: 0,
+      evidence: "He had stopped stirring the soup.", explain: "He freezes and forgets what he is doing, which shows the key has shaken him. He is not angry: later he pushes the key back to Mira gently." },
+    { cat: "howknow", kind: "open", q: "Why do you think Grandad never handed the key back? How do you know?",
+      model: "I think Grandad made a promise linked to the lighthouse that he still wants to keep, so giving the key back would have felt like breaking it. I know because he says “some promises are harder to give back than keys”, which connects the key to a promise." },
+    { cat: "pee", kind: "pee", q: "How does the writer create a sense of mystery in this extract?",
+      model: { p: "The writer creates mystery by having Grandad hold back information, so the reader wants to find out more.",
+               e: "When Mira asks why he kept the key, he only says “some promises are harder to give back than keys”, and the narrator adds that “he did not explain.”",
+               x: "Because Grandad answers with a riddle instead of a reason, the reader is left with questions: what was the promise, and who was it made to? The image “a door inside him had opened a crack” suggests a secret is only just starting to come out, which makes us want to read on." } }
+  ]
+},
+{
+  id: "diary",
+  title: "Moving Day",
+  type: "Fiction (diary)",
+  form: "prose",
+  intro: "A diary entry written the night before starting at a new school.",
+  text: `Sunday 4th September
+
+The removal van left at six o'clock tonight and took the last bit of our old life with it. Well, not really. It brought our sofa and forty-two boxes, and they are all here now, stacked in the narrow hall of the new flat like a cardboard wall that nobody has the energy to knock down. But it felt like that.
+
+Mum keeps saying 'fresh start' in a bright voice, the voice she uses at the dentist. I have heard it eleven times today, because I counted, and each time it sounded slightly less convincing.
+
+My new bedroom is considerably smaller than my old one, but it has a window that looks out over the rooftops towards the distant hills. When the streetlights flickered on this evening, the whole town looked like it was covered in tiny orange stars. I will admit that was quite nice. I will not admit it to Mum.
+
+Tomorrow is my first day at Ashgrove Academy. Everybody there will already have friends. Everybody will know where the toilets are, which teachers are strict and what you are absolutely not supposed to say in the canteen. I have laid out my new uniform on the chair, but the blazer still has the shop's fold lines in it, so everyone will know I'm new before I even open my mouth.
+
+Gran telephoned this afternoon to wish me luck. She said, 'Remember, everyone in that school was new once.' I said, 'Not at the same time as me, they weren't.' She laughed, but I wasn't joking.
+
+I have packed my bag three times. I keep checking that my pencil case is still in it, as if it might escape during the night and leave me completely unprepared.
+
+Maybe I will not sleep at all.`,
+  questions: [
+    { cat: "retrieval", kind: "mcq", q: "How many boxes did the removal van bring?",
+      options: ["Eleven", "Forty-two", "Twenty-four", "Six"], answer: 1,
+      evidence: "forty-two boxes", explain: "The van brought the sofa and forty-two boxes. (Eleven is how many times Mum said 'fresh start'.)" },
+    { cat: "retrieval", kind: "short", q: "What is the name of the writer's new school?",
+      accept: ["Ashgrove Academy", "Ashgrove", "Ash grove Academy", "Ashgrove school"],
+      reject: ["ashford", "millbrook", "tarren"],
+      evidence: "Ashgrove Academy", explain: "Tomorrow is the writer's first day at Ashgrove Academy." },
+    { cat: "vocab", kind: "mcq", q: "'I will admit that was quite nice.' What does 'admit' mean here?",
+      options: ["Let someone come into a building", "Forget about something on purpose", "Own up that something is true", "Complain about something loudly"], answer: 2,
+      evidence: "I will admit that was quite nice", explain: "Here 'admit' means to own up that something is true. (It can also mean 'let in', but not in this sentence.)" },
+    { cat: "inference", kind: "mcq", q: "Why does Mum keep saying 'fresh start' in a bright voice?",
+      options: ["She wants to sound positive and keep spirits up", "She has forgotten all the other words she knows", "She is secretly angry with the writer about the move", "She is practising her lines for a play at work"], answer: 0,
+      evidence: "the voice she uses at the dentist", explain: "A 'dentist' voice is cheerful on the outside, perhaps to reassure the writer or herself, so Mum may be putting on a brave face." },
+    { cat: "howknow", kind: "open", q: "How does the writer feel about the first day at the new school? How do you know?",
+      model: "The writer feels nervous and worried about fitting in. I know because they think “Everybody there will already have friends” and they write “I have packed my bag three times”, which shows they cannot stop worrying." },
+    { cat: "pee", kind: "pee", q: "How does the writer show mixed feelings about the move?",
+      model: { p: "The writer shows they are unhappy about moving, but they also find something they like.",
+               e: "“I will admit that was quite nice. I will not admit it to Mum.”",
+               x: "The writer secretly enjoys the view but refuses to tell Mum, which shows they are not ready to accept the move yet. Describing the town as “tiny orange stars” shows a moment of wonder, while “the last bit of our old life” shows sadness about what they have left behind." } }
+  ]
+},
+{
+  id: "pond",
+  title: "Newts Return to Millbrook Pond",
+  type: "Non-fiction (news report)",
+  form: "prose",
+  text: `A pond that was once so full of rubbish that locals called it 'the swamp' is now home to wildlife again, thanks to a team of volunteers aged from 9 to 82.
+
+Two years ago, Millbrook Pond was choked with shopping trolleys, plastic bottles and thick green algae. Fish had disappeared, and the water smelt so bad that families avoided the path beside it.
+
+That changed when Ayaan Shah, then in Year 5, wrote to the parish council asking for help. 'I walk past it every day on the way to school,' he said. 'I thought, if nobody does anything, it will just get worse.'
+
+The council provided gloves, litter pickers and a skip. Over eighteen months, volunteers met on the first Saturday of every month. They removed more than two tonnes of rubbish, including eleven trolleys and an old bicycle. A local wildlife trust then planted reeds and water lilies around the edges to help clean the water and give animals shelter.
+
+Last month, ecologist Dr Helen Price confirmed that smooth newts were breeding in the pond for the first time in at least ten years. 'Newts need plenty of water plants and no rubbish,' she explained. 'Seeing them back is a very good sign.'
+
+Not everyone was convinced at first. Retired postman Derek Hollis, 82, admitted he had doubts. 'I thought it was a waste of time, to be honest,' he laughed. 'Now I'm down there every month with my litter picker.'
+
+The group is now raising money for a bench and an information board so that visitors can learn about the creatures living in the pond.`,
+  questions: [
+    { cat: "retrieval", kind: "mcq", q: "How often did the volunteers meet?",
+      options: ["Every Sunday morning during the summer", "On the first Saturday of every month", "Every day after school for eighteen months", "Twice a year, in spring and autumn"], answer: 1,
+      evidence: "volunteers met on the first Saturday of every month", explain: "The report says volunteers met on the first Saturday of every month for eighteen months." },
+    { cat: "retrieval", kind: "short", q: "How many shopping trolleys did the volunteers take out of the pond?",
+      accept: ["eleven", "11", "eleven trolleys", "11 trolleys", "eleven shopping trolleys", "11 shopping trolleys"],
+      reject: ["10", "12", "13", "9", "ten", "twelve", "thirteen", "nine"], otherNumbers: true,
+      evidence: "including eleven trolleys", explain: "The rubbish included eleven trolleys and an old bicycle." },
+    { cat: "vocab", kind: "mcq", q: "The pond was 'choked with shopping trolleys'. What does 'choked' mean here?",
+      options: ["Coughing loudly because of the terrible smell", "Cleaned out carefully by the volunteers", "Lightly decorated with litter and plants", "So clogged up it could not work properly"], answer: 3,
+      evidence: "was choked with shopping trolleys", explain: "Choked means so clogged up that nothing could live or flow properly." },
+    { cat: "inference", kind: "mcq", q: "Why does the writer include comments from Dr Helen Price?",
+      options: ["To warn readers that newts can be dangerous to touch", "To complain that the parish council did not help enough", "To use an expert, so the good news is more believable", "To advertise a book she has written about wildlife ponds"], answer: 2,
+      evidence: "ecologist Dr Helen Price confirmed", explain: "An ecologist is a wildlife expert. Quoting an expert makes the report more reliable." },
+    { cat: "howknow", kind: "open", q: "What does Derek Hollis's change of mind suggest about the project? How do you know?",
+      model: "It suggests the project has worked so well that even people who doubted it have been won over. I know because he “thought it was a waste of time”, but now he says he is “down there every month with my litter picker”." },
+    { cat: "pee", kind: "pee", q: "How does the writer show that the clean-up was a success?",
+      model: { p: "The writer uses facts and numbers to prove how much the volunteers achieved.",
+               e: "The volunteers “removed more than two tonnes of rubbish, including eleven trolleys and an old bicycle.”",
+               x: "Exact figures make the success sound real rather than just an opinion, and “more than two tonnes” makes the reader picture a huge heap of rubbish. The writer also contrasts the pond before, when it was “choked”, with now, when “smooth newts were breeding”, which shows a big change." } }
+  ]
+},
+{
+  id: "breaktime",
+  title: "Give Us Back Our Break Time",
+  type: "Non-fiction (persuasive article)",
+  form: "prose",
+  intro: "From a student column in a school newsletter.",
+  text: `Our school has decided to shorten morning break from twenty minutes to ten so that the school day can finish earlier. I understand why. But I believe this is a mistake, and I would like to explain my reasons as clearly and fairly as I can.
+
+First, break is not 'wasted time'. It is when we eat, drink water, use the toilets and, just as importantly, talk to our friends. Ten minutes is barely enough to queue at the canteen, let alone sit down and enjoy a snack. Many students in my year already say they arrive at period three hungry, distracted and struggling to concentrate.
+
+Second, our brains need rest. When I asked our science teacher, she explained that most people concentrate much better after a proper break. Attention naturally fades when we work for a long time without stopping. A short walk, some fresh air and a laugh can help us learn more, not less. Cutting break might sound efficient, but a tired, frustrated student does not take in very much information.
+
+Third, break is where we learn valuable things that are not on any timetable: how to sort out a disagreement, how to include someone who is on their own, how to organise a game that everybody can play. These skills matter. Parents, teachers and employers often remind us how important they are.
+
+Some people will say that finishing ten minutes earlier gives us more time at home. That is true. But would you rather have ten extra minutes at the end of the day, or a morning where you can actually think?
+
+I am asking the school council to run a survey before the change goes ahead. Let every student and teacher have a say. That way, the decision belongs to the whole school, not just a few people. If the majority still want a shorter break, I will accept it. But a decision this important deserves to be made together.`,
+  questions: [
+    { cat: "retrieval", kind: "mcq", q: "How long will morning break be if the change goes ahead?",
+      options: ["Five minutes", "Fifteen minutes", "Twenty minutes", "Ten minutes"], answer: 3,
+      evidence: "from twenty minutes to ten", explain: "Break is being cut from twenty minutes to ten." },
+    { cat: "retrieval", kind: "short", q: "What does the writer ask the school council to run before the change goes ahead?",
+      accept: ["survey", "a student survey", "a survey of students and teachers", "a survey before the change goes ahead", "surveys"],
+      reject: ["vote", "votes", "poll", "meeting", "petition", "referendum"],
+      evidence: "I am asking the school council to run a survey", explain: "The writer asks the school council to run a survey so everyone can have a say." },
+    { cat: "vocab", kind: "mcq", q: "The writer says 'Cutting break might sound efficient'. What does 'efficient' mean here?",
+      options: ["Getting a lot done without waste", "Very kind and friendly to everyone", "Extremely loud and hard to ignore", "Unfair to some people in the school"], answer: 0,
+      evidence: "Cutting break might sound efficient", explain: "Efficient means getting a lot done without waste. The writer argues it only sounds that way." },
+    { cat: "inference", kind: "mcq", q: "Why does the writer mention that finishing earlier 'gives us more time at home'?",
+      options: ["Because they want break to be even shorter", "To show they have thought about the other side", "To explain why the school buses leave so early", "To make the article funnier for younger readers"], answer: 1,
+      evidence: "Some people will say that finishing ten minutes earlier gives us more time at home. That is true. But", explain: "This is a counter-argument. The writer admits the other side has a point, then argues back with 'But...', which makes them seem fair." },
+    { cat: "howknow", kind: "open", q: "Does the writer sound reasonable or angry? How do you know?",
+      model: "The writer sounds reasonable. They begin with “I understand why”, which shows they can see the school's side, and they end by saying “If the majority still want a shorter break, I will accept it.”" },
+    { cat: "pee", kind: "pee", q: "How does the writer try to persuade the reader?",
+      model: { p: "The writer persuades by giving clearly organised reasons and by using a rhetorical question.",
+               e: "“would you rather have ten extra minutes at the end of the day, or a morning where you can actually think?”",
+               x: "The rhetorical question makes the reader answer in their head, and the obvious answer agrees with the writer. Starting paragraphs with “First”, “Second” and “Third” also makes the argument easy to follow and sound well thought out." } }
+  ]
+},
+{
+  id: "busstop",
+  title: "November Bus Stop",
+  type: "Poem",
+  form: "poem",
+  text: `The shelter's glass is fogged with breath,
+the timetable's a smudge of rain;
+a boy in a coat two sizes big
+is drawing faces on the pane.
+
+A woman counts her coins again,
+as if they might have multiplied.
+The puddles hold a broken sky
+that shivers when the cars go by.
+
+Nobody speaks. We stand apart
+like sparrows on a garden wall,
+each wrapped inside our private weather,
+not really here, not there at all.
+
+Then round the corner, slow and gold,
+the bus comes like a lantern's glow,
+and suddenly the strangers smile
+and climb aboard, out of the cold.`,
+  questions: [
+    { cat: "retrieval", kind: "mcq", q: "What is the boy doing?",
+      options: ["Drawing faces on the glass", "Counting his coins again", "Reading the timetable in the rain", "Feeding the sparrows on the wall"], answer: 0,
+      evidence: "is drawing faces on the pane", explain: "The boy is drawing faces on the pane (the glass of the shelter)." },
+    { cat: "retrieval", kind: "short", q: "Which birds does the poet compare the people to?",
+      accept: ["sparrows", "sparrow", "like sparrows", "sparows"],
+      reject: ["pigeons", "pigeon", "robins", "robin", "crows", "crow", "starlings", "starling", "gulls", "seagulls", "blackbirds", "blackbird", "magpies", "magpie"],
+      evidence: "like sparrows on a garden wall", explain: "The people stand apart 'like sparrows on a garden wall'." },
+    { cat: "vocab", kind: "mcq", q: "The woman counts her coins 'as if they might have multiplied'. What does 'multiplied' mean here?",
+      options: ["Disappeared", "Increased in number", "Been stolen", "Turned into notes"], answer: 1,
+      evidence: "as if they might have multiplied", explain: "Multiplied means become more. She counts again hoping there are more coins than before." },
+    { cat: "inference", kind: "mcq", q: "What does 'each wrapped inside our private weather' mainly suggest about the people?",
+      options: ["They are all wearing raincoats and hoods", "They are talking about the weather forecast", "They are planning a holiday somewhere sunny", "Each person is lost in their own thoughts"], answer: 3,
+      evidence: "each wrapped inside our private weather", explain: "'Private weather' is a metaphor for each person's own mood and worries. Nobody speaks, so they are shut inside their own heads." },
+    { cat: "howknow", kind: "open", q: "How does the mood change in the last stanza? How do you know?",
+      model: "The mood changes from cold and lonely to warm and hopeful. I know because the bus comes “like a lantern's glow” and “the strangers smile”, which is much more cheerful than the people who stood apart and did not speak earlier." },
+    { cat: "pee", kind: "pee", q: "How does the poet present the people waiting at the bus stop?",
+      model: { p: "The poet presents the people as cold, lonely and cut off from each other.",
+               e: "“Nobody speaks.” They stand “like sparrows on a garden wall”, each “wrapped inside our private weather”.",
+               x: "Comparing them to sparrows makes them seem small, cold and huddled, yet “apart” shows they are not really together. “private weather” suggests each person is lost in their own worries, like the woman who “counts her coins again”, perhaps because money is tight." } }
+  ]
+},
+{
+  id: "fog",
+  title: "Fog on Kettle Fell",
+  type: "Fiction (adventure)",
+  form: "prose",
+  intro: "The whistle code in this story is the group's own. The real mountain distress signal is six long blasts a minute, answered by three.",
+  text: `The fog arrived without warning. One minute, Year 7's walking group could see the whole valley spread below them like a green map, its stone walls and scattered farms stitched neatly together; the next, the world had shrunk to a few metres of wet grass and grey nothing. The temperature dropped so dramatically that Jess could feel the icy dampness creeping through her sleeves.
+
+'Stay together!' Mr Okafor called. His voice sounded thin and unusually distant, as if the fog were swallowing it before it could travel.
+
+Jess anxiously counted the shadowy shapes huddled around her. Seven. There should have been eight.
+
+'Where's Leo?'
+
+Silence. Somebody giggled nervously, then stopped abruptly. Mr Okafor's face, usually so relaxed, went tight.
+
+'Everybody sit down exactly where you are,' he said. 'Nobody moves.' He pulled a whistle from his jacket and blew three long blasts.
+
+Jess perched on a cold, slippery rock, her heart hammering painfully against her ribs. She thought of Leo at the back of the line, as always, stopping to photograph beetles, lichen and moss while everyone else complained impatiently that he was slow. She had complained too.
+
+Then, faint and far away, came an unmistakable answer: three short whistles.
+
+'He's remembered,' Mr Okafor breathed, his shoulders visibly loosening with relief. 'Good lad.' That morning in the minibus, while most of the class were still yawning and grumbling, he had made them all practise their own group code: three long blasts meant 'Where are you?' Three short ones meant 'I'm here, I'm staying put.'
+
+They followed the sound cautiously, Mr Okafor in front, everyone gripping the strap of the rucksack ahead so that nobody else could wander off into the murk. After ten long minutes, which felt more like an hour, a familiar figure gradually materialised out of the grey, sitting cross-legged on a rock with his camera resting in his lap.
+
+'I stayed put,' Leo said, grinning shakily, his glasses misted with tiny droplets. 'Like you said.'
+
+Jess surprised herself by hugging him.`,
+  questions: [
+    { cat: "retrieval", kind: "mcq", q: "How did Mr Okafor first try to contact Leo?",
+      options: ["He blew three long blasts on a whistle", "He shouted Leo's name", "He phoned Leo", "He sent Jess to look for him"], answer: 0,
+      evidence: "blew three long blasts", explain: "He told everyone to sit down, then blew three long blasts on his whistle, which meant 'Where are you?'" },
+    { cat: "retrieval", kind: "short", q: "Who is missing from the group?",
+      accept: ["Leo"],
+      reject: ["jess", "okafor", "no one", "nobody", "anyone", "anybody", "someone", "somebody"], others: "anyone",
+      evidence: "'Where's Leo?'", explain: "Jess counts the group and asks, 'Where's Leo?'" },
+    { cat: "vocab", kind: "mcq", q: "In the first paragraph, 'the world had shrunk to a few metres of wet grass'. What does 'shrunk' mean here?",
+      options: ["The hill had sunk down into the ground", "The pupils had become a little shorter", "They could see much less around them", "The map had been folded up very small"], answer: 2,
+      evidence: "the world had shrunk to a few metres of wet grass", explain: "The fog is so thick they can only see a few metres, so their world feels much smaller." },
+    { cat: "inference", kind: "mcq", q: "At the end, 'Jess surprised herself by hugging him'. Why might she be surprised at herself?",
+      options: ["She wants to borrow his camera to photograph the fog", "Mr Okafor had told everyone to hug when Leo came back", "She is cold and is trying to keep warm in the fog", "She is relieved, and she had been unkind about him"], answer: 3,
+      evidence: "She had complained too.", explain: "Jess had complained that Leo was slow, so hugging him shows how worried and relieved she really was." },
+    { cat: "howknow", kind: "open", q: "How can you tell that Mr Okafor is worried, even though he stays calm?",
+      model: "His face gives him away: it is “usually so relaxed” but “went tight”. He also gives short, firm orders such as “Nobody moves”, which shows he is taking the danger very seriously." },
+    { cat: "pee", kind: "pee", q: "How does the writer build tension in this extract?",
+      model: { p: "The writer builds tension with very short sentences and a threatening setting.",
+               e: "“Seven. There should have been eight.”",
+               x: "The one-word sentence “Seven.” makes the reader stop and count with Jess, then the next sentence reveals the problem suddenly, like a shock. The fog seems to be “swallowing” Mr Okafor's voice, which makes the setting feel dangerous, as if it could swallow Leo too." } }
+  ]
+},
+{
+  id: "bees",
+  title: "How Honeybees Share Directions",
+  type: "Non-fiction (explanation)",
+  form: "prose",
+  text: `When a honeybee finds a good patch of flowers, she faces a problem: how can she tell the rest of the hive where it is? Bees cannot draw maps or point. Instead, they dance.
+
+Back inside the dark hive, the forager bee climbs onto the upright surface of the honeycomb and performs what scientists call the waggle dance. She runs forwards in a straight line while shaking her body from side to side, then loops back round to her starting point and does it again, sometimes dozens of times.
+
+Every part of the dance carries information. The direction of the straight 'waggle run' shows the direction of the food compared with the sun. If the bee waggles straight upwards, the food is in the same direction as the sun. If she waggles at an angle to the right of upwards, the other bees know to fly at that same angle to the right of the sun.
+
+The length of the waggle run tells the others how far away the food is: the longer the run, the further the flight. Other bees crowd round the dancer in the darkness, following her movements by touch, and they also pick up the scent of the flowers she has visited.
+
+The Austrian scientist Karl von Frisch spent years studying this behaviour. Many people did not believe that insects could communicate in such a complex way, but his careful experiments convinced them. In 1973, he shared the Nobel Prize for his work.
+
+Today, researchers who decode the dances can find out which areas bees are using most, which helps people protect important places for pollinators.`,
+  questions: [
+    { cat: "retrieval", kind: "mcq", q: "What does the length of the waggle run tell the other bees?",
+      options: ["Which direction to fly", "How much nectar is left", "How far away the food is", "What time of day it is"], answer: 2,
+      evidence: "The length of the waggle run tells the others how far away the food is", explain: "The longer the run, the further away the food. The direction of the run, not its length, shows which way to fly." },
+    { cat: "retrieval", kind: "short", q: "In what year did Karl von Frisch share the Nobel Prize?",
+      accept: ["1973", "in 1973", "nineteen seventy-three"],
+      reject: ["1937"], otherNumbers: "years",
+      evidence: "In 1973, he shared the Nobel Prize", explain: "The text says he shared the Nobel Prize in 1973." },
+    { cat: "vocab", kind: "mcq", q: "Researchers 'decode the dances'. What does 'decode' mean here?",
+      options: ["Destroy or break up", "Write music to go with", "Copy out exactly, word for word", "Work out the meaning of"], answer: 3,
+      evidence: "researchers who decode the dances", explain: "To decode something is to work out what a code or message means." },
+    { cat: "inference", kind: "mcq", q: "Why do the watching bees need both touch and scent?",
+      options: ["Touch lets them push her away, and scent warns them of danger", "The hive is dark: touch shows the route, scent shows which flowers", "The dance is outside in bright sun, so only scent is needed", "Bees have no eyes, so they use touch and scent for everything they do"], answer: 1,
+      evidence: "Other bees crowd round the dancer in the darkness, following her movements by touch, and they also pick up the scent of the flowers she has visited", explain: "The text does not say why, but the hive is dark, so the bees cannot watch the dance. Touch lets them follow the route, and the scent tells them which flowers to look for when they get there." },
+    { cat: "howknow", kind: "open", q: "Why might people have found it hard to believe Karl von Frisch at first? How do you know?",
+      model: "People probably thought insects were too simple to share detailed information. I know because the text says many people “did not believe that insects could communicate in such a complex way”, and it took his “careful experiments” to convince them." },
+    { cat: "pee", kind: "pee", q: "How does the writer make a complicated process easy for the reader to understand?",
+      model: { p: "The writer explains the dance step by step and gives clear examples.",
+               e: "“If the bee waggles straight upwards, the food is in the same direction as the sun.”",
+               x: "This 'if' example turns a hard idea into a simple rule the reader can picture. Opening with a question, “how can she tell the rest of the hive where it is?”, also makes the reader curious and sets up the explanation that follows." } }
+  ]
+}
+];
+/*DATA-END*/
+
+const KEY = "y7rc-progress-v1";
+/* Version 1 saves stored multiple-choice answers by position. The options were
+   reordered in version 2, so MIGRATE_V1[id][old position] gives the new position.
+   null means the question itself changed, so an old answer is not carried over. */
+const MIGRATE_V1 = {"lighthouse-q1":[0,3,1,2],"lighthouse-q3":[0,2,1,3],"lighthouse-q4":[1,0,2,3],"pond-q1":[0,2,1,3],"pond-q3":[3,0,1,2],"pond-q4":[2,0,1,3],"busstop-q1":[1,0,2,3],"busstop-q3":[1,0,2,3],"busstop-q4":[0,3,1,2],"bees-q1":[0,2,1,3],"bees-q3":[3,0,1,2],"bees-q4":null,"fog-q1":[1,0,2,3],"fog-q3":[2,0,1,3],"fog-q4":[3,0,1,2],"breaktime-q1":[0,3,1,2],"breaktime-q3":[0,1,2,3],"breaktime-q4":[1,0,2,3],"diary-q1":[0,2,1,3],"diary-q3":[2,0,1,3],"diary-q4":[0,1,2,3]};
+const MAX_TEXT = 4000;
+const CATS = { retrieval: "Retrieval", vocab: "Vocabulary", inference: "Inference", howknow: "How do you know?", pee: "Point, Evidence, Explain" };
+const STARTERS = {
+  p: ["The writer shows that...", "One way the writer does this is by...", "The writer presents... as..."],
+  e: ["This is shown when...", "For example, the text says...", "The quotation \u201c...\u201d shows this."],
+  x: ["This suggests that...", "The word '...' makes the reader feel...", "This shows... because..."]
+};
+const PEE_PARTS = [["p", "Point", "Answer the question in one sentence."], ["e", "Evidence", "Copy a short quotation from the text, in quotation marks."], ["x", "Explain", "Say what your quotation shows and why. Zoom in on a key word."]];
+const CHECKLIST = [
+  "My point answers the question.",
+  "I used a short quotation in quotation marks.",
+  "My quotation really backs up my point.",
+  "I explained what the quotation shows, not just what it says.",
+  "I zoomed in on at least one key word or phrase."
+];
+
+const QMAP = new Map();
+for (const p of PASSAGES) p.questions.forEach(function (q, i) { q.id = p.id + "-q" + (i + 1); q.pid = p.id; QMAP.set(q.id, q); });
+const isAuto = function (q) { return q.kind === "mcq" || q.kind === "short"; };
+
+let state = { save: false, answers: Object.create(null) };  /* saving is off unless chosen (or already in use: see load) */
+let storageOK = true;
+let saveTimer = null;
+
+function h(tag, attrs) {
+  const el = document.createElement(tag);
+  if (attrs) for (const k of Object.keys(attrs)) {
+    const v = attrs[k];
+    if (v === null || v === undefined || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k.slice(0, 2) === "on") el.addEventListener(k.slice(2), v);
+    else if (v === true) el.setAttribute(k, "");
+    else el.setAttribute(k, String(v));
+  }
+  for (let i = 2; i < arguments.length; i++) appendKids(el, arguments[i]);
+  return el;
+}
+function appendKids(el, c) {
+  if (c === null || c === undefined || c === false) return;
+  if (Array.isArray(c)) { c.forEach(function (x) { appendKids(el, x); }); return; }
+  el.append(c.nodeType ? c : document.createTextNode(String(c)));
+}
+
+function norm(s) {
+  return String(s).toLowerCase()
+    .replace(/[\u2018\u2019\u02bc'`]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/^(the|a|an) /, "");
+}
+function isCorrect(q, a) {
+  if (!a) return false;
+  if (q.kind === "mcq") return a.choice === q.answer;
+  if (q.kind === "short") return shortCorrect(q, a.text);
+  return false;
+}
+/* Short answers. Rivals are the q.reject phrases (plus, with q.otherNumbers,
+   other numbers). The default is strict: a rival that is not negated counts
+   as offered, so the answer is not accepted, unless it clearly sits inside a
+   reason or a description. Steps:
+   1. Tidy: drop apostrophes; "no one else"/"nobody else"/"everyone else" are
+      never rivals; "/" and "such as" become "or"; "&", "as well as", "along
+      with" and "plus" become "and".
+   2. Split into clauses at punctuation, " - ", dashes and "but", and before
+      because/since/as/when/after/before/while/so/who/and.
+   3. A hit is negated when not/no/never... is one of the three words before it
+      in its clause ("if not" does not negate). With q.otherNumbers "years", a
+      2-digit number just after was/is/aged/age is an age, not a rival year.
+   4. A live rival is offered when a hedge word joins it to the answer: or,
+      either, else, unless, if, could, might, though, perhaps, maybe, possibly,
+      probably, between, vs within three words before it or two after it, or
+      "to" right next to it. Filler words (idk, dunno, lol, reckon...) never
+      hide this.
+      In the answer's own clause "with" or "then" just before it also joins.
+   5. "Jess wasnt" / "Jess is not" right after the rival negates it.
+      Otherwise it is ignored only when its clause is a reason (starts with
+      because/since/as/when/after/before/while), or the clause has real words
+      beyond candidates and filler and, for a clause without the answer, its
+      own verb (a rival number with a following noun is enough). So "Leo,
+      since Jess counted", "Leo - Jess noticed", "11 because 12 were found
+      later" and "a survey before the vote" are right; "Leo or Jess idk",
+      "Leo, Jess", "Leo and Jess", "Leo isnt missing, Jess is" are not.
+   Correct = at least one live accepted hit and no offered rival. */
+const NEGATIONS = ["not", "no", "never", "nor", "neither", "isnt", "wasnt", "arent", "werent", "dont", "doesnt", "didnt", "cant", "cannot", "wont", "hasnt", "havent", "hadnt"];
+function isNeg(w) { return NEGATIONS.indexOf(w) !== -1; }
+const HEDGES = "or either else unless if could might though although perhaps maybe possibly probably between vs versus".split(" ");
+const FILLER = ("a an the it its is was were are am be been i im ive id think thought guess maybe perhaps probably possibly sure or either both also too " +
+  "just only about around roughly he she they hes shes theyre mr mrs miss missing lost gone went one answer because so when who and " +
+  "idk dunno lol lmao reckon prob probs like kinda sorta um umm er erm hmm uh honestly basically know remember mean could might unless if else " +
+  "though although which that to between then vs versus well yeah yes ok okay possibly actually say").split(" ");
+const REASON = "because since as when after before while".split(" ");
+const VERBS = ("is was were are am be been being has have had do does did can will would shall should must said says say saw see seen found find " +
+  "blew blow went go goes came come got get took take made make left knew know told tell ran run stayed sat held heard felt kept lost looked " +
+  "asked shouted called counted noticed thinks wants want hes shes theyre theres thats whos").split(" ");
+const NUMBER_WORDS = ("two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen " +
+  "twenty thirty forty fifty sixty seventy eighty ninety hundred dozen").split(" ");
+function clauses(text) {
+  return String(text).replace(/[\u2018\u2019\u02bc'`]/g, "")
+    .replace(/\b(no one|nobody|everyone|everybody) else\b/gi, " ")
+    .replace(/\band\s*\/\s*or\b/gi, " or ").replace(/\//g, " or ").replace(/\bsuch as\b/gi, " or ")
+    .replace(/&/g, " and ").replace(/\b(as well as|along with|plus)\b/gi, " and ")
+    .split(/[,;:.!?()\u2013\u2014]+|\s-+\s|\bbut\b|(?=\b(?:because|since|as|when|after|before|while|so|who|and)\b)/i).map(norm).filter(Boolean);
+}
+function negated(words, i) {
+  return words.slice(Math.max(0, i - 3), i).some(function (w, j, arr) {
+    const k = Math.max(0, i - 3) + j;
+    return isNeg(w) && words[k - 1] !== "if";
+  });
+}
+/* Hits of any phrase in list: {i: first word index, n: length, neg}. */
+function hits(c, list) {
+  const words = c.split(" "), out = [];
+  for (const x of list || []) {
+    const k = norm(x).split(" ").filter(Boolean);
+    if (!k.length) continue;
+    for (let i = 0; i + k.length <= words.length; i++) {
+      if (k.every(function (w, j) { return words[i + j] === w; })) out.push({ i: i, n: k.length, neg: negated(words, i) });
+    }
+  }
+  return out;
+}
+function isOtherNumber(q, w) {
+  if (!q.otherNumbers || q.accept.map(norm).indexOf(w) !== -1) return false;
+  if (q.otherNumbers === "years") return /^([0-9]{2}|[0-9]{4})$/.test(w);
+  return /^[0-9]+$/.test(w) || NUMBER_WORDS.indexOf(w) !== -1;
+}
+function otherNumberHits(q, c) {
+  const words = c.split(" "), out = [];
+  words.forEach(function (w, i) {
+    if (!isOtherNumber(q, w)) return;
+    if (q.otherNumbers === "years" && w.length === 2 && ["was", "is", "aged", "age"].indexOf(words[i - 1]) !== -1) return;
+    out.push({ i: i, n: 1, neg: negated(words, i), num: true });
+  });
+  return out;
+}
+function hedged(words, h) {
+  for (let j = Math.max(0, h.i - 3); j < Math.min(words.length, h.i + h.n + 2); j++) {
+    if (j >= h.i && j < h.i + h.n) continue;
+    if (HEDGES.indexOf(words[j]) !== -1) return true;
+  }
+  return words[h.i - 1] === "to" || words[h.i + h.n] === "to";
+}
+/* Words of the clause that are not candidates, filler, negations or numbers. */
+function contentWords(q, c) {
+  let pad = " " + c + " ";
+  q.accept.concat(q.reject || []).map(norm).filter(Boolean).sort(function (a, b) { return b.length - a.length; }).forEach(function (k) {
+    while (pad.indexOf(" " + k + " ") !== -1) pad = pad.replace(" " + k + " ", " ");
+  });
+  const known = {};
+  q.accept.concat(q.reject || []).forEach(function (x) { norm(x).split(" ").forEach(function (w) { known[w] = true; }); });
+  return pad.split(" ").filter(function (w) { return w && !known[w] && FILLER.indexOf(w) === -1 && !isNeg(w) && !isOtherNumber(q, w); });
+}
+function hasVerb(q, c) {
+  const known = {};
+  q.accept.concat(q.reject || []).forEach(function (x) { norm(x).split(" ").forEach(function (w) { known[w] = true; }); });
+  return c.split(" ").some(function (w) {
+    return !known[w] && (VERBS.indexOf(w) !== -1 || /^[a-z]{2,}ed$/.test(w) || (/^[a-z]{3,}ing$/.test(w) && !/thing$/.test(w)));
+  });
+}
+function offered(q, c, h, hasAnswer) {
+  const words = c.split(" ");
+  if (hedged(words, h)) return true;
+  if (hasAnswer && ["with", "then"].indexOf(words[h.i - 1]) !== -1) return true;
+  const after = words.slice(h.i + h.n, h.i + h.n + 2).join(" ");
+  if (/^(isnt|wasnt|is not|was not)\b/.test(after)) return false;
+  if (REASON.indexOf(words[0]) !== -1) return false;
+  if (!contentWords(q, c).length) return true;
+  if (hasAnswer) return false;
+  return !(hasVerb(q, c) || h.num);
+}
+/* "right", "blocked" (a right answer plus a rival offered alongside it) or "wrong". */
+function shortStatus(q, text) {
+  let good = false, rival = false;
+  for (const c of clauses(text)) {
+    const answer = hits(c, q.accept).some(function (h) { return !h.neg; });
+    if (answer) good = true;
+    hits(c, q.reject).concat(otherNumberHits(q, c)).forEach(function (h) {
+      if (!h.neg && offered(q, c, h, answer)) rival = true;
+    });
+  }
+  return good ? (rival ? "blocked" : "right") : "wrong";
+}
+function shortCorrect(q, text) { return shortStatus(q, text) === "right"; }
+function oneAnswerMsg(q) { return "Give just one answer, without naming " + (q.others || "anything") + " else. "; }
+function shortLocked(q, a) { return !!a && (a.tries >= 2 || shortCorrect(q, a.text)); }
+function hasText(s) { return typeof s === "string" && s.trim() !== ""; }
+const PEE_MIN_WORDS = 3;
+function wordCount(s) { return typeof s === "string" ? s.split(/\s+/).filter(function (w) { return /[A-Za-z0-9]/.test(w); }).length : 0; }
+
+/* ---------- storage ---------- */
+function validEntry(q, v) {
+  if (!v || typeof v !== "object" || Array.isArray(v)) return null;
+  const str = function (x, max) { return typeof x === "string" && x.length <= max; };
+  if (q.kind === "mcq") return (Number.isInteger(v.choice) && v.choice >= 0 && v.choice < q.options.length) ? { choice: v.choice } : null;
+  if (q.kind === "short") return (str(v.text, 200) && hasText(v.text)) ? { text: v.text, tries: v.tries === 1 ? 1 : 2 } : null;
+  if (q.kind === "open") return str(v.text, MAX_TEXT) ? { text: v.text, revealed: v.revealed === true && hasText(v.text) } : null;
+  if (q.kind === "pee") {
+    if (!["p", "e", "x"].every(function (k) { return str(v[k], MAX_TEXT); })) return null;
+    const all = ["p", "e", "x"].every(function (k) { return hasText(v[k]); });
+    const checks = CHECKLIST.map(function (_, i) { return Array.isArray(v.checks) ? v.checks[i] === true : false; });
+    return { p: v.p, e: v.e, x: v.x, revealed: v.revealed === true && all, checks: checks };
+  }
+  return null;
+}
+/* Saving is off by default. To avoid losing anyone's progress, an existing
+   save decides instead:
+   - nothing stored, or a version 1 save that was switched off or holds no
+     answers: saving stays off and nothing is kept on the device;
+   - a version 1 save with answers (saving used to be on by default): saving
+     stays on, answers are migrated to version 2 and the user is told how to
+     switch it off;
+   - a version 2 save (only written when saving is on, even with no answers
+     yet): saving stays on;
+   - unreadable data: someone had saving on, so it stays on and the raw data is
+     backed up under KEY:corrupt (removed when saving is switched off). */
+function load() {
+  let raw = null;
+  try { raw = window.localStorage.getItem(KEY); } catch (e) { storageOK = false; return; }
+  if (raw === null) return;
+  let obj;
+  try { obj = JSON.parse(raw); } catch (e) { obj = undefined; }
+  if (!obj || typeof obj !== "object" || Array.isArray(obj) || (obj.v !== 1 && obj.v !== 2)) {
+    try { window.localStorage.setItem(KEY + ":corrupt", String(raw).slice(0, 100000)); } catch (e) { /* ignore */ }
+    state.save = true;
+    notice("Saved progress on this device could not be read, so you are starting fresh. Saving stays on: untick Save my progress to remove it.");
+    return;
+  }
+  const a = obj.answers;
+  const hasAnswers = !!a && typeof a === "object" && !Array.isArray(a) && Object.keys(a).length > 0;
+  if (obj.save === false || (obj.v === 1 && !hasAnswers)) { state.save = false; persist(); return; }
+  state.save = true;
+  let dropped = 0;
+  for (const id of hasAnswers ? Object.keys(a) : []) {
+    const q = QMAP.get(id);
+    let entry = a[id];
+    if (q && obj.v === 1 && q.kind === "mcq" && Object.prototype.hasOwnProperty.call(MIGRATE_V1, id) && entry && typeof entry === "object") {
+      const map = MIGRATE_V1[id];
+      if (map === null) continue; /* question rewritten: old answer does not apply */
+      entry = Number.isInteger(entry.choice) && entry.choice >= 0 && entry.choice < map.length ? { choice: map[entry.choice] } : null;
+    }
+    const v = q ? validEntry(q, entry) : null;
+    if (v) state.answers[id] = v; else dropped++;
+  }
+  if (dropped) notice("Some saved answers could not be read and were skipped.");
+  else if (obj.v === 1) notice("Saving is on because this device already had your saved progress. Untick Save my progress to remove it, for example on a shared computer.");
+  if (obj.v === 1) persist();
+}
+function persist() {
+  clearTimeout(saveTimer); saveTimer = null;
+  if (!storageOK) return;
+  try {
+    if (state.save) window.localStorage.setItem(KEY, JSON.stringify({ v: 2, answers: state.answers }));
+    else { window.localStorage.removeItem(KEY); window.localStorage.removeItem(KEY + ":corrupt"); }
+  } catch (e) {
+    notice("Progress could not be saved on this device. You can keep working, but it will not be remembered.");
+  }
+}
+function persistSoon() { clearTimeout(saveTimer); saveTimer = setTimeout(persist, 300); }
+window.addEventListener("pagehide", function () { if (saveTimer) persist(); });
+
+/* The only live region for checking: one combined message per Check
+   (feedback plus the new score). Scores and totals are not live. */
+function announce(msg) {
+  const el = document.getElementById("announce");
+  el.textContent = el.textContent === msg ? msg + "\u00a0" : msg;
+}
+function announceCheck(q, fb) {
+  const s = passageScore(PASSAGES.find(function (p) { return p.id === q.pid; }));
+  announce(fb.textContent.trim() + " Score for this text: " + s.correct + " out of " + s.auto + ".");
+}
+function notice(msg) { const n = document.getElementById("notice"); n.textContent = msg; n.hidden = false; }
+
+/* ---------- scoring ---------- */
+function passageScore(p) {
+  let auto = 0, correct = 0, checked = 0, written = 0, done = 0;
+  for (const q of p.questions) {
+    const a = state.answers[q.id];
+    if (isAuto(q)) { auto++; if (a) { checked++; if (isCorrect(q, a)) correct++; } }
+    else { written++; if (a && a.revealed) done++; }
+  }
+  return { auto: auto, correct: correct, checked: checked, written: written, done: done };
+}
+function updateScores() {
+  let tc = 0, ta = 0, td = 0, tw = 0;
+  for (const p of PASSAGES) {
+    const s = passageScore(p);
+    tc += s.correct; ta += s.auto; td += s.done; tw += s.written;
+    const el = document.getElementById("score-" + p.id);
+    if (el) el.textContent = "Score: " + s.correct + " out of " + s.auto + " marked questions correct (" + s.checked + " checked). Written answers done: " + s.done + " of " + s.written + ".";
+    const b = document.getElementById("badge-" + p.id);
+    if (b) b.textContent = s.correct + "/" + s.auto + (s.checked === s.auto && s.done === s.written ? " \u2713" : "");
+  }
+  document.getElementById("total").textContent = "Overall: " + tc + " of " + ta + " marked questions correct. Written answers done: " + td + " of " + tw + ".";
+}
+
+/* ---------- rendering ---------- */
+function tagEl(q) { return h("span", { class: "tag " + q.cat }, CATS[q.cat]); }
+function setFb(fb, kind, parts) { fb.replaceChildren(h("div", { class: "box " + kind }, parts)); }
+function hint(fb, msg) { setFb(fb, "hint", msg); announce(msg); }
+
+function renderMCQ(q) {
+  const fb = h("div", { class: "fb" });
+  const opts = q.options.map(function (o, i) {
+    return h("label", { class: "opt" }, h("input", { type: "radio", name: q.id, value: String(i) }), h("span", null, o));
+  });
+  const btn = h("button", { type: "submit", class: "check" }, "Check answer");
+  const form = h("form", { class: "q q-mcq", "data-qid": q.id, novalidate: true },
+    h("fieldset", null, h("legend", null, h("span", { class: "qnum" }), tagEl(q), h("span", { class: "qtext" }, q.q)), opts),
+    h("div", { class: "row" }, btn), fb);
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (state.answers[q.id]) return;
+    const sel = form.querySelector("input[type=radio]:checked");
+    if (!sel) { hint(fb, "Choose an answer first."); return; }
+    state.answers[q.id] = { choice: Number(sel.value) };
+    persist(); showMCQ(q, form); updateScores(); announceCheck(q, fb);
+  });
+  if (state.answers[q.id]) showMCQ(q, form);
+  return form;
+}
+function showMCQ(q, form) {
+  const a = state.answers[q.id];
+  const fb = form.querySelector(".fb");
+  form.querySelectorAll("input[type=radio]").forEach(function (r, i) {
+    r.checked = i === a.choice; r.disabled = true;
+    const lab = r.closest(".opt");
+    if (i === q.answer) lab.classList.add("is-correct");
+    else if (i === a.choice) lab.classList.add("is-wrong");
+  });
+  lockBtn(form.querySelector("button.check"));
+  if (isCorrect(q, a)) setFb(fb, "ok", [h("strong", null, "Correct. "), q.explain]);
+  else setFb(fb, "bad", [h("strong", null, "Not quite. "), "The answer is: " + q.options[q.answer] + ". ", q.explain]);
+  form.dataset.result = isCorrect(q, a) ? "correct" : "incorrect";
+}
+function lockBtn(btn) { btn.setAttribute("aria-disabled", "true"); btn.textContent = "Checked"; }
+
+function renderShort(q) {
+  const inId = q.id + "-in";
+  const fb = h("div", { class: "fb" });
+  const input = h("input", { type: "text", id: inId, autocomplete: "off", spellcheck: "true", maxlength: "200" });
+  const form = h("form", { class: "q q-short", "data-qid": q.id, novalidate: true },
+    h("label", { class: "qlabel", for: inId }, h("span", { class: "qnum" }), tagEl(q), h("span", { class: "qtext" }, q.q)),
+    input, h("div", { class: "row" }, h("button", { type: "submit", class: "check" }, "Check answer")), fb);
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const prev = state.answers[q.id];
+    if (shortLocked(q, prev)) return;
+    if (!hasText(input.value)) { hint(fb, "Type an answer first."); return; }
+    /* N3: re-checking the same answer does not use up the second try. */
+    if (prev && norm(input.value) === norm(prev.text)) { hint(fb, "Change your answer, then check again."); return; }
+    state.answers[q.id] = { text: input.value.slice(0, 200), tries: prev ? 2 : 1 };
+    persist(); showShort(q, form); updateScores(); announceCheck(q, fb);
+  });
+  if (state.answers[q.id]) showShort(q, form);
+  return form;
+}
+function showShort(q, form) {
+  const a = state.answers[q.id];
+  const input = form.querySelector("input");
+  input.value = a.text;
+  const fb = form.querySelector(".fb");
+  if (!shortLocked(q, a)) {
+    form.querySelector("button.check").textContent = "Check again";
+    const lead = shortStatus(q, a.text) === "blocked" ? oneAnswerMsg(q) : "Not quite. ";
+    setFb(fb, "bad", [h("strong", null, lead), "You wrote: ", h("q", null, a.text), ". Look back at the text and have one more try."]);
+    form.dataset.result = "retry";
+    return;
+  }
+  input.readOnly = true;
+  lockBtn(form.querySelector("button.check"));
+  if (isCorrect(q, a)) setFb(fb, "ok", [h("strong", null, "Correct. "), q.explain]);
+  else setFb(fb, "bad", [h("strong", null, shortStatus(q, a.text) === "blocked" ? oneAnswerMsg(q) : "Not quite. "), "You wrote: ", h("q", null, a.text), ". A correct answer is: " + q.accept[0] + ". ", q.explain]);
+  form.dataset.result = isCorrect(q, a) ? "correct" : "incorrect";
+}
+
+function renderOpen(q) {
+  const taId = q.id + "-ta";
+  const a = state.answers[q.id];
+  const fb = h("div", { class: "fb" });
+  const ta = h("textarea", { id: taId, rows: "4", maxlength: String(MAX_TEXT) });
+  ta.value = a ? a.text : "";
+  const modelSlot = h("div", { class: "model-slot" });
+  const form = h("form", { class: "q q-open", "data-qid": q.id, novalidate: true },
+    h("label", { class: "qlabel", for: taId }, h("span", { class: "qnum" }), tagEl(q), h("span", { class: "qtext" }, q.q)),
+    h("p", { class: "meta", id: taId + "-tip" }, "Make a point, then back it up with words from the text."),
+    ta, h("div", { class: "row" }, h("button", { type: "submit", class: "check" }, "Show model answer")), fb, modelSlot);
+  ta.setAttribute("aria-describedby", taId + "-tip");
+  ta.addEventListener("input", function () {
+    const cur = state.answers[q.id] || { text: "", revealed: false };
+    cur.text = ta.value.slice(0, MAX_TEXT);
+    state.answers[q.id] = cur; persistSoon();
+  });
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const cur = state.answers[q.id];
+    if (cur && cur.revealed) return;
+    if (!hasText(ta.value)) { hint(fb, "Write your answer first. Then you can compare it with a model answer."); return; }
+    state.answers[q.id] = { text: ta.value.slice(0, MAX_TEXT), revealed: true };
+    persist(); showOpen(q, form); updateScores(); announce("Model answer shown below your answer. This answer is not marked.");
+  });
+  if (a && a.revealed) showOpen(q, form);
+  return form;
+}
+function showOpen(q, form) {
+  lockBtn(form.querySelector("button.check"));
+  form.querySelector(".fb").replaceChildren();
+  form.querySelector(".model-slot").replaceChildren(h("div", { class: "model" },
+    h("h4", null, "Model answer"), h("p", null, q.model),
+    h("p", { class: "meta" }, "Compare: did you make a clear point and use words from the text to back it up?")));
+  form.dataset.result = "revealed";
+}
+
+function renderPEE(q) {
+  const a = state.answers[q.id];
+  const fb = h("div", { class: "fb" });
+  const boxes = PEE_PARTS.map(function (part) {
+    const k = part[0], id = q.id + "-" + k;
+    const ta = h("textarea", { id: id, rows: "3", maxlength: String(MAX_TEXT), "data-part": k, "aria-describedby": id + "-help " + id + "-st" });
+    ta.value = a ? a[k] : "";
+    ta.addEventListener("input", function () {
+      const cur = state.answers[q.id] || { p: "", e: "", x: "", revealed: false, checks: CHECKLIST.map(function () { return false; }) };
+      cur[k] = ta.value.slice(0, MAX_TEXT);
+      state.answers[q.id] = cur; persistSoon();
+    });
+    return h("div", { class: "pee-box" },
+      h("label", { for: id }, part[1]),
+      h("p", { class: "meta", id: id + "-help" }, part[2]),
+      h("ul", { class: "starters", id: id + "-st", "aria-label": "Sentence starters for " + part[1] }, STARTERS[k].map(function (s) { return h("li", null, s); })),
+      ta);
+  });
+  const modelSlot = h("div", { class: "model-slot" });
+  const form = h("form", { class: "q q-pee", "data-qid": q.id, novalidate: true },
+    h("fieldset", null, h("legend", null, h("span", { class: "qnum" }), tagEl(q), h("span", { class: "qtext" }, q.q)),
+      h("p", { class: "meta" }, "Write a longer answer using the three boxes. Write at least " + PEE_MIN_WORDS + " words in each box to see a model answer."), boxes),
+    h("div", { class: "row" }, h("button", { type: "submit", class: "check" }, "Show model answer")), fb, modelSlot);
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const cur = state.answers[q.id];
+    if (cur && cur.revealed) return;
+    const vals = {};
+    form.querySelectorAll("textarea").forEach(function (t) { vals[t.dataset.part] = t.value.slice(0, MAX_TEXT); });
+    const missing = PEE_PARTS.filter(function (p) { return wordCount(vals[p[0]]) < PEE_MIN_WORDS; }).map(function (p) { return p[1]; });
+    if (missing.length) { hint(fb, "Write at least " + PEE_MIN_WORDS + " words in every box first. Needs more: " + missing.join(", ") + "."); return; }
+    state.answers[q.id] = { p: vals.p, e: vals.e, x: vals.x, revealed: true, checks: (cur && cur.checks) || CHECKLIST.map(function () { return false; }) };
+    persist(); showPEE(q, form); updateScores(); announce("Model answer shown below your answer, with a checklist. This answer is not marked.");
+  });
+  if (a && a.revealed) showPEE(q, form);
+  return form;
+}
+function showPEE(q, form) {
+  lockBtn(form.querySelector("button.check"));
+  form.querySelector(".fb").replaceChildren();
+  const a = state.answers[q.id];
+  const list = h("ul", { class: "checklist" }, CHECKLIST.map(function (c, i) {
+    const cb = h("input", { type: "checkbox", "data-check": String(i) });
+    cb.checked = a.checks[i] === true;
+    cb.addEventListener("change", function () { state.answers[q.id].checks[i] = cb.checked; persist(); });
+    return h("li", null, h("label", null, cb, h("span", null, c)));
+  }));
+  form.querySelector(".model-slot").replaceChildren(h("div", { class: "model" },
+    h("h4", null, "Model answer"),
+    h("p", null, h("strong", null, "Point: "), q.model.p),
+    h("p", null, h("strong", null, "Evidence: "), q.model.e),
+    h("p", null, h("strong", null, "Explain: "), q.model.x),
+    h("h4", null, "Check your own answer"),
+    h("p", { class: "meta" }, "Tick each one your answer does. You can still improve your answer above."),
+    list));
+  form.dataset.result = "revealed";
+}
+
+function renderPassage(p, idx) {
+  const textEl = h("div", { class: "text" + (p.form === "poem" ? " poem" : "") });
+  const blocks = p.text.split(/\n\s*\n/);
+  for (const b of blocks) {
+    if (p.form === "poem") textEl.append(h("p", { class: "stanza" }, b.split("\n").map(function (l) { return h("span", { class: "line" }, l); })));
+    else textEl.append(h("p", null, b.replace(/\s*\n\s*/g, " ")));
+  }
+  const words = p.text.split(/\s+/).length;
+  const qs = h("ol", { class: "questions" }, p.questions.map(function (q) {
+    const f = q.kind === "mcq" ? renderMCQ(q) : q.kind === "short" ? renderShort(q) : q.kind === "open" ? renderOpen(q) : renderPEE(q);
+    return h("li", null, f);
+  }));
+  const next = PASSAGES[idx + 1];
+  const sec = h("section", { class: "passage", id: "p-" + p.id, "aria-labelledby": "h-" + p.id, "data-pid": p.id },
+    h("p", { class: "meta" }, "Text " + (idx + 1) + " of " + PASSAGES.length),
+    h("h2", { id: "h-" + p.id, tabindex: "-1" }, p.title),
+    h("p", { class: "meta" }, p.type + ". About " + Math.max(1, Math.round(words / 150)) + " minutes to read" + (p.intro ? ". " + p.intro : ".")),
+    h("p", { class: "pscore no-print", id: "score-" + p.id }),
+    textEl,
+    h("h3", null, "Questions"),
+    qs,
+    h("div", { class: "pactions no-print" },
+      h("button", { type: "button", class: "secondary", "data-action": "retry" }, "Try this text again"),
+      h("button", { type: "button", class: "secondary", "data-action": "print" }, "Print this text"),
+      next ? h("a", { class: "btn", href: "#p-" + next.id }, "Next: " + next.title) : h("a", { class: "btn", href: "#p-" + PASSAGES[0].id }, "Back to text 1")));
+  sec.querySelector("[data-action=retry]").addEventListener("click", function () {
+    if (!window.confirm("Clear your answers for \u201c" + p.title + "\u201d and start this text again?")) return;
+    for (const q of p.questions) delete state.answers[q.id];
+    persist();
+    const fresh = renderPassage(p, idx);
+    sec.replaceWith(fresh); route(false); updateScores();
+    fresh.querySelector("h2").focus();
+  });
+  sec.querySelector("[data-action=print]").addEventListener("click", function () { window.print(); });
+  return sec;
+}
+
+function renderAll() {
+  const nav = document.getElementById("nav");
+  nav.replaceChildren(...PASSAGES.map(function (p, i) {
+    return h("li", null, h("a", { href: "#p-" + p.id, id: "nav-" + p.id }, h("span", null, (i + 1) + ". " + p.title), h("span", { class: "badge", id: "badge-" + p.id })));
+  }));
+  document.getElementById("passages").replaceChildren(...PASSAGES.map(renderPassage));
+  updateScores();
+}
+let shownId = null;
+function currentId() {
+  const want = window.location.hash.slice(1);
+  if (PASSAGES.some(function (p) { return "p-" + p.id === want; })) return want;
+  return shownId || "p-" + PASSAGES[0].id;
+}
+function focusHeading(id) { const hd = document.querySelector("#" + id + " h2"); if (hd) { hd.focus(); hd.scrollIntoView({ block: "start" }); } }
+function route(focus) {
+  const id = currentId();
+  shownId = id;
+  document.querySelectorAll("section.passage").forEach(function (s) { s.hidden = s.id !== id; });
+  document.querySelectorAll("#nav a").forEach(function (a) {
+    if (a.getAttribute("href") === "#" + id) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  const cur = document.querySelector("#nav a[aria-current]"), ol = document.getElementById("nav");
+  if (cur && ol.scrollWidth > ol.clientWidth) {
+    const l = cur.parentElement.offsetLeft - ol.offsetLeft, r = l + cur.offsetWidth;
+    if (l < ol.scrollLeft || r > ol.scrollLeft + ol.clientWidth) ol.scrollLeft = Math.max(0, l - 12);
+  }
+  if (focus) focusHeading(id);
+}
+document.querySelector("a.skip").addEventListener("click", function (e) {
+  e.preventDefault();
+  focusHeading(shownId || currentId());
+});
+window.addEventListener("hashchange", function () { route(true); });
+/* Keyboard focus on a nav item scrolls it fully into view in the sideways mobile strip (smooth unless reduced motion is asked for). */
+document.getElementById("nav").addEventListener("focusin", function (e) {
+  const a = e.target.closest ? e.target.closest("a") : null;
+  if (!a) return;
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  a.scrollIntoView({ inline: "nearest", block: "nearest", behavior: reduce ? "auto" : "smooth" });
+});
+
+document.getElementById("save-toggle").addEventListener("change", function (e) {
+  state.save = e.target.checked;
+  persist();
+  notice(state.save ? "Your progress will be saved in this browser only. Leave this off on a shared computer." : "Saving is off. Saved progress has been removed from this device.");
+});
+document.getElementById("reset-all").addEventListener("click", function () {
+  if (!window.confirm("Reset all progress for every text? This cannot be undone.")) return;
+  state.answers = Object.create(null);
+  clearTimeout(saveTimer); saveTimer = null;
+  try { window.localStorage.removeItem(KEY); window.localStorage.removeItem(KEY + ":corrupt"); } catch (e) { /* ignore */ }
+  persist();
+  renderAll(); route(false);
+  notice("All progress has been reset.");
+});
+document.getElementById("print-all").addEventListener("click", function () {
+  document.body.classList.add("print-all");
+  window.print();
+});
+window.addEventListener("afterprint", function () { document.body.classList.remove("print-all"); });
+
+load();
+document.getElementById("save-toggle").checked = state.save;
+if (!storageOK) { document.getElementById("save-toggle").disabled = true; notice("This browser is not letting the page save progress, so answers will not be remembered."); }
+renderAll();
+route(false);
+</script>
+</body>
+</html>
