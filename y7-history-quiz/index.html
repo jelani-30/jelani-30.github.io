@@ -33,7 +33,12 @@ button,.btn{font:inherit;font-weight:600;border-radius:8px;border:2px solid var(
 button.secondary,.btn.secondary{background:#fff;color:var(--accent)}
 header.site button.secondary{border-color:#fff}
 button[aria-disabled=true]{cursor:default}
-.notice{margin:10px 0 0;padding:8px 12px;border-radius:8px;background:var(--hint-bg);color:var(--hint-ink)}
+.notice{margin:10px 0 0;padding:8px 12px;border-radius:8px;background:var(--hint-bg);color:var(--hint-ink);display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.notice span{flex:1 1 220px}
+.notice button.secondary{border-color:var(--hint-ink);color:var(--hint-ink);background:#fff}
+.overall{font-weight:700;margin:4px 0 0}
+nav.sections{position:relative}
+.nav-hint{margin:0;padding:0 12px 4px;font-size:.8rem;color:var(--muted);text-align:right}
 nav.sections{background:#fff;border-bottom:1px solid var(--line)}
 nav.sections ol{list-style:none;margin:0 auto;padding:8px 16px;max-width:800px;display:flex;flex-wrap:wrap;gap:6px}
 nav.sections a{display:flex;align-items:center;padding:6px 12px;border-radius:8px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-size:.95rem;line-height:1.3;min-height:44px}
@@ -44,7 +49,7 @@ h2:focus{outline:none}
 h2:focus-visible{outline:3px solid var(--focus)}
 .meta{margin:0 0 10px;color:var(--muted)}
 .pscore{margin:6px 0 12px;font-weight:600}
-.home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:12px}
+.home-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px;margin-top:12px}
 .scard{background:var(--card);border:1px solid var(--line);border-top:6px solid #c8a24a;border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
 .scard.romans{border-top-color:#7a1730}
 .scard h3{margin:0;font-size:1.2rem}
@@ -84,9 +89,10 @@ footer{color:var(--muted);font-size:.9rem;padding:16px 0 40px}
   header.site h1{font-size:1.25rem}
   header.site .sub{margin:2px 0 6px;font-size:.88rem;line-height:1.35}
   .toolbar button{font-size:.88rem;padding:4px 10px}
-  nav.sections ol{flex-wrap:nowrap;overflow-x:auto;padding:6px 12px;scrollbar-width:thin}
+  nav.sections ol{flex-wrap:nowrap;overflow-x:auto;padding:6px 12px;gap:6px;scrollbar-width:thin}
   nav.sections li{flex:none}
-  nav.sections a{white-space:nowrap;padding:4px 10px}
+  nav.sections a{white-space:nowrap;padding:4px 10px;font-size:.9rem}
+  nav.sections.can-scroll::after{content:"";position:absolute;top:0;right:0;width:28px;height:56px;background:linear-gradient(to right,rgba(255,255,255,0),#fff);pointer-events:none}
   section.view{margin-top:12px}
   .panel{padding:12px}
   .text{padding:10px 12px}
@@ -123,94 +129,222 @@ footer{color:var(--muted);font-size:.9rem;padding:16px 0 40px}
         <button type="button" class="secondary" id="reset-no">Cancel</button>
       </div>
     </div>
-    <div id="notice" class="notice" hidden></div>
+    <div id="notice" class="notice" hidden><span id="notice-text"></span> <button type="button" class="secondary small" id="notice-close">Dismiss</button></div>
   </div>
 </header>
 <div id="announce" class="sr-only" role="status" aria-live="polite"></div>
-<nav class="sections" aria-label="Sections"><ol>
+<nav class="sections" aria-label="Sections" id="nav"><ol id="nav-list">
   <li><a href="#/home" data-view="home">Home</a></li>
   <li><a href="#/pompeii" data-view="pompeii">Pompeii</a></li>
-  <li><a href="#/romans" data-view="romans">How did the Romans change Britain</a></li>
-</ol></nav>
+  <li><a href="#/romans" data-view="romans">Romans in Britain</a></li>
+</ol><p class="nav-hint" id="nav-hint" aria-hidden="true" hidden>Swipe for more →</p></nav>
 <main id="main" class="wrap" tabindex="-1"></main>
 <footer class="wrap">Progress is kept only in this browser on this device. No sign-in, no tracking, nothing leaves your device.</footer>
 <script>
 "use strict";
-/*POMPEII-START*/
-const QUESTIONS = [
-  { q: "About how many cafes, bars and takeaway food counters have been found in Pompeii?", options: ["20", "200", "2,000", "60"], answer: 1, why: "Around 200, roughly 1 for every 60 residents." },
-  { q: "Who mostly ate out in Pompeii?", options: ["The rich", "Soldiers", "The poor", "Children"], answer: 2, why: "Poorer people lived in small homes without kitchens, so they had to eat out." },
-  { q: "What do some historians compare Pompeii's graffiti to?", options: ["Newspapers", "Social media", "Text books", "Postcards"], answer: 1, why: "Information and jokes were shared around town, a bit like social media." },
-  { q: "How many theatres were there in Pompeii?", options: ["1", "3", "6", "10"], answer: 1, why: "There were 3 theatres." },
-  { q: "Besides plays, what else did people watch?", options: ["Chariot races and football", "Animal fights and gladiator battles", "Puppet shows", "Horse jumping"], answer: 1, why: "They watched animal fights and gladiator battles." },
-  { q: "Were most toilets in Pompeii connected to sewers?", options: ["Yes, like ours today", "No, waste dropped into a hole and was emptied by hand", "Only in the baths", "There were no toilets"], answer: 1, why: "Most weren't connected to sewers; waste stayed in a hole until it was emptied by hand." },
-  { q: "Where were toilets often found?", options: ["The bedroom", "The garden", "The kitchen", "The street"], answer: 2, why: "Toilets were often in the kitchen." },
-  { q: "What did Romans use instead of toilet paper?", options: ["Leaves", "A xylospongium", "Cloth rags", "Nothing"], answer: 1, why: "A xylospongium: a sponge on a stick." },
-  { q: "Which of these was NOT part of the usual Roman diet in Pompeii?", options: ["Bread", "Olives", "Potatoes", "Cheese"], answer: 2, why: "Their diet included bread, beans, eggs, cheese, olives and fruit. Potatoes weren't on the list." },
-  { q: "Which tiny animal was a Roman favourite to eat?", options: ["Frogs", "Snails", "Dormice", "Sparrows"], answer: 2, why: "Dormice were kept alive in special jars." },
-  { q: "What was garum made from?", options: ["Rotted fish guts", "Crushed olives", "Goat's milk", "Honey and wine"], answer: 0, why: "Garum was a sauce made of rotted fish guts." },
-  { q: "Roughly how many residents were there for every food counter?", options: ["10", "30", "60", "100"], answer: 2, why: "About 1 food counter for every 60 residents." },
-  { q: "Which of these can historians learn about from graffiti?", options: ["Gay relationships and adverts for enslaved people", "Weather forecasts", "Football scores", "Train times"], answer: 0, why: "Graffiti shows how people thought and behaved, including evidence of gay relationships and adverts about enslaved people for sale." },
-  { q: "What can studying poo found at Pompeii tell historians?", options: ["What people ate, how healthy they were and what parasites they had", "How tall people were", "What language they spoke", "How old the town was"], answer: 0, why: "Feces reveal diet, health and the parasites living in people's bodies." },
-  { q: "Why were public baths mostly used for washing?", options: ["Swimming was banned", "Only rich people had running water at home", "The water was too hot to swim in", "They were too small"], answer: 1, why: "Only rich people had running water at home, so most people washed at the baths." },
-  { q: "What kind of medical equipment has been found in Pompeii?", options: ["An X-ray machine", "A surgeon's tool for opening a skull", "Glass syringes", "A stethoscope"], answer: 1, why: "Medical equipment has been found, including a surgeon's tool used to open a skull." },
-  { q: "Which children were most likely to be educated in Pompeii?", options: ["All children equally", "Mostly girls", "Mostly boys, and a few rich girls", "Only enslaved children"], answer: 2, why: "Mostly boys were educated, along with a few rich girls." },
-  { q: "What did Romans keep live dormice in?", options: ["Wooden cages", "Special jars", "Baskets", "Holes in the garden"], answer: 1, why: "Special jars have been found that were used to keep live dormice." },
-  { q: "How many public baths were there, at least?", options: ["2", "4", "6", "12"], answer: 2, why: "At least 6 public baths, mostly used for washing." },
-  { q: "Why were the baths probably pretty filthy?", options: ["Animals swam in them", "There was no way to keep the water clean", "Nobody cleaned on Sundays", "They used sea water"], answer: 1, why: "There was no way to keep the water clean." },
-  { q: "Over what share of people in Pompeii died before they were 10?", options: ["About a tenth", "About a quarter", "Over half", "Almost none"], answer: 2, why: "Over half of people died before age 10." },
-  { q: "How do we know Pompeii held elections?", options: ["Voting slips were found", "Messages on walls said who to vote for", "A statue says so", "Coins show it"], answer: 1, why: "Lots of wall messages advertised who people should vote for." },
-  { q: "Why do historians think lessons happened outside or at home?", options: ["No schools have been found", "Children didn't learn", "Schools were underground", "Teachers were banned"], answer: 0, why: "No schools have ever been found in Pompeii." },
-];
-/*POMPEII-END*/
 /*
-  ROMANS SECTION: multiple-choice questions written only from the 10 worksheet cards
-  ("How did the Romans change Britain"). Each question names its card and a key phrase,
-  which must appear word for word in that card's text, and the "why" quotes it.
+  CONTENT NOTES (QA v2, 16 Nov 2026). Readable source: src/quiz-data.json, built by tools/make-data.py,
+  encoded here by tools/embed-data.py. The data below is base64 of UTF-8 JSON, only so the answer key
+  isn't readable at a glance in view-source. It is not security.
+
+  Pompeii figures and sources:
+  - Food counters: "around 200" changed to "at least 80". Pompeii Archaeological Park (Parco Archeologico
+    di Pompei) on the Regio V thermopolium, Dec 2020: about 80 thermopolia known (reported by Smithsonian,
+    CBS, DW). Steven Ellis, University of Cincinnati, The Roman Retail Revolution (OUP 2018): 163 food and
+    drink outlets, 164 after Regio V (Gizmodo interview, Dec 2020). Sources differ, so the answer is "at least 80".
+  - Theatres: "3" changed to "2", the Large Theatre and the Small Theatre (Odeion); the amphitheatre is separate.
+    Pompeii Archaeological Park children's guide (pompeiisites.org, Pompei-ING-LR-link.pdf): "In Pompei there
+    were 2 theatres"; park list of open buildings names the Large Theatre and the Small Theatre (Odeion).
+  - Baths: "at least 6" changed to "5 or more". Archaeology magazine (Archaeological Institute of America),
+    Jul/Aug 2019, quoting Monika Truemper, Free University of Berlin: "five public bath complexes".
+    Oxford Handbook of Pompeii and Its Environs, ch. 24: eight publicly accessible baths. So "5 or more".
+  - Children dying before 10: "over half" changed to "about half". PBS "The Roman Empire in the First
+    Century": "up to half of all children would die before the age of 10"; Scheidel (Stanford), demography papers.
+  - Running water by aqueduct: Archaeology magazine, Jul/Aug 2019 (baths supplied from the public aqueduct).
+  - Vesuvius, AD 79: Pompeii Archaeological Park.
+  Worksheet nuances (Romans section):
+  - Cats: Gussage All Saints Iron Age cat bones exist, but the earliest DNA-confirmed domestic cat in Britain is
+    Roman (Fishbourne, AD 24-123): De Martino et al., Science 2025, "The dispersal of domestic cats from North Africa".
+  - Rabbits: University of Exeter / Historic England, Apr 2019, Fishbourne rabbit, probably a pet; rabbits
+    became established after the Norman Conquest.
+  - Laws: English common law developed after 1066; Roman law influenced some legal ideas.
+  - Calendar: Julius Caesar's Julian calendar (365 days plus a leap day), reformed in 1582 (Gregorian).
+  - Peas: may have been grown in Britain before the Romans (hedged as "may").
 */
-/*CARDS-START*/
-const CARDS = [
-  { id: "coins", text: "For centuries British coins have copied Roman designs with the king or queen's head on one side. Our coins today are still based on Roman designs." },
-  { id: "latin", text: "The Romans spoke Latin. Although Latin is now a 'dead language' because nobody speaks it any more, lots of words from Latin survive in other languages -especially Italian and Spanish. Around 50% of all words used in English today are based on Latin words." },
-  { id: "food", text: "Vegetables like carrots, onions, peas and leeks and herbs such as chives, mint and rosemary, were all brought by the Romans. We still eat them today! They also brought the idea of fast food, and possibly even burgers!" },
-  { id: "roads", text: "The Romans built very straight roads all over Europe, which they used to move their army quickly and for trade (selling things). They are still some of the best roads to take when traveling around Britain." },
-  { id: "writers", text: "Rome was famous for its writers. Many later writers have been influenced by Roman literature, including Shakespeare - he stole ideas and even whole stories from Roman writers!" },
-  { id: "laws", text: "The Romans used laws to control their empire. A lot of our laws and ideas about crime and punishment are copied from the Romans!" },
-  { id: "cities", text: "The Romans founded (started) many great cities which are still here today - including London, which the Romans called Londinium." },
-  { id: "calendar", text: "The calendar we use is based on the Romans' – so without the Romans our year wouldn't last for 365 days! Most of the names we use for months today are based on Roman words." },
-  { id: "maths", text: "Romans introduced better kinds of maths, which have been used ever since. Roman numerals (numbers) are still used today. You can see them on clocks and watches, in books and even in films and television." },
-  { id: "animals", text: "The Romans brought different kinds of animals to England – including cats. Rabbits were brought as food." }
-];
-/*CARDS-END*/
-/*ROMANS-START*/
-const ROMANS = [
-  { q: "What have British coins copied for centuries?", options: ["Greek coins", "Roman designs", "Viking designs", "French designs"], answer: 1, why: "The card says “For centuries British coins have copied Roman designs”.", card: "coins", key: "For centuries British coins have copied Roman designs" },
-  { q: "What is on one side of British coins?", options: ["A Roman soldier on a horse", "A map of the whole of Britain", "The name of the city it came from", "The king or queen's head"], answer: 3, why: "The card says “the king or queen's head on one side”.", card: "coins", key: "the king or queen's head on one side" },
-  { q: "What language did the Romans speak?", options: ["Latin", "Greek", "French", "Welsh"], answer: 0, why: "The card says “The Romans spoke Latin”.", card: "latin", key: "The Romans spoke Latin" },
-  { q: "Why is Latin called a 'dead language'?", options: ["It was banned by the Romans", "It was never written down", "Nobody speaks it any more", "Only kings were allowed to use it"], answer: 2, why: "The card says “because nobody speaks it any more”.", card: "latin", key: "because nobody speaks it any more" },
-  { q: "About how many of the words used in English today are based on Latin words?", options: ["Around 10%", "Around 25%", "Around 50%", "Around 90%"], answer: 2, why: "The card says “Around 50% of all words used in English today are based on Latin words”.", card: "latin", key: "Around 50% of all words used in English today are based on Latin words" },
-  { q: "Which of these vegetables does the card say the Romans brought?", options: ["Leeks", "Potatoes", "Tomatoes", "Sweetcorn"], answer: 0, why: "The card says “carrots, onions, peas and leeks”.", card: "food", key: "carrots, onions, peas and leeks" },
-  { q: "Which herbs does the card say the Romans brought?", options: ["Basil, thyme and sage", "Parsley, dill and coriander", "Lavender, oregano and bay", "Chives, mint and rosemary"], answer: 3, why: "The card says “chives, mint and rosemary”.", card: "food", key: "chives, mint and rosemary" },
-  { q: "What were the roads the Romans built like?", options: ["Very narrow", "Very straight", "Long and winding", "Made of wood"], answer: 1, why: "The card says “The Romans built very straight roads”.", card: "roads", key: "The Romans built very straight roads" },
-  { q: "What did the Romans use their roads for?", options: ["To race chariots and hold big parades", "To farm the land and carry water", "To send letters and tax money to Rome", "To move their army quickly and for trade"], answer: 3, why: "The card says “to move their army quickly and for trade”.", card: "roads", key: "to move their army quickly and for trade" },
-  { q: "What does the card say Rome was famous for?", options: ["Its music", "Its writers", "Its paintings", "Its sports"], answer: 1, why: "The card says “Rome was famous for its writers”.", card: "writers", key: "Rome was famous for its writers" },
-  { q: "Which later writer took ideas and even whole stories from Roman writers?", options: ["Charles Dickens", "Geoffrey Chaucer", "Shakespeare", "Roald Dahl"], answer: 2, why: "The card says “including Shakespeare - he stole ideas and even whole stories from Roman writers”.", card: "writers", key: "including Shakespeare - he stole ideas and even whole stories from Roman writers" },
-  { q: "What did the Romans use laws for?", options: ["To control their empire", "To collect more taxes", "To decide who built the roads", "To choose the next king"], answer: 0, why: "The card says “The Romans used laws to control their empire”.", card: "laws", key: "The Romans used laws to control their empire" },
-  { q: "Which of our ideas does the card say are copied from the Romans?", options: ["Ideas about crime and punishment", "Ideas about space and the stars", "Ideas about how to grow crops", "Ideas about how to build ships"], answer: 0, why: "The card says “ideas about crime and punishment are copied from the Romans”.", card: "laws", key: "ideas about crime and punishment are copied from the Romans" },
-  { q: "What did the Romans call London?", options: ["Lundenwic", "Camulodunum", "Londinium", "Eboracum"], answer: 2, why: "The card says “London, which the Romans called Londinium”.", card: "cities", key: "London, which the Romans called Londinium" },
-  { q: "Without the Romans, our year wouldn't last for how many days?", options: ["360", "365", "364", "366"], answer: 1, why: "The card says “our year wouldn't last for 365 days”.", card: "calendar", key: "our year wouldn't last for 365 days" },
-  { q: "What are most of the names we use for months based on?", options: ["Greek gods", "Saxon kings", "Star signs", "Roman words"], answer: 3, why: "The card says “Most of the names we use for months today are based on Roman words”.", card: "calendar", key: "Most of the names we use for months today are based on Roman words" },
-  { q: "What does the card say Roman numerals are?", options: ["Letters", "Numbers", "Coins", "Maps"], answer: 1, why: "The card says “Roman numerals (numbers)”.", card: "maths", key: "Roman numerals (numbers)" },
-  { q: "Where does the card say you can see Roman numerals?", options: ["On clocks and watches", "On road signs", "On bank notes", "On football shirts"], answer: 0, why: "The card says “You can see them on clocks and watches”.", card: "maths", key: "You can see them on clocks and watches" },
-  { q: "Which animal does the card name that the Romans brought to England?", options: ["Dogs", "Horses", "Hamsters", "Cats"], answer: 3, why: "The card says “including cats”.", card: "animals", key: "including cats" },
-  { q: "Why were rabbits brought to England?", options: ["As pets", "For their fur", "As food", "To hunt with"], answer: 2, why: "The card says “Rabbits were brought as food”.", card: "animals", key: "Rabbits were brought as food" },
-];
-/*ROMANS-END*/
+/*QUIZ-DATA-START*/
+const DATA_B64 = [
+"eyJjYXJkcyI6W3siaWQiOiJjb2lucyIsInRleHQiOiJGb3IgY2VudHVyaWVzIEJyaXRpc2ggY29pbnMgaGF2ZSBjb3BpZWQgUm9tYW4gZGVzaWducyB3aXRo",
+"IHRoZSBraW5nIG9yIHF1ZWVuJ3MgaGVhZCBvbiBvbmUgc2lkZS4gT3VyIGNvaW5zIHRvZGF5IGFyZSBzdGlsbCBiYXNlZCBvbiBSb21hbiBkZXNpZ25zLiJ9",
+"LHsiaWQiOiJsYXRpbiIsInRleHQiOiJUaGUgUm9tYW5zIHNwb2tlIExhdGluLiBBbHRob3VnaCBMYXRpbiBpcyBub3cgYSAnZGVhZCBsYW5ndWFnZScgYmVj",
+"YXVzZSBub2JvZHkgc3BlYWtzIGl0IGFueSBtb3JlLCBsb3RzIG9mIHdvcmRzIGZyb20gTGF0aW4gc3Vydml2ZSBpbiBvdGhlciBsYW5ndWFnZXMg4oCTIGVz",
+"cGVjaWFsbHkgSXRhbGlhbiBhbmQgU3BhbmlzaC4gQXJvdW5kIDUwJSBvZiBhbGwgd29yZHMgdXNlZCBpbiBFbmdsaXNoIHRvZGF5IGFyZSBiYXNlZCBvbiBM",
+"YXRpbiB3b3Jkcy4ifSx7ImlkIjoiZm9vZCIsInRleHQiOiJWZWdldGFibGVzIGxpa2UgY2Fycm90cywgb25pb25zLCBwZWFzIGFuZCBsZWVrcyBhbmQgaGVy",
+"YnMgc3VjaCBhcyBjaGl2ZXMsIG1pbnQgYW5kIHJvc2VtYXJ5LCB3ZXJlIGFsbCBicm91Z2h0IGJ5IHRoZSBSb21hbnMuIFdlIHN0aWxsIGVhdCB0aGVtIHRv",
+"ZGF5ISBUaGV5IGFsc28gYnJvdWdodCB0aGUgaWRlYSBvZiBmYXN0IGZvb2QsIGFuZCBwb3NzaWJseSBldmVuIGJ1cmdlcnMhIn0seyJpZCI6InJvYWRzIiwi",
+"dGV4dCI6IlRoZSBSb21hbnMgYnVpbHQgdmVyeSBzdHJhaWdodCByb2FkcyBhbGwgb3ZlciBFdXJvcGUsIHdoaWNoIHRoZXkgdXNlZCB0byBtb3ZlIHRoZWly",
+"IGFybXkgcXVpY2tseSBhbmQgZm9yIHRyYWRlIChzZWxsaW5nIHRoaW5ncykuIFRoZXkgYXJlIHN0aWxsIHNvbWUgb2YgdGhlIGJlc3Qgcm9hZHMgdG8gdGFr",
+"ZSB3aGVuIHRyYXZlbGxpbmcgYXJvdW5kIEJyaXRhaW4uIn0seyJpZCI6IndyaXRlcnMiLCJ0ZXh0IjoiUm9tZSB3YXMgZmFtb3VzIGZvciBpdHMgd3JpdGVy",
+"cy4gTWFueSBsYXRlciB3cml0ZXJzIGhhdmUgYmVlbiBpbmZsdWVuY2VkIGJ5IFJvbWFuIGxpdGVyYXR1cmUsIGluY2x1ZGluZyBTaGFrZXNwZWFyZSDigJMg",
+"aGUgc3RvbGUgaWRlYXMgYW5kIGV2ZW4gd2hvbGUgc3RvcmllcyBmcm9tIFJvbWFuIHdyaXRlcnMhIn0seyJpZCI6Imxhd3MiLCJ0ZXh0IjoiVGhlIFJvbWFu",
+"cyB1c2VkIGxhd3MgdG8gY29udHJvbCB0aGVpciBlbXBpcmUuIEEgbG90IG9mIG91ciBsYXdzIGFuZCBpZGVhcyBhYm91dCBjcmltZSBhbmQgcHVuaXNobWVu",
+"dCBhcmUgY29waWVkIGZyb20gdGhlIFJvbWFucyEifSx7ImlkIjoiY2l0aWVzIiwidGV4dCI6IlRoZSBSb21hbnMgZm91bmRlZCAoc3RhcnRlZCkgbWFueSBn",
+"cmVhdCBjaXRpZXMgd2hpY2ggYXJlIHN0aWxsIGhlcmUgdG9kYXkg4oCTIGluY2x1ZGluZyBMb25kb24sIHdoaWNoIHRoZSBSb21hbnMgY2FsbGVkIExvbmRp",
+"bml1bS4ifSx7ImlkIjoiY2FsZW5kYXIiLCJ0ZXh0IjoiVGhlIGNhbGVuZGFyIHdlIHVzZSBpcyBiYXNlZCBvbiB0aGUgUm9tYW5zJyDigJMgc28gd2l0aG91",
+"dCB0aGUgUm9tYW5zIG91ciB5ZWFyIHdvdWxkbid0IGxhc3QgZm9yIDM2NSBkYXlzISBNb3N0IG9mIHRoZSBuYW1lcyB3ZSB1c2UgZm9yIG1vbnRocyB0b2Rh",
+"eSBhcmUgYmFzZWQgb24gUm9tYW4gd29yZHMuIn0seyJpZCI6Im1hdGhzIiwidGV4dCI6IlJvbWFucyBpbnRyb2R1Y2VkIGJldHRlciBraW5kcyBvZiBtYXRo",
+"cywgd2hpY2ggaGF2ZSBiZWVuIHVzZWQgZXZlciBzaW5jZS4gUm9tYW4gbnVtZXJhbHMgKG51bWJlcnMpIGFyZSBzdGlsbCB1c2VkIHRvZGF5LiBZb3UgY2Fu",
+"IHNlZSB0aGVtIG9uIGNsb2NrcyBhbmQgd2F0Y2hlcywgaW4gYm9va3MgYW5kIGV2ZW4gaW4gZmlsbXMgYW5kIHRlbGV2aXNpb24uIn0seyJpZCI6ImFuaW1h",
+"bHMiLCJ0ZXh0IjoiVGhlIFJvbWFucyBicm91Z2h0IGRpZmZlcmVudCBraW5kcyBvZiBhbmltYWxzIHRvIEVuZ2xhbmQg4oCTIGluY2x1ZGluZyBjYXRzLiBS",
+"YWJiaXRzIHdlcmUgYnJvdWdodCBhcyBmb29kLiJ9XSwicG9tcGVpaSI6W3sicSI6IlJvdWdobHkgaG93IG1hbnkgYmFycyBhbmQgaG90LWZvb2QgY291bnRl",
+"cnMgaGF2ZSBhcmNoYWVvbG9naXN0cyBmb3VuZCBpbiBQb21wZWlpPyIsIm9wdGlvbnMiOlsiQWJvdXQgNSIsIkF0IGxlYXN0IDgwIiwiQWJvdXQgMjAiLCJN",
+"b3JlIHRoYW4gMiwwMDAiXSwiYW5zd2VyIjoxLCJ3aHkiOiJQb21wZWlpJ3MgYXJjaGFlb2xvZ2ljYWwgcGFyayBzYXlzIGF0IGxlYXN0IDgwIGhvdC1mb29k",
+"IGNvdW50ZXJzIChjYWxsZWQgdGhlcm1vcG9saWEpIGhhdmUgYmVlbiBmb3VuZC4gT25lIHVuaXZlcnNpdHkgc3R1ZHkgY291bnRzIG92ZXIgMTUwIHBsYWNl",
+"cyBzZWxsaW5nIGZvb2QgYW5kIGRyaW5rLiJ9LHsicSI6IldobyBtb3N0bHkgYXRlIG91dCBpbiBQb21wZWlpPyIsIm9wdGlvbnMiOlsiVGhlIHJpY2giLCJT",
+"b2xkaWVycyIsIlRoZSBwb29yIiwiQ2hpbGRyZW4iXSwiYW5zd2VyIjoyLCJ3aHkiOiJQb29yZXIgcGVvcGxlIGxpdmVkIGluIHNtYWxsIGhvbWVzIHdpdGgg",
+"bm93aGVyZSB0byBjb29rLCBzbyB0aGV5IGhhZCB0byBlYXQgb3V0LiJ9LHsicSI6IldoYXQgZG8gc29tZSBoaXN0b3JpYW5zIGNvbXBhcmUgUG9tcGVpaSdz",
+"IGdyYWZmaXRpIHRvPyIsIm9wdGlvbnMiOlsiU29jaWFsIG1lZGlhIiwiTmV3c3BhcGVycyIsIlRleHRib29rcyIsIlBvc3RjYXJkcyJdLCJhbnN3ZXIiOjAs",
+"IndoeSI6IkluZm9ybWF0aW9uIGFuZCBqb2tlcyB3ZXJlIHNoYXJlZCBhcm91bmQgdG93biwgYSBiaXQgbGlrZSBzb2NpYWwgbWVkaWEuIn0seyJxIjoiSG93",
+"IG1hbnkgdGhlYXRyZXMgd2VyZSB0aGVyZSBpbiBQb21wZWlpPyIsIm9wdGlvbnMiOlsiMSIsIjIiLCI0IiwiMTAiXSwiYW5zd2VyIjoxLCJ3aHkiOiJUaGVy",
+"ZSB3ZXJlIDI6IHRoZSBMYXJnZSBUaGVhdHJlIGFuZCB0aGUgU21hbGwgVGhlYXRyZSAoYWxzbyBjYWxsZWQgdGhlIE9kZWlvbikuIFRoZSBhbXBoaXRoZWF0",
+"cmUgd2FzIGEgc2VwYXJhdGUsIG11Y2ggYmlnZ2VyIGFyZW5hLiJ9LHsicSI6IkJlc2lkZXMgcGxheXMsIHdoYXQgZWxzZSBkaWQgcGVvcGxlIHdhdGNoPyIs",
+"Im9wdGlvbnMiOlsiQ2hhcmlvdCByYWNlcyBhbmQgZm9vdGJhbGwgdG91cm5hbWVudHMiLCJQdXBwZXQgc2hvd3MgYW5kIG1hZ2ljIGFjdHMiLCJIb3JzZSBq",
+"dW1waW5nIGFuZCBkb2cgcmFjZXMiLCJBbmltYWwgZmlnaHRzIGFuZCBnbGFkaWF0b3IgYmF0dGxlcyJdLCJhbnN3ZXIiOjMsIndoeSI6IlRoZXkgd2F0Y2hl",
+"ZCBhbmltYWwgZmlnaHRzIGFuZCBnbGFkaWF0b3IgYmF0dGxlcyBpbiB0aGUgYW1waGl0aGVhdHJlLiJ9LHsicSI6IldlcmUgbW9zdCB0b2lsZXRzIGluIFBv",
+"bXBlaWkgY29ubmVjdGVkIHRvIHNld2Vycz8iLCJvcHRpb25zIjpbIk5vLCBtb3N0IGVtcHRpZWQgaW50byBhIHBpdCIsIlllcywganVzdCBsaWtlIG91cnMg",
+"dG9kYXkiLCJPbmx5IHRoZSB0b2lsZXRzIGF0IHRoZSBiYXRocyIsIlRoZXJlIHdlcmUgbm8gdG9pbGV0cyBhdCBhbGwiXSwiYW5zd2VyIjowLCJ3aHkiOiJN",
+"b3N0IHdlcmVuJ3QgY29ubmVjdGVkIHRvIHNld2Vycy4gV2FzdGUgZHJvcHBlZCBpbnRvIGEgcGl0IHVudGlsIGl0IHdhcyBlbXB0aWVkIGJ5IGhhbmQuIn0s",
+"eyJxIjoiV2hlcmUgd2VyZSB0b2lsZXRzIG9mdGVuIGZvdW5kIGluIFBvbXBlaWkgaG9tZXM/Iiwib3B0aW9ucyI6WyJUaGUgYmVkcm9vbSIsIlRoZSBnYXJk",
+"ZW4iLCJUaGUga2l0Y2hlbiIsIlRoZSBzdHJlZXQiXSwiYW5zd2VyIjoyLCJ3aHkiOiJUb2lsZXRzIHdlcmUgb2Z0ZW4gaW4gb3IgbmV4dCB0byB0aGUga2l0",
+"Y2hlbi4ifSx7InEiOiJXaGF0IGRpZCBSb21hbnMgdXNlIGluc3RlYWQgb2YgdG9pbGV0IHBhcGVyPyIsIm9wdGlvbnMiOlsiTGVhdmVzIGFuZCBtb3NzIiwi",
+"Q2xvdGggcmFncyIsIk5vdGhpbmciLCJBIHh5bG9zcG9uZ2l1bSJdLCJhbnN3ZXIiOjMsIndoeSI6IkEgeHlsb3Nwb25naXVtOiBhIHNwb25nZSBvbiBhIHN0",
+"aWNrLiJ9LHsicSI6IldoaWNoIG9mIHRoZXNlIHdhcyBOT1QgcGFydCBvZiB0aGUgdXN1YWwgUm9tYW4gZGlldCBpbiBQb21wZWlpPyIsIm9wdGlvbnMiOlsi",
+"QnJlYWQiLCJQb3RhdG9lcyIsIk9saXZlcyIsIkNoZWVzZSJdLCJhbnN3ZXIiOjEsIndoeSI6IlRoZWlyIGRpZXQgaW5jbHVkZWQgYnJlYWQsIGJlYW5zLCBl",
+"Z2dzLCBjaGVlc2UsIG9saXZlcyBhbmQgZnJ1aXQuIFBvdGF0b2VzIGNhbWUgZnJvbSB0aGUgQW1lcmljYXMgYW5kIGRpZG4ndCByZWFjaCBFdXJvcGUgdW50",
+"aWwgYWJvdXQgMSw1MDAgeWVhcnMgbGF0ZXIuIn0seyJxIjoiV2hpY2ggdGlueSBhbmltYWwgd2FzIGEgUm9tYW4gZmF2b3VyaXRlIHRvIGVhdD8iLCJvcHRp",
+"b25zIjpbIkRvcm1pY2UiLCJGcm9ncyIsIlNwYXJyb3dzIiwiU3F1aXJyZWxzIl0sImFuc3dlciI6MCwid2h5IjoiRG9ybWljZSB3ZXJlIGEgbHV4dXJ5IHNu",
+"YWNrLCBvZnRlbiBmYXR0ZW5lZCB1cCBiZWZvcmUgdGhleSB3ZXJlIGNvb2tlZC4ifSx7InEiOiJXaGF0IHdhcyBnYXJ1bSBtYWRlIGZyb20/Iiwib3B0aW9u",
+"cyI6WyJDcnVzaGVkIG9saXZlcyIsIkdvYXQncyBtaWxrIiwiSG9uZXkgbWl4ZWQgd2l0aCB3aW5lIiwiUm90dGVkIGZpc2ggZ3V0cyJdLCJhbnN3ZXIiOjMs",
+"IndoeSI6IkdhcnVtIHdhcyBhIHNhdWNlIG1hZGUgb2Ygcm90dGVkIGZpc2ggZ3V0cy4ifSx7InEiOiJXaGljaCB2b2xjYW5vIGVydXB0ZWQgYW5kIGJ1cmll",
+"ZCBQb21wZWlpIGluIEFEIDc5PyIsIm9wdGlvbnMiOlsiRXRuYSIsIlN0cm9tYm9saSIsIlZlc3V2aXVzIiwiSGVrbGEiXSwiYW5zd2VyIjoyLCJ3aHkiOiJN",
+"b3VudCBWZXN1dml1cyBlcnVwdGVkIGluIEFEIDc5IGFuZCBidXJpZWQgdGhlIHRvd24gdW5kZXIgYXNoIGFuZCBwdW1pY2UuIn0seyJxIjoiV2hpY2ggb2Yg",
+"dGhlc2UgY2FuIGhpc3RvcmlhbnMgbGVhcm4gYWJvdXQgZnJvbSBQb21wZWlpJ3MgZ3JhZmZpdGk/Iiwib3B0aW9ucyI6WyJHcmVldGluZ3MsIGluc3VsdHMg",
+"YW5kIGFkdmVydHMiLCJXZWF0aGVyIGZvcmVjYXN0cyBmb3IgbmV4dCB3ZWVrIiwiRm9vdGJhbGwgc2NvcmVzIGZyb20gUm9tZSIsIlRyYWluIHRpbWVzIHRv",
+"IE5hcGxlcyJdLCJhbnN3ZXIiOjAsIndoeSI6IkdyYWZmaXRpIHNob3dzIHdoYXQgb3JkaW5hcnkgcGVvcGxlIHRob3VnaHQgYW5kIHdyb3RlLCBmcm9tIGZy",
+"aWVuZGx5IGdyZWV0aW5ncyB0byBydWRlIGluc3VsdHMgYW5kIGFkdmVydHMgZm9yIHNob3BzLiJ9LHsicSI6IldoYXQgY2FuIHN0dWR5aW5nIHBvbyBmb3Vu",
+"ZCBhdCBQb21wZWlpIHRlbGwgaGlzdG9yaWFucz8iLCJvcHRpb25zIjpbIkhvdyB0YWxsIHBlb3BsZSB3ZXJlIGFuZCBob3cgZmFzdCB0aGV5IHJhbiIsIldo",
+"YXQgcGVvcGxlIGF0ZSBhbmQgaG93IGhlYWx0aHkgdGhleSB3ZXJlIiwiV2hhdCBsYW5ndWFnZSBwZW9wbGUgc3Bva2UgYXQgaG9tZSIsIkhvdyBvbGQgdGhl",
+"IHRvd24gd2FzIHdoZW4gaXQgd2FzIGJ1aWx0Il0sImFuc3dlciI6MSwid2h5IjoiRmFlY2VzIHJldmVhbCBkaWV0LCBoZWFsdGggYW5kIHRoZSBwYXJhc2l0",
+"ZXMgbGl2aW5nIGluIHBlb3BsZSdzIGJvZGllcy4ifSx7InEiOiJXaHkgd2VyZSBwdWJsaWMgYmF0aHMgbW9zdGx5IHVzZWQgZm9yIHdhc2hpbmc/Iiwib3B0",
+"aW9ucyI6WyJTd2ltbWluZyB3YXMgYmFubmVkIGluIHRoZSB0b3duIiwiVGhlIHdhdGVyIHdhcyBmYXIgdG9vIGhvdCB0byBzd2ltIGluIiwiVGhlIHBvb2xz",
+"IHdlcmUgdG9vIHNtYWxsIHRvIHN3aW0gaW4iLCJPbmx5IHJpY2ggcGVvcGxlIGhhZCBydW5uaW5nIHdhdGVyIGF0IGhvbWUiXSwiYW5zd2VyIjozLCJ3aHki",
+"OiJPbmx5IHJpY2ggcGVvcGxlIGhhZCBydW5uaW5nIHdhdGVyIGF0IGhvbWUsIHNvIG1vc3QgcGVvcGxlIHdhc2hlZCBhdCB0aGUgYmF0aHMuIn0seyJxIjoi",
+"V2hhdCBraW5kIG9mIG1lZGljYWwgZXF1aXBtZW50IGhhcyBiZWVuIGZvdW5kIGluIFBvbXBlaWk/Iiwib3B0aW9ucyI6WyJBbiBlYXJseSBYLXJheSBtYWNo",
+"aW5lIGZvciBib25lcyIsIlBsYXN0aWMgc3lyaW5nZXMgZm9yIGluamVjdGlvbnMiLCJBIHN1cmdlb24ncyB0b29sIGZvciBvcGVuaW5nIGEgc2t1bGwiLCJB",
+"IGJhdHRlcnktcG93ZXJlZCBoZWFydCBtb25pdG9yIl0sImFuc3dlciI6Miwid2h5IjoiTWVkaWNhbCBlcXVpcG1lbnQgaGFzIGJlZW4gZm91bmQsIGluY2x1",
+"ZGluZyBhIHN1cmdlb24ncyB0b29sIHVzZWQgdG8gb3BlbiBhIHNrdWxsLiJ9LHsicSI6IldoaWNoIGNoaWxkcmVuIHdlcmUgbW9zdCBsaWtlbHkgdG8gYmUg",
+"ZWR1Y2F0ZWQgaW4gUG9tcGVpaT8iLCJvcHRpb25zIjpbIk1vc3RseSBib3lzLCBhbmQgYSBmZXcgcmljaCBnaXJscyIsIkFsbCBjaGlsZHJlbiwgcmljaCBh",
+"bmQgcG9vciwgZXF1YWxseSIsIk1vc3RseSBnaXJscywgYW5kIGEgZmV3IHBvb3IgYm95cyIsIk9ubHkgZW5zbGF2ZWQgY2hpbGRyZW4iXSwiYW5zd2VyIjow",
+"LCJ3aHkiOiJNb3N0bHkgYm95cyB3ZXJlIGVkdWNhdGVkLCBhbG9uZyB3aXRoIGEgZmV3IGdpcmxzIGZyb20gcmljaCBmYW1pbGllcy4ifSx7InEiOiJIb3cg",
+"ZGlkIHJ1bm5pbmcgd2F0ZXIgcmVhY2ggUG9tcGVpaSdzIGZvdW50YWlucyBhbmQgcHVibGljIGJhdGhzPyIsIm9wdGlvbnMiOlsiSW4gY2FydHMgcHVsbGVk",
+"IGJ5IGhvcnNlcyIsIkZyb20gYSByaXZlciBpbiB0aGUgdG93biBjZW50cmUiLCJUaHJvdWdoIHBsYXN0aWMgcGlwZXMiLCJUaHJvdWdoIGFuIGFxdWVkdWN0",
+"Il0sImFuc3dlciI6Mywid2h5IjoiV2F0ZXIgZmxvd2VkIGludG8gdGhlIHRvd24gYWxvbmcgYW4gYXF1ZWR1Y3QsIHRoZW4gdGhyb3VnaCBsZWFkIHBpcGVz",
+"IHRvIHRoZSBmb3VudGFpbnMgYW5kIGJhdGhzLiJ9LHsicSI6IkhvdyBtYW55IGxhcmdlIHB1YmxpYyBiYXRoIGNvbXBsZXhlcyBkaWQgUG9tcGVpaSBoYXZl",
+"PyIsIm9wdGlvbnMiOlsiT25seSAxIiwiMiIsIjUgb3IgbW9yZSIsIk1vcmUgdGhhbiA1MCJdLCJhbnN3ZXIiOjIsIndoeSI6IkFyY2hhZW9sb2dpc3RzIGNv",
+"dW50IDUgbGFyZ2UgcHVibGljIGJhdGggY29tcGxleGVzLCBzdWNoIGFzIHRoZSBTdGFiaWFuIEJhdGhzIGFuZCB0aGUgRm9ydW0gQmF0aHMuIFNvbWUgZXhw",
+"ZXJ0cyBjb3VudCBhIGZldyBtb3JlLiJ9LHsicSI6IldoeSB3ZXJlIHRoZSBiYXRocyBwcm9iYWJseSBwcmV0dHkgZmlsdGh5PyIsIm9wdGlvbnMiOlsiRmFy",
+"bSBhbmltYWxzIHdlcmUgYWxsb3dlZCB0byBzd2ltIGluIHRoZW0iLCJUaGVyZSB3YXMgbm8gd2F5IHRvIGtlZXAgdGhlIHdhdGVyIGNsZWFuIiwiTm9ib2R5",
+"IGNsZWFuZWQgdGhlbSBvbiBTdW5kYXlzIiwiVGhleSB3ZXJlIGZpbGxlZCB3aXRoIHNlYSB3YXRlciJdLCJhbnN3ZXIiOjEsIndoeSI6IlRoZXJlIHdhcyBu",
+"byB3YXkgdG8ga2VlcCB0aGUgd2F0ZXIgY2xlYW4uIn0seyJxIjoiUm91Z2hseSB3aGF0IHNoYXJlIG9mIGNoaWxkcmVuIGluIFJvbWFuIHRpbWVzIGRpZWQg",
+"YmVmb3JlIHRoZXkgd2VyZSAxMD8iLCJvcHRpb25zIjpbIkFib3V0IGEgdGVudGgiLCJBYm91dCBhIHF1YXJ0ZXIiLCJBYm91dCBoYWxmIiwiQWxtb3N0IG5v",
+"bmUiXSwiYW5zd2VyIjoyLCJ3aHkiOiJIaXN0b3JpYW5zIGVzdGltYXRlIHRoYXQgdXAgdG8gYWJvdXQgaGFsZiBvZiBjaGlsZHJlbiBpbiB0aGUgUm9tYW4g",
+"d29ybGQgZGllZCBiZWZvcmUgdGhlIGFnZSBvZiAxMC4ifSx7InEiOiJIb3cgZG8gd2Uga25vdyBQb21wZWlpIGhlbGQgZWxlY3Rpb25zPyIsIm9wdGlvbnMi",
+"OlsiTWVzc2FnZXMgb24gd2FsbHMgc2FpZCB3aG8gdG8gdm90ZSBmb3IiLCJWb3Rpbmcgc2xpcHMgd2VyZSBmb3VuZCBpbiBhIGJveCIsIkEgc3RhdHVlIG9m",
+"IHRoZSB3aW5uZXIgc2F5cyBzbyIsIkNvaW5zIHNob3cgdGhlIHdpbm5lcnMnIGZhY2VzIl0sImFuc3dlciI6MCwid2h5IjoiTG90cyBvZiBwYWludGVkIHdh",
+"bGwgbWVzc2FnZXMgdG9sZCBwZW9wbGUgd2hvIHRvIHZvdGUgZm9yLiJ9LHsicSI6IldoeSBkbyBoaXN0b3JpYW5zIHRoaW5rIGxlc3NvbnMgaGFwcGVuZWQg",
+"b3V0c2lkZSBvciBhdCBob21lPyIsIm9wdGlvbnMiOlsiQ2hpbGRyZW4gZGlkbid0IGxlYXJuIGFueXRoaW5nIiwiTm8gc2Nob29scyBoYXZlIGJlZW4gZm91",
+"bmQiLCJTY2hvb2xzIHdlcmUgdW5kZXJncm91bmQiLCJUZWFjaGVycyB3ZXJlIGJhbm5lZCJdLCJhbnN3ZXIiOjEsIndoeSI6Ik5vIHNjaG9vbHMgaGF2ZSBl",
+"dmVyIGJlZW4gZm91bmQgaW4gUG9tcGVpaS4ifV0sInJvbWFucyI6W3sicSI6IldoYXQgaGF2ZSBCcml0aXNoIGNvaW5zIGNvcGllZCBmb3IgY2VudHVyaWVz",
+"PyIsIm9wdGlvbnMiOlsiUm9tYW4gbWFwcyIsIlJvbWFuIGRlc2lnbnMiLCJHcmVlayBkZXNpZ25zIiwiVmlraW5nIGRlc2lnbnMiXSwiYW5zd2VyIjoxLCJ3",
+"aHkiOiJUaGUgY2FyZCBzYXlzIOKAnEJyaXRpc2ggY29pbnMgaGF2ZSBjb3BpZWQgUm9tYW4gZGVzaWduc+KAnS4iLCJjYXJkIjoiY29pbnMiLCJrZXkiOiJC",
+"cml0aXNoIGNvaW5zIGhhdmUgY29waWVkIFJvbWFuIGRlc2lnbnMifSx7InEiOiJXaGF0IGlzIG9uIG9uZSBzaWRlIG9mIEJyaXRpc2ggY29pbnM/Iiwib3B0",
+"aW9ucyI6WyJBIFJvbWFuIHNvbGRpZXIgb24gYSBob3JzZSIsIkEgbWFwIG9mIHRoZSB3aG9sZSBvZiBCcml0YWluIiwiVGhlIG5hbWUgb2YgdGhlIGNpdHkg",
+"aXQgY2FtZSBmcm9tIiwiVGhlIGtpbmcgb3IgcXVlZW4ncyBoZWFkIl0sImFuc3dlciI6Mywid2h5IjoiVGhlIGNhcmQgc2F5cyDigJx0aGUga2luZyBvciBx",
+"dWVlbidzIGhlYWQgb24gb25lIHNpZGXigJ0uIiwiY2FyZCI6ImNvaW5zIiwia2V5IjoidGhlIGtpbmcgb3IgcXVlZW4ncyBoZWFkIG9uIG9uZSBzaWRlIn0s",
+"eyJxIjoiV2hpY2ggb3RoZXIgbGFuZ3VhZ2VzIGRvZXMgdGhlIGNhcmQgc2F5IExhdGluIHdvcmRzIGVzcGVjaWFsbHkgc3Vydml2ZSBpbj8iLCJvcHRpb25z",
+"IjpbIkl0YWxpYW4gYW5kIFNwYW5pc2giLCJGcmVuY2ggYW5kIEdlcm1hbiIsIldlbHNoIGFuZCBHYWVsaWMiLCJHcmVlayBhbmQgRHV0Y2giXSwiYW5zd2Vy",
+"IjowLCJ3aHkiOiJUaGUgY2FyZCBzYXlzIOKAnGVzcGVjaWFsbHkgSXRhbGlhbiBhbmQgU3BhbmlzaOKAnS4iLCJjYXJkIjoibGF0aW4iLCJrZXkiOiJlc3Bl",
+"Y2lhbGx5IEl0YWxpYW4gYW5kIFNwYW5pc2gifSx7InEiOiJXaHkgaXMgTGF0aW4gY2FsbGVkIGEgJ2RlYWQgbGFuZ3VhZ2UnPyIsIm9wdGlvbnMiOlsiSXQg",
+"d2FzIGJhbm5lZCBieSB0aGUgUm9tYW5zIiwiSXQgd2FzIG5ldmVyIHdyaXR0ZW4gZG93biIsIk5vYm9keSBzcGVha3MgaXQgYW55IG1vcmUiLCJPbmx5IGtp",
+"bmdzIHdlcmUgYWxsb3dlZCB0byB1c2UgaXQiXSwiYW5zd2VyIjoyLCJ3aHkiOiJUaGUgY2FyZCBzYXlzIOKAnGJlY2F1c2Ugbm9ib2R5IHNwZWFrcyBpdCBh",
+"bnkgbW9yZeKAnS4iLCJjYXJkIjoibGF0aW4iLCJrZXkiOiJiZWNhdXNlIG5vYm9keSBzcGVha3MgaXQgYW55IG1vcmUifSx7InEiOiJBYm91dCB3aGF0IHNo",
+"YXJlIG9mIHRoZSB3b3JkcyB1c2VkIGluIEVuZ2xpc2ggdG9kYXkgYXJlIGJhc2VkIG9uIExhdGluIHdvcmRzPyIsIm9wdGlvbnMiOlsiQXJvdW5kIDEwJSIs",
+"IkFyb3VuZCAyNSUiLCJBcm91bmQgNTAlIiwiQXJvdW5kIDkwJSJdLCJhbnN3ZXIiOjIsIndoeSI6IlRoZSBjYXJkIHNheXMg4oCcQXJvdW5kIDUwJSBvZiBh",
+"bGwgd29yZHMgdXNlZCBpbiBFbmdsaXNoIHRvZGF54oCdLiIsImNhcmQiOiJsYXRpbiIsImtleSI6IkFyb3VuZCA1MCUgb2YgYWxsIHdvcmRzIHVzZWQgaW4g",
+"RW5nbGlzaCB0b2RheSJ9LHsicSI6IldoaWNoIG9mIHRoZXNlIHZlZ2V0YWJsZXMgZG9lcyB0aGUgd29ya3NoZWV0IHNheSB0aGUgUm9tYW5zIGJyb3VnaHQ/",
+"Iiwib3B0aW9ucyI6WyJMZWVrcyIsIlBvdGF0b2VzIiwiVG9tYXRvZXMiLCJTd2VldGNvcm4iXSwiYW5zd2VyIjowLCJ3aHkiOiJUaGUgY2FyZCBzYXlzIOKA",
+"nGNhcnJvdHMsIG9uaW9ucywgcGVhcyBhbmQgbGVla3PigJ0uIFNvbWUgb2YgdGhlc2UsIGxpa2UgcGVhcywgbWF5IGFscmVhZHkgaGF2ZSBiZWVuIGdyb3du",
+"IGluIEJyaXRhaW4gYmVmb3JlIHRoZSBSb21hbnMgY2FtZSwgYnV0IHRoZSBSb21hbnMgbWFkZSB0aGVtIG1vcmUgY29tbW9uLiIsImNhcmQiOiJmb29kIiwi",
+"a2V5IjoiY2Fycm90cywgb25pb25zLCBwZWFzIGFuZCBsZWVrcyJ9LHsicSI6IldoaWNoIGhlcmJzIGRvZXMgdGhlIGNhcmQgc2F5IHRoZSBSb21hbnMgYnJv",
+"dWdodD8iLCJvcHRpb25zIjpbIkJhc2lsLCB0aHltZSBhbmQgc2FnZSIsIlBhcnNsZXksIGRpbGwgYW5kIGNvcmlhbmRlciIsIkxhdmVuZGVyLCBvcmVnYW5v",
+"IGFuZCBiYXkiLCJDaGl2ZXMsIG1pbnQgYW5kIHJvc2VtYXJ5Il0sImFuc3dlciI6Mywid2h5IjoiVGhlIGNhcmQgc2F5cyDigJxjaGl2ZXMsIG1pbnQgYW5k",
+"IHJvc2VtYXJ54oCdLiIsImNhcmQiOiJmb29kIiwia2V5IjoiY2hpdmVzLCBtaW50IGFuZCByb3NlbWFyeSJ9LHsicSI6IldoYXQgd2VyZSB0aGUgcm9hZHMg",
+"dGhlIFJvbWFucyBidWlsdCBsaWtlPyIsIm9wdGlvbnMiOlsiVmVyeSBuYXJyb3ciLCJWZXJ5IHN0cmFpZ2h0IiwiTG9uZyBhbmQgd2luZGluZyIsIk1hZGUg",
+"b2Ygd29vZCJdLCJhbnN3ZXIiOjEsIndoeSI6IlRoZSBjYXJkIHNheXMg4oCcVGhlIFJvbWFucyBidWlsdCB2ZXJ5IHN0cmFpZ2h0IHJvYWRz4oCdLiIsImNh",
+"cmQiOiJyb2FkcyIsImtleSI6IlRoZSBSb21hbnMgYnVpbHQgdmVyeSBzdHJhaWdodCByb2FkcyJ9LHsicSI6IldoYXQgZGlkIHRoZSBSb21hbnMgdXNlIHRo",
+"ZWlyIHJvYWRzIGZvcj8iLCJvcHRpb25zIjpbIlRvIHJhY2UgY2hhcmlvdHMgYW5kIGhvbGQgcGFyYWRlcyIsIlRvIGZhcm0gbGFuZCBhbmQgY2Fycnkgd2F0",
+"ZXIiLCJUbyBrZWVwIHdpbGQgYW5pbWFscyBhd2F5IGZyb20gdG93bnMiLCJUbyBtb3ZlIHRoZWlyIGFybXkgYW5kIGZvciB0cmFkZSJdLCJhbnN3ZXIiOjMs",
+"IndoeSI6IlRoZSBjYXJkIHNheXMg4oCcdG8gbW92ZSB0aGVpciBhcm15IHF1aWNrbHkgYW5kIGZvciB0cmFkZeKAnS4iLCJjYXJkIjoicm9hZHMiLCJrZXki",
+"OiJ0byBtb3ZlIHRoZWlyIGFybXkgcXVpY2tseSBhbmQgZm9yIHRyYWRlIn0seyJxIjoiV2hhdCBkb2VzIHRoZSBjYXJkIHNheSBSb21lIHdhcyBmYW1vdXMg",
+"Zm9yPyIsIm9wdGlvbnMiOlsiSXRzIG11c2ljIiwiSXRzIHdyaXRlcnMiLCJJdHMgcGFpbnRpbmdzIiwiSXRzIHNwb3J0cyJdLCJhbnN3ZXIiOjEsIndoeSI6",
+"IlRoZSBjYXJkIHNheXMg4oCcUm9tZSB3YXMgZmFtb3VzIGZvciBpdHMgd3JpdGVyc+KAnS4iLCJjYXJkIjoid3JpdGVycyIsImtleSI6IlJvbWUgd2FzIGZh",
+"bW91cyBmb3IgaXRzIHdyaXRlcnMifSx7InEiOiJXaGljaCBmYW1vdXMgcGxheXdyaWdodCBkb2VzIHRoZSBjYXJkIG5hbWUgYXMgYmVpbmcgaW5mbHVlbmNl",
+"ZCBieSBSb21hbiBsaXRlcmF0dXJlPyIsIm9wdGlvbnMiOlsiQ2hhcmxlcyBEaWNrZW5zIiwiUm9hbGQgRGFobCIsIlNoYWtlc3BlYXJlIiwiRW5pZCBCbHl0",
+"b24iXSwiYW5zd2VyIjoyLCJ3aHkiOiJUaGUgY2FyZCBzYXlzIOKAnGluY2x1ZGluZyBTaGFrZXNwZWFyZeKAnS4iLCJjYXJkIjoid3JpdGVycyIsImtleSI6",
+"ImluY2x1ZGluZyBTaGFrZXNwZWFyZSJ9LHsicSI6IldoYXQgZGlkIHRoZSBSb21hbnMgdXNlIGxhd3MgZm9yPyIsIm9wdGlvbnMiOlsiVG8gY29udHJvbCB0",
+"aGVpciBlbXBpcmUiLCJUbyBjb2xsZWN0IG1vcmUgdGF4ZXMiLCJUbyBkZWNpZGUgd2hvIGJ1aWx0IHRoZSByb2FkcyIsIlRvIGNob29zZSB0aGUgbmV4dCBr",
+"aW5nIl0sImFuc3dlciI6MCwid2h5IjoiVGhlIGNhcmQgc2F5cyDigJxUaGUgUm9tYW5zIHVzZWQgbGF3cyB0byBjb250cm9sIHRoZWlyIGVtcGlyZeKAnS4i",
+"LCJjYXJkIjoibGF3cyIsImtleSI6IlRoZSBSb21hbnMgdXNlZCBsYXdzIHRvIGNvbnRyb2wgdGhlaXIgZW1waXJlIn0seyJxIjoiV2hpY2ggb2Ygb3VyIGlk",
+"ZWFzIGRvZXMgdGhlIHdvcmtzaGVldCBzYXkgYXJlIGNvcGllZCBmcm9tIHRoZSBSb21hbnM/Iiwib3B0aW9ucyI6WyJJZGVhcyBhYm91dCBjcmltZSBhbmQg",
+"cHVuaXNobWVudCIsIklkZWFzIGFib3V0IHNwYWNlIGFuZCB0aGUgc3RhcnMiLCJJZGVhcyBhYm91dCBob3cgdG8gZ3JvdyBjcm9wcyIsIklkZWFzIGFib3V0",
+"IGhvdyB0byBidWlsZCBiaWcgc2hpcHMiXSwiYW5zd2VyIjowLCJ3aHkiOiJUaGUgY2FyZCBzYXlzIOKAnGlkZWFzIGFib3V0IGNyaW1lIGFuZCBwdW5pc2ht",
+"ZW50IGFyZSBjb3BpZWQgZnJvbSB0aGUgUm9tYW5z4oCdLiBJbiBmYWN0LCBtb3N0IEVuZ2xpc2ggbGF3IGdyZXcgdXAgaW4gRW5nbGFuZCBhZnRlciAxMDY2",
+"IChjYWxsZWQgY29tbW9uIGxhdyksIHRob3VnaCBzb21lIGxlZ2FsIGlkZWFzIGRvIGNvbWUgZnJvbSBSb21hbiBsYXcuIiwiY2FyZCI6Imxhd3MiLCJrZXki",
+"OiJpZGVhcyBhYm91dCBjcmltZSBhbmQgcHVuaXNobWVudCBhcmUgY29waWVkIGZyb20gdGhlIFJvbWFucyJ9LHsicSI6IldoYXQgZGlkIHRoZSBSb21hbnMg",
+"Y2FsbCBMb25kb24/Iiwib3B0aW9ucyI6WyJMdW5kZW53aWMiLCJDYW11bG9kdW51bSIsIkxvbmRpbml1bSIsIkVib3JhY3VtIl0sImFuc3dlciI6Miwid2h5",
+"IjoiVGhlIGNhcmQgc2F5cyDigJxMb25kb24sIHdoaWNoIHRoZSBSb21hbnMgY2FsbGVkIExvbmRpbml1beKAnS4iLCJjYXJkIjoiY2l0aWVzIiwia2V5Ijoi",
+"TG9uZG9uLCB3aGljaCB0aGUgUm9tYW5zIGNhbGxlZCBMb25kaW5pdW0ifSx7InEiOiJIb3cgbWFueSBkYXlzIGRvZXMgdGhlIHdvcmtzaGVldCBzYXkgb3Vy",
+"IHllYXIgbGFzdHMsIHRoYW5rcyB0byB0aGUgUm9tYW4gY2FsZW5kYXI/Iiwib3B0aW9ucyI6WyIzNjAiLCIzNjQiLCIzNjUiLCIzNjYiXSwiYW5zd2VyIjoy",
+"LCJ3aHkiOiJUaGUgY2FyZCBzYXlzIOKAnG91ciB5ZWFyIHdvdWxkbid0IGxhc3QgZm9yIDM2NSBkYXlz4oCdLiBKdWxpdXMgQ2Flc2FyJ3MgY2FsZW5kYXIg",
+"Z2F2ZSB1cyB0aGUgMzY1LWRheSB5ZWFyIHdpdGggYSBsZWFwIGRheS4gSXQgd2FzIGZpeGVkIGFnYWluIGluIDE1ODIsIGFuZCB0aGF0IG5ld2VyIHZlcnNp",
+"b24gaXMgdGhlIG9uZSB3ZSB1c2Ugbm93LiIsImNhcmQiOiJjYWxlbmRhciIsImtleSI6Im91ciB5ZWFyIHdvdWxkbid0IGxhc3QgZm9yIDM2NSBkYXlzIn0s",
+"eyJxIjoiV2hhdCBkb2VzIHRoZSBjYXJkIHNheSBtb3N0IG1vbnRoIG5hbWVzIGFyZSBiYXNlZCBvbj8iLCJvcHRpb25zIjpbIlJvbWFuIG51bWJlcnMiLCJH",
+"cmVlayBnb2RzIiwiU2F4b24ga2luZ3MiLCJSb21hbiB3b3JkcyJdLCJhbnN3ZXIiOjMsIndoeSI6IlRoZSBjYXJkIHNheXMg4oCcTW9zdCBvZiB0aGUgbmFt",
+"ZXMgd2UgdXNlIGZvciBtb250aHMgdG9kYXkgYXJlIGJhc2VkIG9uIFJvbWFuIHdvcmRz4oCdLiIsImNhcmQiOiJjYWxlbmRhciIsImtleSI6Ik1vc3Qgb2Yg",
+"dGhlIG5hbWVzIHdlIHVzZSBmb3IgbW9udGhzIHRvZGF5IGFyZSBiYXNlZCBvbiBSb21hbiB3b3JkcyJ9LHsicSI6IldoYXQgZG9lcyB0aGUgY2FyZCBzYXkg",
+"Um9tYW4gbnVtZXJhbHMgYXJlPyIsIm9wdGlvbnMiOlsiQ29sb3VycyIsIk51bWJlcnMiLCJDb2lucyIsIk1hcHMiXSwiYW5zd2VyIjoxLCJ3aHkiOiJUaGUg",
+"Y2FyZCBzYXlzIOKAnFJvbWFuIG51bWVyYWxzIChudW1iZXJzKeKAnS4iLCJjYXJkIjoibWF0aHMiLCJrZXkiOiJSb21hbiBudW1lcmFscyAobnVtYmVycyki",
+"fSx7InEiOiJXaGVyZSBkb2VzIHRoZSBjYXJkIHNheSB5b3UgY2FuIHNlZSBSb21hbiBudW1lcmFscz8iLCJvcHRpb25zIjpbIk9uIGNsb2NrcyBhbmQgd2F0",
+"Y2hlcyIsIk9uIHJvYWQgc2lnbnMgYW5kIG1hcHMiLCJPbiBiYW5rIG5vdGVzIiwiT24gZm9vdGJhbGwgc2hpcnRzIl0sImFuc3dlciI6MCwid2h5IjoiVGhl",
+"IGNhcmQgc2F5cyDigJxZb3UgY2FuIHNlZSB0aGVtIG9uIGNsb2NrcyBhbmQgd2F0Y2hlc+KAnS4iLCJjYXJkIjoibWF0aHMiLCJrZXkiOiJZb3UgY2FuIHNl",
+"ZSB0aGVtIG9uIGNsb2NrcyBhbmQgd2F0Y2hlcyJ9LHsicSI6IldoaWNoIGFuaW1hbCBkb2VzIHRoZSB3b3Jrc2hlZXQgc2F5IHRoZSBSb21hbnMgYnJvdWdo",
+"dCB0byBFbmdsYW5kPyIsIm9wdGlvbnMiOlsiRG9ncyIsIkhvcnNlcyIsIkhhbXN0ZXJzIiwiQ2F0cyJdLCJhbnN3ZXIiOjMsIndoeSI6IlRoZSBjYXJkIHNh",
+"eXMg4oCcaW5jbHVkaW5nIGNhdHPigJ0uIFNvbWUgY2F0IGJvbmVzIGZyb20gYmVmb3JlIHRoZSBSb21hbnMgaGF2ZSBiZWVuIGZvdW5kLCBidXQgdGhlIG9s",
+"ZGVzdCBjYXQgaW4gQnJpdGFpbiBwcm92ZWQgYnkgRE5BIHRvIGJlIGEgcGV0IGNhdCBpcyBmcm9tIFJvbWFuIHRpbWVzLiIsImNhcmQiOiJhbmltYWxzIiwi",
+"a2V5IjoiaW5jbHVkaW5nIGNhdHMifSx7InEiOiJXaHkgZG9lcyB0aGUgd29ya3NoZWV0IHNheSByYWJiaXRzIHdlcmUgYnJvdWdodCB0byBFbmdsYW5kPyIs",
+"Im9wdGlvbnMiOlsiVG8gcHVsbCBjYXJ0cyIsIkFzIGZvb2QiLCJUbyBndWFyZCBob3VzZXMiLCJUbyB3aW4gcmFjZXMiXSwiYW5zd2VyIjoxLCJ3aHkiOiJU",
+"aGUgY2FyZCBzYXlzIOKAnFJhYmJpdHMgd2VyZSBicm91Z2h0IGFzIGZvb2TigJ0uIFRoZSBvbmx5IFJvbWFuIHJhYmJpdCBmb3VuZCBzbyBmYXIgbWF5IGhh",
+"dmUgYmVlbiBhIHBldC4gUmFiYml0cyBvbmx5IGJlY2FtZSBjb21tb24gaW4gRW5nbGFuZCBhZnRlciB0aGUgTm9ybWFucyBhcnJpdmVkIGluIDEwNjYuIiwi",
+"Y2FyZCI6ImFuaW1hbHMiLCJrZXkiOiJSYWJiaXRzIHdlcmUgYnJvdWdodCBhcyBmb29kIn1dfQ=="
+].join("");
+/*QUIZ-DATA-END*/
+const DATA = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(DATA_B64), ch => ch.charCodeAt(0))));
+const QUESTIONS = DATA.pompeii, ROMANS = DATA.romans, CARDS = DATA.cards;
 
 const KEY = "y7hq-progress-v2";
 const OLD_KEY = "y7hq-progress-v1";
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
 const cardText = id => (CARDS.find(c => c.id === id) || { text: "" }).text;
+const TOTAL = QUESTIONS.length + ROMANS.length;
 
 const QUIZZES = {
   pompeii: { id: "pompeii", p: "pq", title: "Pompeii", qs: QUESTIONS, great: 15,
@@ -245,13 +379,15 @@ function sanitise(o) {
   return s;
 }
 
-let notices = [];
+/* One notice at a time (the newest replaces the last), with a Dismiss button; it is announced once the page is ready. */
+let noticeMsg = "", ready = false;
 function showNotice(msg) {
-  if (!notices.includes(msg)) notices.push(msg);
-  const n = document.getElementById("notice");
-  n.textContent = notices.join(" ");
-  n.hidden = false;
+  noticeMsg = msg;
+  document.getElementById("notice-text").textContent = msg;
+  document.getElementById("notice").hidden = false;
+  if (ready) announce(msg);
 }
+function hideNotice() { noticeMsg = ""; document.getElementById("notice").hidden = true; document.getElementById("notice-text").textContent = ""; }
 
 /* v1 saves (Pompeii + the old category card sort): keep Pompeii, drop the card sort. */
 function fromV1(raw) {
@@ -262,16 +398,21 @@ function fromV1(raw) {
   s.pompeii = cleanQuiz(QUIZZES.pompeii, o.pompeii);
   return s;
 }
+const started = q => q.pos > 0 || q.picks.some(p => p !== null);
 
+let storageBlocked = false;
 function load() {
   let raw = null, old = null;
-  try { raw = localStorage.getItem(KEY); old = raw === null ? localStorage.getItem(OLD_KEY) : null; }
-  catch (e) { showNotice("This browser is blocking storage, so progress won't be saved."); return blank(); }
+  try { raw = localStorage.getItem(KEY); old = localStorage.getItem(OLD_KEY); }
+  catch (e) { storageBlocked = true; showNotice("This browser is blocking storage, so your progress won't be saved."); return blank(); }
+  /* Any v1 save is used at most once, then removed, even when a v2 save already exists. */
+  if (old !== null) { try { localStorage.removeItem(OLD_KEY); } catch (e) { /* ignore */ } }
   if (raw === null && old !== null) {
     const s = fromV1(old);
-    try { localStorage.removeItem(OLD_KEY); } catch (e) { /* ignore */ }
     if (s) {
-      showNotice("The Romans section is now a question quiz, so it starts fresh. Your Pompeii progress was kept.");
+      showNotice(started(s.pompeii)
+        ? "The Romans section has changed to a question quiz, so it starts fresh. Your Pompeii progress was kept."
+        : "The Romans section has changed to a question quiz, so it starts fresh.");
       try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) { /* save() will warn later */ }
       return s;
     }
@@ -281,12 +422,17 @@ function load() {
   if (raw === null) return blank();
   let s = null;
   try { s = sanitise(JSON.parse(raw)); } catch (e) { s = null; }
-  if (!s) { showNotice("Your saved progress couldn't be read, so the quiz has started fresh."); return blank(); }
+  if (!s) {
+    try { localStorage.removeItem(KEY); } catch (e) { /* ignore */ }
+    showNotice("Your saved progress couldn't be read, so the quiz has started fresh.");
+    return blank();
+  }
   return s;
 }
 
 let saveWarned = false;
 function save() {
+  if (storageBlocked) return;
   try { localStorage.setItem(KEY, JSON.stringify(state)); }
   catch (e) { if (!saveWarned) { saveWarned = true; showNotice("Progress can't be saved in this browser, but you can still use the quiz."); } }
 }
@@ -330,6 +476,7 @@ function quizView(id) {
       h("h3", null, "Your score"),
       h("p", { class: "big", id: p + "-final" }, s + " out of " + n),
       h("p", null, msg),
+      overallEl(),
       h("div", { class: "row" },
         h("button", { type: "button", id: p + "-again", on: { click: () => restart(id) } }, "Play again"),
         h("a", { class: "btn secondary", href: "#/" + z.other }, z.otherLabel))));
@@ -403,9 +550,12 @@ function homeCard(id, cls, desc, start) {
     h("p", { class: "prog", id: "home-" + id[0] + "-prog" }, prog),
     h("a", { class: "btn", href: "#/" + id, id: "go-" + id }, label));
 }
+function overall() { return score("pompeii") + score("romans"); }
+function overallEl() { return h("p", { class: "overall", id: "overall" }, "Overall score: " + overall() + " out of " + TOTAL); }
 function homeView() {
   return h("section", { class: "view", id: "v-home", "aria-labelledby": "home-h" },
     h("h2", { id: "home-h", tabindex: "-1" }, "Choose a section"),
+    overallEl(),
     h("div", { class: "home-grid" },
       homeCard("pompeii", "", QUESTIONS.length + " multiple-choice questions about everyday life in Roman Pompeii: food, toilets, baths, graffiti and more."),
       homeCard("romans", "romans", ROMANS.length + " multiple-choice questions from 10 short cards about how the Romans changed Britain: coins, Latin, roads, laws and more.")));
@@ -430,9 +580,17 @@ function go(v, focus) {
   view = v;
   render(focus ? { home: "home-h", pompeii: "pq-h", romans: "rq-h" }[v] : null);
   if (focus) window.scrollTo(0, 0);
-  const cur = document.querySelector("nav.sections a[aria-current=page]");
-  if (cur && cur.scrollIntoView) cur.scrollIntoView({ block: "nearest", inline: "nearest" });
 }
+
+/* If the nav strip is wider than the screen, show a fade edge and a "swipe" hint. */
+function navOverflow() {
+  const ol = document.getElementById("nav-list"), more = ol.scrollWidth - ol.clientWidth > 1;
+  const atEnd = ol.scrollLeft + ol.clientWidth >= ol.scrollWidth - 1;
+  document.getElementById("nav").classList.toggle("can-scroll", more && !atEnd);
+  document.getElementById("nav-hint").hidden = !more;
+}
+window.addEventListener("resize", navOverflow);
+document.getElementById("nav-list").addEventListener("scroll", navOverflow, { passive: true });
 
 window.addEventListener("hashchange", () => { const r = routeFromHash(); if (r) go(r, true); });
 document.getElementById("skip").addEventListener("click", e => { e.preventDefault(); const m = document.getElementById("main"); m.focus(); m.scrollIntoView(); });
@@ -445,13 +603,18 @@ document.getElementById("reset-no").addEventListener("click", () => { confirmBox
 document.getElementById("reset-yes").addEventListener("click", () => {
   try { localStorage.removeItem(KEY); localStorage.removeItem(OLD_KEY); } catch (e) { /* storage blocked: nothing to remove */ }
   state = blank();
-  notices = []; const n = document.getElementById("notice"); n.hidden = true; n.textContent = "";
+  hideNotice();
   confirmBox.hidden = true; resetBtn.hidden = false;
   render(null); resetBtn.focus();
   announce("Progress reset. Everything has started fresh.");
 });
 
+document.getElementById("notice-close").addEventListener("click", () => { hideNotice(); announce("Message dismissed."); document.getElementById("main").focus(); });
+
 go(routeFromHash() || "home", false);
+navOverflow();
+ready = true;
+if (noticeMsg) announce(noticeMsg);
 </script>
 
 </body>
