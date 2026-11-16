@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
-<meta name="description" content="Year 7 History quiz: everyday life in Roman Pompeii, and a card sort on how the Romans changed Britain.">
+<meta name="description" content="Year 7 History quiz: everyday life in Roman Pompeii, and how the Romans changed Britain.">
 <title>Year 7 History Quiz</title>
 <style>
 :root{
@@ -71,28 +71,10 @@ button.opt.is-wrong::after{content:"\2717"}
 .box ul{margin:.2em 0 .4em;padding-left:1.2em}
 .ok{background:var(--ok-bg);color:var(--ok-ink)}
 .bad{background:var(--bad-bg);color:var(--bad-ink)}
-.hint{background:var(--hint-bg);color:var(--hint-ink);margin-top:8px}
-.model{margin-top:10px;background:#eef4ff;border:1px solid #c7d6f5}
 .lead{font-weight:700}
-ul.cats-key{margin:4px 0 12px;padding-left:1.2em}
-ol.cards{list-style:none;margin:0;padding:0}
-ol.cards > li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin:0 0 14px}
-ol.cards h3{font-size:1.15rem;margin:0 0 8px}
-ol.cards h3 .state{font-size:.85rem;font-weight:600;color:var(--muted);margin-left:6px}
 .text{background:var(--paper);border:1px solid var(--line);border-left:6px solid #c8a24a;border-radius:10px;padding:12px 16px;margin:0 0 12px}
 .text p{margin:0}
-.glabel{margin:0 0 6px;font-weight:600}
-.toggles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
-button.toggle{background:#fff;color:var(--accent);flex-direction:column;align-items:flex-start;text-align:left;line-height:1.3;padding:8px 12px;width:100%}
-button.toggle .sub{font-weight:400;font-size:.85rem;color:var(--muted)}
-button.toggle::before{content:"";display:none}
-button.toggle[aria-pressed=true]{background:var(--accent);color:#fff}
-button.toggle[aria-pressed=true] .sub{color:#e0e8ff}
-button.toggle[aria-pressed=true] .name::before{content:"\2713  "}
-button.toggle.fits{background:var(--ok-bg);border-color:#16a34a;color:var(--ok-ink)}
-button.toggle.nofit{background:var(--bad-bg);border-color:#dc2626;color:var(--bad-ink)}
-button.toggle.missed{border-style:dashed;border-color:#16a34a;color:var(--ok-ink)}
-button.toggle.fits .sub,button.toggle.nofit .sub,button.toggle.missed .sub{color:inherit}
+.cardcap{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);margin:0 0 4px}
 .results{border:2px solid var(--accent)}
 .results h3{margin:0 0 4px}
 .big{font-size:1.4rem;font-weight:700;margin:0 0 6px}
@@ -106,9 +88,8 @@ footer{color:var(--muted);font-size:.9rem;padding:16px 0 40px}
   nav.sections li{flex:none}
   nav.sections a{white-space:nowrap;padding:4px 10px}
   section.view{margin-top:12px}
-  .panel,ol.cards > li{padding:12px}
+  .panel{padding:12px}
   .text{padding:10px 12px}
-  .toggles{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
@@ -118,12 +99,11 @@ footer{color:var(--muted);font-size:.9rem;padding:16px 0 40px}
   body{background:#fff;color:#000;font-size:11.5pt;line-height:1.45}
   header.site{background:#fff;color:#000;padding:0 0 6px;border-bottom:1px solid #000}
   header.site .sub{color:#000}
-  .toolbar,nav.sections,.skip,.notice,footer,.row,button:not(.toggle):not(.opt),.btn{display:none !important}
+  .toolbar,nav.sections,.skip,.notice,footer,.row,button:not(.opt),.btn{display:none !important}
   .wrap{max-width:none;padding:0}
-  .panel,ol.cards > li,.scard{break-inside:avoid;border:1px solid #777}
+  .panel,.scard{break-inside:avoid;border:1px solid #777}
   .text{border:1px solid #000;border-left:4px solid #000}
-  button.toggle,button.opt{background:#fff !important;color:#000 !important;border:1px solid #000 !important;min-height:0;padding:3px 8px}
-  button.toggle .sub{color:#000 !important}
+  button.opt{background:#fff !important;color:#000 !important;border:1px solid #000 !important;min-height:0;padding:3px 8px}
   .box{border:1px solid #000;background:#fff !important;color:#000 !important}
   a{color:#000;text-decoration:none}
 }
@@ -156,24 +136,6 @@ footer{color:var(--muted);font-size:.9rem;padding:16px 0 40px}
 <footer class="wrap">Progress is kept only in this browser on this device. No sign-in, no tracking, nothing leaves your device.</footer>
 <script>
 "use strict";
-/*
-  ANSWER KEY: "How did the Romans change Britain" card sort.
-  A card is CORRECT when the pupil picks every REQUIRED category and nothing outside REQUIRED + ALLOWED.
-  Reasons quote only the card's own words.
-  Card                         REQUIRED                                 ALLOWED (also fits)
-  1  Coins                     Money                                    Power, politics and law (king or queen's head); Culture (Roman designs)
-  2  Latin                     Knowledge and language                   Culture
-  3  Vegetables, herbs, fast food  How people live                      none
-  4  Straight roads            Power, politics and law (move their army); Money (trade, selling things)
-                                                                        How people live (travelling around Britain)
-  5  Writers and Shakespeare   Culture                                  Knowledge and language
-  6  Laws                      Power, politics and law                  none
-  7  Cities and Londinium      How people live                          Power, politics and law (their empire)
-  8  Calendar                  Knowledge and language (month names)     How people live
-  9  Maths and Roman numerals  Knowledge and language                   How people live (clocks and watches); Culture (books, films and television)
-  10 Animals, cats and rabbits How people live (rabbits brought as food)  none
-  Each card: one retry, then the answer is shown. Score = cards correct (first try or retry), out of 10.
-*/
 /*POMPEII-START*/
 const QUESTIONS = [
   { q: "About how many cafes, bars and takeaway food counters have been found in Pompeii?", options: ["20", "200", "2,000", "60"], answer: 1, why: "Around 200, roughly 1 for every 60 residents." },
@@ -201,125 +163,85 @@ const QUESTIONS = [
   { q: "Why do historians think lessons happened outside or at home?", options: ["No schools have been found", "Children didn't learn", "Schools were underground", "Teachers were banned"], answer: 0, why: "No schools have ever been found in Pompeii." },
 ];
 /*POMPEII-END*/
+/*
+  ROMANS SECTION: multiple-choice questions written only from the 10 worksheet cards
+  ("How did the Romans change Britain"). Each question names its card and a key phrase,
+  which must appear word for word in that card's text, and the "why" quotes it.
+*/
 /*CARDS-START*/
-const CATS = [
-  { id: "culture", name: "Culture", sub: "art, entertainment etc", topic: "art or entertainment" },
-  { id: "knowledge", name: "Knowledge and language", sub: "", topic: "knowledge or language" },
-  { id: "power", name: "Power, politics and law", sub: "", topic: "power, politics or law" },
-  { id: "money", name: "Money", sub: "", topic: "money, buying or selling" },
-  { id: "live", name: "How people live", sub: "where they live, what they eat etc", topic: "where people live or what they eat" }
-];
 const CARDS = [
-  { id: "coins", title: "Coins",
-    text: "For centuries British coins have copied Roman designs with the king or queen's head on one side. Our coins today are still based on Roman designs.",
-    gist: "“British coins have copied Roman designs”",
-    required: { money: "The card is about “coins”: “Our coins today are still based on Roman designs.”" },
-    allowed: { power: "Coins show who rules: “the king or queen's head on one side”.", culture: "The coins copy “Roman designs”, which is a kind of art." } },
-  { id: "latin", title: "Latin",
-    text: "The Romans spoke Latin. Although Latin is now a 'dead language' because nobody speaks it any more, lots of words from Latin survive in other languages -especially Italian and Spanish. Around 50% of all words used in English today are based on Latin words.",
-    gist: "“The Romans spoke Latin”",
-    required: { knowledge: "It is about language: “Around 50% of all words used in English today are based on Latin words.”" },
-    allowed: { culture: "A language is part of a people's culture, and “lots of words from Latin survive in other languages”." } },
-  { id: "food", title: "Vegetables, herbs and fast food",
-    text: "Vegetables like carrots, onions, peas and leeks and herbs such as chives, mint and rosemary, were all brought by the Romans. We still eat them today! They also brought the idea of fast food, and possibly even burgers!",
-    gist: "“We still eat them today!”",
-    required: { live: "It is about what people eat: “We still eat them today!” and “the idea of fast food”." },
-    allowed: {} },
-  { id: "roads", title: "Straight roads",
-    text: "The Romans built very straight roads all over Europe, which they used to move their army quickly and for trade (selling things). They are still some of the best roads to take when traveling around Britain.",
-    gist: "“very straight roads all over Europe”",
-    required: { power: "The roads were used “to move their army quickly”.", money: "The roads were used “for trade (selling things)”." },
-    allowed: { live: "They are still good roads to use “when traveling around Britain”." } },
-  { id: "writers", title: "Writers and Shakespeare",
-    text: "Rome was famous for its writers. Many later writers have been influenced by Roman literature, including Shakespeare - he stole ideas and even whole stories from Roman writers!",
-    gist: "“Rome was famous for its writers”",
-    required: { culture: "Books, plays and stories are culture: “Rome was famous for its writers” and “Roman literature”." },
-    allowed: { knowledge: "Writers pass on ideas in words: Shakespeare “stole ideas and even whole stories from Roman writers!”" } },
-  { id: "laws", title: "Laws",
-    text: "The Romans used laws to control their empire. A lot of our laws and ideas about crime and punishment are copied from the Romans!",
-    gist: "“The Romans used laws to control their empire”",
-    required: { power: "“The Romans used laws to control their empire” and “our laws and ideas about crime and punishment are copied from the Romans!”" },
-    allowed: {} },
-  { id: "cities", title: "Cities and Londinium",
-    text: "The Romans founded (started) many great cities which are still here today - including London, which the Romans called Londinium.",
-    gist: "“The Romans founded (started) many great cities”",
-    required: { live: "Cities are where people live: “many great cities which are still here today”." },
-    allowed: { power: "Founding cities across their empire showed Roman power: “The Romans founded (started) many great cities”." } },
-  { id: "calendar", title: "Calendar",
-    text: "The calendar we use is based on the Romans' – so without the Romans our year wouldn't last for 365 days! Most of the names we use for months today are based on Roman words.",
-    gist: "“The calendar we use is based on the Romans'”",
-    required: { knowledge: "“Most of the names we use for months today are based on Roman words.”" },
-    allowed: { live: "The calendar shapes how we live: “our year wouldn't last for 365 days!”" } },
-  { id: "maths", title: "Maths and Roman numerals",
-    text: "Romans introduced better kinds of maths, which have been used ever since. Roman numerals (numbers) are still used today. You can see them on clocks and watches, in books and even in films and television.",
-    gist: "“Romans introduced better kinds of maths”",
-    required: { knowledge: "Maths is knowledge: “Romans introduced better kinds of maths” and “Roman numerals (numbers)”." },
-    allowed: { live: "We see Roman numerals in everyday life “on clocks and watches”.", culture: "Roman numerals turn up “in books and even in films and television”." } },
-  { id: "animals", title: "Animals, cats and rabbits",
-    text: "The Romans brought different kinds of animals to England – including cats. Rabbits were brought as food.",
-    gist: "“The Romans brought different kinds of animals to England”",
-    required: { live: "It is about what people eat: “Rabbits were brought as food.”" },
-    allowed: {} }
+  { id: "coins", text: "For centuries British coins have copied Roman designs with the king or queen's head on one side. Our coins today are still based on Roman designs." },
+  { id: "latin", text: "The Romans spoke Latin. Although Latin is now a 'dead language' because nobody speaks it any more, lots of words from Latin survive in other languages -especially Italian and Spanish. Around 50% of all words used in English today are based on Latin words." },
+  { id: "food", text: "Vegetables like carrots, onions, peas and leeks and herbs such as chives, mint and rosemary, were all brought by the Romans. We still eat them today! They also brought the idea of fast food, and possibly even burgers!" },
+  { id: "roads", text: "The Romans built very straight roads all over Europe, which they used to move their army quickly and for trade (selling things). They are still some of the best roads to take when traveling around Britain." },
+  { id: "writers", text: "Rome was famous for its writers. Many later writers have been influenced by Roman literature, including Shakespeare - he stole ideas and even whole stories from Roman writers!" },
+  { id: "laws", text: "The Romans used laws to control their empire. A lot of our laws and ideas about crime and punishment are copied from the Romans!" },
+  { id: "cities", text: "The Romans founded (started) many great cities which are still here today - including London, which the Romans called Londinium." },
+  { id: "calendar", text: "The calendar we use is based on the Romans' – so without the Romans our year wouldn't last for 365 days! Most of the names we use for months today are based on Roman words." },
+  { id: "maths", text: "Romans introduced better kinds of maths, which have been used ever since. Roman numerals (numbers) are still used today. You can see them on clocks and watches, in books and even in films and television." },
+  { id: "animals", text: "The Romans brought different kinds of animals to England – including cats. Rabbits were brought as food." }
 ];
 /*CARDS-END*/
+/*ROMANS-START*/
+const ROMANS = [
+  { q: "What have British coins copied for centuries?", options: ["Greek coins", "Roman designs", "Viking designs", "French designs"], answer: 1, why: "The card says “For centuries British coins have copied Roman designs”.", card: "coins", key: "For centuries British coins have copied Roman designs" },
+  { q: "What is on one side of British coins?", options: ["A Roman soldier on a horse", "A map of the whole of Britain", "The name of the city it came from", "The king or queen's head"], answer: 3, why: "The card says “the king or queen's head on one side”.", card: "coins", key: "the king or queen's head on one side" },
+  { q: "What language did the Romans speak?", options: ["Latin", "Greek", "French", "Welsh"], answer: 0, why: "The card says “The Romans spoke Latin”.", card: "latin", key: "The Romans spoke Latin" },
+  { q: "Why is Latin called a 'dead language'?", options: ["It was banned by the Romans", "It was never written down", "Nobody speaks it any more", "Only kings were allowed to use it"], answer: 2, why: "The card says “because nobody speaks it any more”.", card: "latin", key: "because nobody speaks it any more" },
+  { q: "About how many of the words used in English today are based on Latin words?", options: ["Around 10%", "Around 25%", "Around 50%", "Around 90%"], answer: 2, why: "The card says “Around 50% of all words used in English today are based on Latin words”.", card: "latin", key: "Around 50% of all words used in English today are based on Latin words" },
+  { q: "Which of these vegetables does the card say the Romans brought?", options: ["Leeks", "Potatoes", "Tomatoes", "Sweetcorn"], answer: 0, why: "The card says “carrots, onions, peas and leeks”.", card: "food", key: "carrots, onions, peas and leeks" },
+  { q: "Which herbs does the card say the Romans brought?", options: ["Basil, thyme and sage", "Parsley, dill and coriander", "Lavender, oregano and bay", "Chives, mint and rosemary"], answer: 3, why: "The card says “chives, mint and rosemary”.", card: "food", key: "chives, mint and rosemary" },
+  { q: "What were the roads the Romans built like?", options: ["Very narrow", "Very straight", "Long and winding", "Made of wood"], answer: 1, why: "The card says “The Romans built very straight roads”.", card: "roads", key: "The Romans built very straight roads" },
+  { q: "What did the Romans use their roads for?", options: ["To race chariots and hold big parades", "To farm the land and carry water", "To send letters and tax money to Rome", "To move their army quickly and for trade"], answer: 3, why: "The card says “to move their army quickly and for trade”.", card: "roads", key: "to move their army quickly and for trade" },
+  { q: "What does the card say Rome was famous for?", options: ["Its music", "Its writers", "Its paintings", "Its sports"], answer: 1, why: "The card says “Rome was famous for its writers”.", card: "writers", key: "Rome was famous for its writers" },
+  { q: "Which later writer took ideas and even whole stories from Roman writers?", options: ["Charles Dickens", "Geoffrey Chaucer", "Shakespeare", "Roald Dahl"], answer: 2, why: "The card says “including Shakespeare - he stole ideas and even whole stories from Roman writers”.", card: "writers", key: "including Shakespeare - he stole ideas and even whole stories from Roman writers" },
+  { q: "What did the Romans use laws for?", options: ["To control their empire", "To collect more taxes", "To decide who built the roads", "To choose the next king"], answer: 0, why: "The card says “The Romans used laws to control their empire”.", card: "laws", key: "The Romans used laws to control their empire" },
+  { q: "Which of our ideas does the card say are copied from the Romans?", options: ["Ideas about crime and punishment", "Ideas about space and the stars", "Ideas about how to grow crops", "Ideas about how to build ships"], answer: 0, why: "The card says “ideas about crime and punishment are copied from the Romans”.", card: "laws", key: "ideas about crime and punishment are copied from the Romans" },
+  { q: "What did the Romans call London?", options: ["Lundenwic", "Camulodunum", "Londinium", "Eboracum"], answer: 2, why: "The card says “London, which the Romans called Londinium”.", card: "cities", key: "London, which the Romans called Londinium" },
+  { q: "Without the Romans, our year wouldn't last for how many days?", options: ["360", "365", "364", "366"], answer: 1, why: "The card says “our year wouldn't last for 365 days”.", card: "calendar", key: "our year wouldn't last for 365 days" },
+  { q: "What are most of the names we use for months based on?", options: ["Greek gods", "Saxon kings", "Star signs", "Roman words"], answer: 3, why: "The card says “Most of the names we use for months today are based on Roman words”.", card: "calendar", key: "Most of the names we use for months today are based on Roman words" },
+  { q: "What does the card say Roman numerals are?", options: ["Letters", "Numbers", "Coins", "Maps"], answer: 1, why: "The card says “Roman numerals (numbers)”.", card: "maths", key: "Roman numerals (numbers)" },
+  { q: "Where does the card say you can see Roman numerals?", options: ["On clocks and watches", "On road signs", "On bank notes", "On football shirts"], answer: 0, why: "The card says “You can see them on clocks and watches”.", card: "maths", key: "You can see them on clocks and watches" },
+  { q: "Which animal does the card name that the Romans brought to England?", options: ["Dogs", "Horses", "Hamsters", "Cats"], answer: 3, why: "The card says “including cats”.", card: "animals", key: "including cats" },
+  { q: "Why were rabbits brought to England?", options: ["As pets", "For their fur", "As food", "To hunt with"], answer: 2, why: "The card says “Rabbits were brought as food”.", card: "animals", key: "Rabbits were brought as food" },
+];
+/*ROMANS-END*/
 
-const KEY = "y7hq-progress-v1";
-const CAT_IDS = CATS.map(c => c.id);
-const catById = id => CATS.find(c => c.id === id);
-const NQ = QUESTIONS.length, NC = CARDS.length;
+const KEY = "y7hq-progress-v2";
+const OLD_KEY = "y7hq-progress-v1";
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
+const cardText = id => (CARDS.find(c => c.id === id) || { text: "" }).text;
 
-function blank() {
-  const romans = {};
-  CARDS.forEach(c => { romans[c.id] = { sel: [], tries: 0, status: "open", checked: null }; });
-  return { v: 1, pompeii: { pos: 0, picks: QUESTIONS.map(() => null) }, romans };
+const QUIZZES = {
+  pompeii: { id: "pompeii", p: "pq", title: "Pompeii", qs: QUESTIONS, great: 15,
+    blurb: QUESTIONS.length + " questions about everyday life in Roman Pompeii. Pick an answer to see if you're right.",
+    perfect: "Perfect score, you're a Pompeii expert!", other: "romans", otherLabel: "Go to the Romans in Britain quiz" },
+  romans: { id: "romans", p: "rq", title: "How did the Romans change Britain", qs: ROMANS, great: Math.ceil(ROMANS.length * 0.65),
+    blurb: ROMANS.length + " questions about how the Romans changed Britain. Read the card, then pick an answer.",
+    perfect: "Perfect score, you're a Roman Britain expert!", other: "pompeii", otherLabel: "Go to the Pompeii quiz", showCard: true }
+};
+const IDS = Object.keys(QUIZZES);
+
+function blankQuiz(z) { return { pos: 0, picks: z.qs.map(() => null) }; }
+function blank() { const s = { v: 2 }; IDS.forEach(id => { s[id] = blankQuiz(QUIZZES[id]); }); return s; }
+
+/* Rebuild one quiz's progress from scratch so old or hand-edited saves can't crash the app. */
+function cleanQuiz(z, p) {
+  const s = blankQuiz(z);
+  if (!p || typeof p !== "object" || !Array.isArray(p.picks)) return s;
+  const n = z.qs.length;
+  z.qs.forEach((q, i) => { const v = p.picks[i]; if (Number.isInteger(v) && v >= 0 && v < q.options.length) s.picks[i] = v; });
+  let first = s.picks.indexOf(null); if (first === -1) first = n;
+  let pos = Number.isInteger(p.pos) ? Math.max(0, Math.min(n, p.pos)) : 0;
+  pos = Math.min(pos, first);
+  for (let i = pos + 1; i < n; i++) s.picks[i] = null;
+  s.pos = pos;
+  return s;
 }
-
-function mark(card, sel) {
-  const req = Object.keys(card.required), ok = req.concat(Object.keys(card.allowed));
-  const missing = req.filter(c => !sel.includes(c));
-  const bad = sel.filter(c => !ok.includes(c));
-  const extras = sel.filter(c => c in card.allowed);
-  return { correct: missing.length === 0 && bad.length === 0, missing, bad, extras };
-}
-
-function cleanSel(a) {
-  if (!Array.isArray(a)) return null;
-  const out = [];
-  a.forEach(x => { if (CAT_IDS.includes(x) && !out.includes(x)) out.push(x); });
-  return out;
-}
-
-/* Accept only a v1 object; rebuild every field from scratch so old or hand-edited saves can't crash the app. */
 function sanitise(o) {
-  if (!o || typeof o !== "object" || Array.isArray(o) || o.v !== 1) return null;
+  if (!o || typeof o !== "object" || Array.isArray(o) || o.v !== 2) return null;
   const s = blank();
-  const p = o.pompeii;
-  if (p && typeof p === "object" && Array.isArray(p.picks)) {
-    QUESTIONS.forEach((q, i) => { const v = p.picks[i]; if (Number.isInteger(v) && v >= 0 && v < q.options.length) s.pompeii.picks[i] = v; });
-    let first = s.pompeii.picks.indexOf(null); if (first === -1) first = NQ;
-    let pos = Number.isInteger(p.pos) ? Math.max(0, Math.min(NQ, p.pos)) : 0;
-    pos = Math.min(pos, first);
-    for (let i = pos + 1; i < NQ; i++) s.pompeii.picks[i] = null;
-    s.pompeii.pos = pos;
-  }
-  const r = o.romans;
-  if (r && typeof r === "object") {
-    CARDS.forEach(c => {
-      const x = r[c.id];
-      if (!x || typeof x !== "object") return;
-      const st = s.romans[c.id];
-      st.sel = cleanSel(x.sel) || [];
-      st.checked = cleanSel(x.checked);
-      st.tries = x.tries === 1 ? 1 : 0;
-      st.status = ["open", "correct", "revealed"].includes(x.status) ? x.status : "open";
-      if (st.status === "correct" && !(st.checked && mark(c, st.checked).correct)) { st.status = "open"; st.tries = 0; st.checked = null; }
-      if (st.status === "revealed" && !st.checked) st.checked = st.sel.slice();
-      if (st.status === "revealed") st.tries = 1;
-      if (st.status === "open" && st.tries === 1 && !(st.checked && st.checked.length)) { st.tries = 0; st.checked = null; }
-      if (st.status === "open" && st.tries === 0) st.checked = null;
-    });
-  }
+  IDS.forEach(id => { s[id] = cleanQuiz(QUIZZES[id], o[id]); });
   return s;
 }
 
@@ -331,9 +253,31 @@ function showNotice(msg) {
   n.hidden = false;
 }
 
+/* v1 saves (Pompeii + the old category card sort): keep Pompeii, drop the card sort. */
+function fromV1(raw) {
+  let o = null;
+  try { o = JSON.parse(raw); } catch (e) { return null; }
+  if (!o || typeof o !== "object" || o.v !== 1) return null;
+  const s = blank();
+  s.pompeii = cleanQuiz(QUIZZES.pompeii, o.pompeii);
+  return s;
+}
+
 function load() {
-  let raw = null;
-  try { raw = localStorage.getItem(KEY); } catch (e) { showNotice("This browser is blocking storage, so progress won't be saved."); return blank(); }
+  let raw = null, old = null;
+  try { raw = localStorage.getItem(KEY); old = raw === null ? localStorage.getItem(OLD_KEY) : null; }
+  catch (e) { showNotice("This browser is blocking storage, so progress won't be saved."); return blank(); }
+  if (raw === null && old !== null) {
+    const s = fromV1(old);
+    try { localStorage.removeItem(OLD_KEY); } catch (e) { /* ignore */ }
+    if (s) {
+      showNotice("The Romans section is now a question quiz, so it starts fresh. Your Pompeii progress was kept.");
+      try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) { /* save() will warn later */ }
+      return s;
+    }
+    showNotice("Your saved progress couldn't be read, so the quiz has started fresh.");
+    return blank();
+  }
   if (raw === null) return blank();
   let s = null;
   try { s = sanitise(JSON.parse(raw)); } catch (e) { s = null; }
@@ -371,248 +315,104 @@ function h(tag, attrs, ...kids) {
   return el;
 }
 
-/* ---------- Pompeii ---------- */
-function pScore() { let s = 0; state.pompeii.picks.forEach((p, i) => { if (p === QUESTIONS[i].answer) s++; }); return s; }
-function pScore() { let s = 0; for (let i = 0; i < NQ; i++) if (state.pompeii.picks[i] !== null && state.pompeii.picks[i] === QUESTIONS[i].answer) s++; return s; }
+/* ---------- Quiz (shared by both sections) ---------- */
+function score(id) { const z = QUIZZES[id]; let s = 0; state[id].picks.forEach((p, i) => { if (p === z.qs[i].answer) s++; }); return s; }
 
-function pompeiiView() {
-  const P = state.pompeii;
-  const sec = h("section", { class: "view", id: "v-pompeii", "aria-labelledby": "pq-h" },
-    h("h2", { id: "pq-h", tabindex: "-1" }, "Pompeii"),
-    h("p", { class: "meta" }, NQ + " questions about everyday life in Roman Pompeii. Pick an answer to see if you're right."));
-  if (P.pos >= NQ) {
-    const s = pScore();
-    const msg = s === NQ ? "Perfect score, you're a Pompeii expert!" : s >= 15 ? "Great work!" : "Good try. Have another go to beat your score.";
-    sec.append(h("div", { class: "panel results", id: "pq-results" },
+function quizView(id) {
+  const z = QUIZZES[id], P = state[id], n = z.qs.length, p = z.p;
+  const sec = h("section", { class: "view", id: "v-" + id, "aria-labelledby": p + "-h" },
+    h("h2", { id: p + "-h", tabindex: "-1" }, z.title),
+    h("p", { class: "meta" }, z.blurb));
+  if (P.pos >= n) {
+    const s = score(id);
+    const msg = s === n ? z.perfect : s >= z.great ? "Great work!" : "Good try. Have another go to beat your score.";
+    sec.append(h("div", { class: "panel results", id: p + "-results" },
       h("h3", null, "Your score"),
-      h("p", { class: "big", id: "pq-final" }, s + " out of " + NQ),
+      h("p", { class: "big", id: p + "-final" }, s + " out of " + n),
       h("p", null, msg),
       h("div", { class: "row" },
-        h("button", { type: "button", id: "pq-again", on: { click: pRestart } }, "Play again"),
-        h("a", { class: "btn secondary", href: "#/romans" }, "Go to the card sort"))));
+        h("button", { type: "button", id: p + "-again", on: { click: () => restart(id) } }, "Play again"),
+        h("a", { class: "btn secondary", href: "#/" + z.other }, z.otherLabel))));
     return sec;
   }
-  const q = QUESTIONS[P.pos], picked = P.picks[P.pos];
-  sec.append(h("p", { class: "pscore", id: "pq-score" }, "Question " + (P.pos + 1) + " of " + NQ + " \u00b7 Score: " + pScore()));
-  const opts = h("div", { class: "opts", role: "group", "aria-labelledby": "pq-q" });
+  const q = z.qs[P.pos], picked = P.picks[P.pos];
+  sec.append(h("p", { class: "pscore", id: p + "-score" }, "Question " + (P.pos + 1) + " of " + n + " \u00b7 Score: " + score(id)));
+  const panel = h("div", { class: "panel" });
+  if (z.showCard) panel.append(h("figure", { class: "text", id: p + "-card" },
+    h("figcaption", { class: "cardcap" }, "Read the card"), h("p", null, cardText(q.card))));
+  const opts = h("div", { class: "opts", role: "group", "aria-labelledby": p + "-q" });
   q.options.forEach((o, i) => {
     let cls = "opt", extra = null;
     if (picked !== null) {
       if (i === q.answer) { cls += " is-correct"; extra = h("span", { class: "sr-only" }, " (correct answer)"); }
       else if (i === picked) { cls += " is-wrong"; extra = h("span", { class: "sr-only" }, " (your answer)"); }
     }
-    opts.append(h("button", { type: "button", class: cls, "data-opt": i, "aria-disabled": picked !== null ? "true" : null, on: { click: () => pChoose(i) } },
+    opts.append(h("button", { type: "button", class: cls, "data-opt": i, "aria-disabled": picked !== null ? "true" : null, on: { click: () => choose(id, i) } },
       h("span", { class: "letter", "aria-hidden": "true" }, LETTERS[i]), h("span", null, o), extra));
   });
-  const panel = h("div", { class: "panel" }, h("p", { class: "qtext", id: "pq-q" }, q.q), opts);
-  const fb = h("div", { class: "fb", id: "pq-fb" });
+  panel.append(h("p", { class: "qtext", id: p + "-q" }, q.q), opts);
+  const fb = h("div", { class: "fb", id: p + "-fb" });
+  panel.append(fb);
   if (picked !== null) {
     const right = picked === q.answer;
     fb.append(h("div", { class: "box " + (right ? "ok" : "bad") },
       h("p", { class: "lead" }, right ? "Correct!" : "Not quite. The answer is " + LETTERS[q.answer] + ": " + q.options[q.answer] + "."),
       h("p", null, q.why)));
-    panel.append(fb, h("div", { class: "row" },
-      h("button", { type: "button", id: "pq-next", on: { click: pNext } }, P.pos + 1 >= NQ ? "See score" : "Next question")));
-  } else panel.append(fb);
+    panel.append(h("div", { class: "row" },
+      h("button", { type: "button", id: p + "-next", on: { click: () => next(id) } }, P.pos + 1 >= n ? "See score" : "Next question")));
+  }
   sec.append(panel);
   return sec;
 }
 
-function pChoose(i) {
-  const P = state.pompeii;
-  if (P.pos >= NQ || P.picks[P.pos] !== null) return;
+function choose(id, i) {
+  const z = QUIZZES[id], P = state[id];
+  if (view !== id || P.pos >= z.qs.length || P.picks[P.pos] !== null) return;
   P.picks[P.pos] = i; save();
-  const q = QUESTIONS[P.pos];
-  render("pq-next");
-  announce((i === q.answer ? "Correct! " : "Not quite. The answer is " + q.options[q.answer] + ". ") + q.why + " Score: " + pScore() + ".");
+  const q = z.qs[P.pos];
+  render(z.p + "-next");
+  announce((i === q.answer ? "Correct! " : "Not quite. The answer is " + q.options[q.answer] + ". ") + q.why + " Score: " + score(id) + ".");
 }
-function pNext() {
-  const P = state.pompeii;
-  if (P.pos >= NQ || P.picks[P.pos] === null) return;
+function next(id) {
+  const z = QUIZZES[id], P = state[id], n = z.qs.length;
+  if (P.pos >= n || P.picks[P.pos] === null) return;
   P.pos++; save();
-  if (P.pos >= NQ) { render("pq-h"); announce("Finished. You scored " + pScore() + " out of " + NQ + "."); }
-  else { render("pq-q-focus"); announce("Question " + (P.pos + 1) + " of " + NQ + ". " + QUESTIONS[P.pos].q); }
+  render(z.p + "-h");
+  if (P.pos >= n) announce("Finished. You scored " + score(id) + " out of " + n + ".");
+  else announce("Question " + (P.pos + 1) + " of " + n + ". " + z.qs[P.pos].q);
 }
-function pRestart() {
-  state.pompeii = blank().pompeii; save();
-  render("pq-h"); announce("Pompeii quiz restarted. Question 1 of " + NQ + ".");
-}
-
-/* ---------- Romans card sort ---------- */
-function rScore() { return CARDS.filter(c => state.romans[c.id].status === "correct").length; }
-function rDone() { return CARDS.filter(c => state.romans[c.id].status !== "open").length; }
-const names = ids => ids.map(id => catById(id).name);
-const listText = arr => arr.length <= 1 ? arr.join("") : arr.slice(0, -1).join(", ") + " and " + arr[arr.length - 1];
-
-function feedback(card, st) {
-  if (st.status === "open" && st.tries === 0) return null;
-  const m = mark(card, st.checked || []);
-  const out = [];
-  if (st.status === "correct") {
-    const box = h("div", { class: "box ok" }, h("p", { class: "lead" }, "Correct!"));
-    const why = h("ul");
-    Object.keys(card.required).forEach(c => why.append(h("li", null, h("strong", null, catById(c).name + ": "), card.required[c])));
-    box.append(why);
-    if (m.extras.length) {
-      box.append(h("p", null, (m.extras.length > 1 ? "Your extra picks also fit:" : "Your extra pick also fits:")));
-      box.append(h("ul", null, m.extras.map(c => h("li", null, h("strong", null, catById(c).name + ": "), card.allowed[c]))));
-    }
-    const could = Object.keys(card.allowed).filter(c => !st.checked.includes(c));
-    if (could.length) box.append(h("p", null, "It could also go in " + listText(names(could)) + "."));
-    out.push(box);
-    return out;
-  }
-  const box = h("div", { class: "box bad" }, h("p", { class: "lead" }, "Not quite."));
-  const ul = h("ul");
-  m.missing.forEach(c => ul.append(h("li", null, h("strong", null, "Missing " + catById(c).name + ": "), card.required[c])));
-  m.bad.forEach(c => ul.append(h("li", null, h("strong", null, catById(c).name + " doesn't fit: "), "the card isn't about " + catById(c).topic + ". It says " + card.gist + ".")));
-  box.append(ul);
-  out.push(box);
-  if (st.status === "open") out.push(h("div", { class: "box hint" }, h("p", null, "You have one more try. Change your picks, then press Check again.")));
-  else {
-    const ans = h("div", { class: "box model" }, h("p", { class: "lead" }, "The answer"));
-    const ul2 = h("ul");
-    Object.keys(card.required).forEach(c => ul2.append(h("li", null, h("strong", null, catById(c).name + " (must pick): "), card.required[c])));
-    Object.keys(card.allowed).forEach(c => ul2.append(h("li", null, h("strong", null, catById(c).name + " (also fits): "), card.allowed[c])));
-    ans.append(ul2);
-    out.push(ans);
-  }
-  return out;
-}
-
-function cardEl(card, n) {
-  const st = state.romans[card.id];
-  const locked = st.status !== "open";
-  const stateLabel = st.status === "correct" ? "Correct" : st.status === "revealed" ? "Answer shown" : st.tries === 1 ? "One try left" : "";
-  const li = h("li", { "data-card": card.id, id: "card-" + card.id },
-    h("h3", { id: "ch-" + card.id, tabindex: "-1" }, "Card " + n + ": " + card.title, stateLabel ? h("span", { class: "state" }, "(" + stateLabel + ")") : null),
-    h("div", { class: "text" }, h("p", null, card.text)),
-    h("p", { class: "glabel", id: "cg-" + card.id }, "Categories (pick one or more):"));
-  const tg = h("div", { class: "toggles", role: "group", "aria-labelledby": "ch-" + card.id + " cg-" + card.id });
-  const okSet = Object.keys(card.required).concat(Object.keys(card.allowed));
-  CATS.forEach(c => {
-    const on = st.sel.includes(c.id);
-    let cls = "toggle";
-    if (locked) cls += on ? (okSet.includes(c.id) ? " fits" : " nofit") : (c.id in card.required ? " missed" : "");
-    tg.append(h("button", { type: "button", class: cls, "data-cat": c.id, "aria-pressed": on ? "true" : "false", "aria-disabled": locked ? "true" : null,
-      on: { click: e => toggle(card, c.id, e.currentTarget) } },
-      h("span", { class: "name" }, c.name), c.sub ? h("span", { class: "sub" }, c.sub) : null));
-  });
-  li.append(tg);
-  if (!locked) li.append(h("div", { class: "row" }, h("button", { type: "button", class: "check", id: "ck-" + card.id, on: { click: () => check(card) } }, st.tries === 1 ? "Check again" : "Check")));
-  const fb = h("div", { class: "fb", id: "cf-" + card.id });
-  const f = feedback(card, st);
-  if (f) fb.append(...f);
-  li.append(fb, h("div", { class: "fb note", id: "cn-" + card.id }));
-  return li;
-}
-
-function toggle(card, cat, btn) {
-  const st = state.romans[card.id];
-  if (st.status !== "open") return;
-  const i = st.sel.indexOf(cat);
-  if (i === -1) st.sel.push(cat); else st.sel.splice(i, 1);
-  btn.setAttribute("aria-pressed", i === -1 ? "true" : "false");
-  const note = document.getElementById("cn-" + card.id); if (note) note.textContent = "";
-  save();
-}
-
-function setNote(card, msg) {
-  const note = document.getElementById("cn-" + card.id);
-  note.textContent = "";
-  note.append(h("div", { class: "box hint" }, h("p", null, msg)));
-  announce(msg);
-}
-
-const sameSet = (a, b) => a.length === b.length && a.every(x => b.includes(x));
-
-function check(card) {
-  const st = state.romans[card.id];
-  if (st.status !== "open") return;
-  if (!st.sel.length) return setNote(card, "Pick at least one category, then press Check.");
-  if (st.tries === 1 && st.checked && sameSet(st.sel, st.checked)) return setNote(card, "Change your answer, then check again.");
-  const m = mark(card, st.sel);
-  st.checked = st.sel.slice();
-  if (m.correct) st.status = "correct";
-  else if (st.tries === 0) st.tries = 1;
-  else st.status = "revealed";
-  save();
-  const n = CARDS.indexOf(card) + 1;
-  const old = document.getElementById("card-" + card.id);
-  old.replaceWith(cardEl(card, n));
-  updateRomansScore();
-  const target = st.status === "open" ? document.getElementById("ck-" + card.id) : document.getElementById("ch-" + card.id);
-  target.focus();
-  let msg;
-  if (m.correct) msg = "Card " + n + " correct." + (m.extras.length ? " Your extra pick also fits." : "");
-  else {
-    const parts = [];
-    if (m.missing.length) parts.push("Missing " + listText(names(m.missing)) + ".");
-    if (m.bad.length) parts.push(listText(names(m.bad)) + " doesn't fit.");
-    msg = "Card " + n + ": not quite. " + parts.join(" ") + (st.status === "open" ? " One more try." : " The answer is shown: " + listText(names(Object.keys(card.required))) + ".");
-  }
-  if (rDone() === NC) msg += " All cards done. You scored " + rScore() + " out of " + NC + ".";
-  announce(msg);
-}
-
-function updateRomansScore() {
-  const sc = document.getElementById("rs-score");
-  if (sc) sc.textContent = "Score: " + rScore() + " out of " + NC + " \u00b7 " + rDone() + " of " + NC + " cards done";
-  const old = document.getElementById("rs-results");
-  const fresh = romansResults();
-  if (old && fresh) old.replaceWith(fresh); else if (old) old.remove(); else if (fresh) document.getElementById("v-romans").append(fresh);
-}
-
-function romansResults() {
-  if (rDone() < NC) return null;
-  const s = rScore();
-  return h("div", { class: "panel results", id: "rs-results" },
-    h("h3", null, "Your card sort score"),
-    h("p", { class: "big", id: "rs-final" }, s + " out of " + NC),
-    h("p", null, s === NC ? "Brilliant, every card sorted!" : s >= 7 ? "Great sorting!" : "Good try. Have another go to beat your score."),
-    h("div", { class: "row" }, h("button", { type: "button", id: "rs-again", on: { click: rRestart } }, "Try the card sort again")));
-}
-
-function rRestart() {
-  state.romans = blank().romans; save();
-  render("rs-h"); announce("Card sort restarted.");
-}
-
-function romansView() {
-  const sec = h("section", { class: "view", id: "v-romans", "aria-labelledby": "rs-h" },
-    h("h2", { id: "rs-h", tabindex: "-1" }, "How did the Romans change Britain"),
-    h("p", { class: "meta" }, "Read the cards and sort them into these categories (they could be more than one). Pick every category that fits, then press Check. You get one retry per card."),
-    h("ul", { class: "cats-key" }, CATS.map(c => h("li", null, c.name + (c.sub ? " (" + c.sub + ")" : "")))),
-    h("p", { class: "pscore", id: "rs-score" }, ""));
-  const ol = h("ol", { class: "cards" });
-  CARDS.forEach((c, i) => ol.append(cardEl(c, i + 1)));
-  sec.append(ol);
-  return sec;
+function restart(id) {
+  const z = QUIZZES[id];
+  state[id] = blankQuiz(z); save();
+  render(z.p + "-h"); announce(z.title + " quiz restarted. Question 1 of " + z.qs.length + ".");
 }
 
 /* ---------- Home ---------- */
+function progressText(id) {
+  const z = QUIZZES[id], P = state[id], n = z.qs.length;
+  if (P.pos >= n) return "Finished: " + score(id) + " out of " + n;
+  if (P.pos === 0 && P.picks[0] === null) return "Not started";
+  return "Question " + (P.pos + 1) + " of " + n + ", score " + score(id);
+}
+function homeCard(id, cls, desc, start) {
+  const z = QUIZZES[id], prog = progressText(id), short = id === "pompeii" ? "Pompeii" : "the Romans quiz";
+  const label = state[id].pos >= z.qs.length ? "See your score" : prog === "Not started" ? "Start " + short : "Continue " + short;
+  return h("article", { class: "scard " + cls, "aria-labelledby": "hc-" + id },
+    h("h3", { id: "hc-" + id }, z.title),
+    h("p", null, desc),
+    h("p", { class: "prog", id: "home-" + id[0] + "-prog" }, prog),
+    h("a", { class: "btn", href: "#/" + id, id: "go-" + id }, label));
+}
 function homeView() {
-  const P = state.pompeii;
-  const pProg = P.pos >= NQ ? "Finished: " + pScore() + " out of " + NQ : (P.pos === 0 && P.picks[0] === null) ? "Not started" : "Question " + (P.pos + 1) + " of " + NQ + ", score " + pScore();
-  const d = rDone();
-  const rProg = d === 0 ? "Not started" : d === NC ? "Finished: " + rScore() + " out of " + NC : d + " of " + NC + " cards done, score " + rScore();
   return h("section", { class: "view", id: "v-home", "aria-labelledby": "home-h" },
     h("h2", { id: "home-h", tabindex: "-1" }, "Choose a section"),
     h("div", { class: "home-grid" },
-      h("article", { class: "scard", "aria-labelledby": "hc-p" },
-        h("h3", { id: "hc-p" }, "Pompeii"),
-        h("p", null, NQ + " multiple-choice questions about everyday life in Roman Pompeii: food, toilets, baths, graffiti and more."),
-        h("p", { class: "prog", id: "home-p-prog" }, pProg),
-        h("a", { class: "btn", href: "#/pompeii", id: "go-pompeii" }, P.pos >= NQ ? "See your score" : pProg === "Not started" ? "Start Pompeii" : "Continue Pompeii")),
-      h("article", { class: "scard romans", "aria-labelledby": "hc-r" },
-        h("h3", { id: "hc-r" }, "How did the Romans change Britain"),
-        h("p", null, "A card sort: read " + NC + " cards and sort each into one or more categories."),
-        h("p", { class: "prog", id: "home-r-prog" }, rProg),
-        h("a", { class: "btn", href: "#/romans", id: "go-romans" }, d === NC ? "See your score" : d === 0 ? "Start the card sort" : "Continue the card sort"))));
+      homeCard("pompeii", "", QUESTIONS.length + " multiple-choice questions about everyday life in Roman Pompeii: food, toilets, baths, graffiti and more."),
+      homeCard("romans", "romans", ROMANS.length + " multiple-choice questions from 10 short cards about how the Romans changed Britain: coins, Latin, roads, laws and more.")));
 }
 
 /* ---------- Router ---------- */
-const VIEWS = { home: homeView, pompeii: pompeiiView, romans: romansView };
+const VIEWS = { home: homeView, pompeii: () => quizView("pompeii"), romans: () => quizView("romans") };
 let view = "home";
 function routeFromHash() { const m = /^#\/(home|pompeii|romans)$/.exec(location.hash); return m ? m[1] : null; }
 
@@ -620,17 +420,15 @@ function render(focusId) {
   const main = document.getElementById("main");
   main.textContent = "";
   main.append(VIEWS[view]());
-  if (view === "romans") updateRomansScore();
   document.querySelectorAll("nav.sections a").forEach(a => {
     if (a.dataset.view === view) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
   });
-  if (focusId === "pq-q-focus") focusId = "pq-h";
   if (focusId) { const el = document.getElementById(focusId); if (el) el.focus(); }
 }
 
 function go(v, focus) {
   view = v;
-  render(focus ? { home: "home-h", pompeii: "pq-h", romans: "rs-h" }[v] : null);
+  render(focus ? { home: "home-h", pompeii: "pq-h", romans: "rq-h" }[v] : null);
   if (focus) window.scrollTo(0, 0);
   const cur = document.querySelector("nav.sections a[aria-current=page]");
   if (cur && cur.scrollIntoView) cur.scrollIntoView({ block: "nearest", inline: "nearest" });
@@ -645,7 +443,7 @@ const resetBtn = document.getElementById("reset"), confirmBox = document.getElem
 resetBtn.addEventListener("click", () => { confirmBox.hidden = false; resetBtn.hidden = true; document.getElementById("reset-no").focus(); });
 document.getElementById("reset-no").addEventListener("click", () => { confirmBox.hidden = true; resetBtn.hidden = false; resetBtn.focus(); });
 document.getElementById("reset-yes").addEventListener("click", () => {
-  try { localStorage.removeItem(KEY); } catch (e) { /* storage blocked: nothing to remove */ }
+  try { localStorage.removeItem(KEY); localStorage.removeItem(OLD_KEY); } catch (e) { /* storage blocked: nothing to remove */ }
   state = blank();
   notices = []; const n = document.getElementById("notice"); n.hidden = true; n.textContent = "";
   confirmBox.hidden = true; resetBtn.hidden = false;
@@ -655,5 +453,6 @@ document.getElementById("reset-yes").addEventListener("click", () => {
 
 go(routeFromHash() || "home", false);
 </script>
+
 </body>
 </html>
